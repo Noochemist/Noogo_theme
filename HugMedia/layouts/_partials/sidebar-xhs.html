@@ -1,0 +1,17 @@
+{{- /* 小红书左侧垂直导航（风格专属导航）：遍历 site.Menus.main */}}
+<aside class="xhs-sidenav">
+  <nav aria-label="主导航">
+    <ul style="padding:0;list-style:none;">
+      {{- with site.Menus.main }}
+        {{- range . }}
+          <li>
+            <a href="{{ .URL }}"
+              {{- if partial "is-menu-current.html" (dict "page" $.Page "menu" "main" "entry" .) }} class="active" aria-current="page"{{ end }}>
+              {{- .Pre }}{{ .Name }}{{ .Post -}}
+            </a>
+          </li>
+        {{- end }}
+      {{- end }}
+    </ul>
+  </nav>
+</aside>

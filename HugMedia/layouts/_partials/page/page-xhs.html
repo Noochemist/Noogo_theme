@@ -1,0 +1,19 @@
+{{- /* 小红书详情页主体：左内容右评论（partial 分发风格体） */}}
+{{- $author := site.Params.author | default dict }}
+{{- $authorName := $author.name | default site.Title }}
+<article class="xhs-article">
+  <div class="xhs-content">
+    <h1 class="xhs-title-lg">{{ .Title }}</h1>
+    <p class="xhs-postmeta">
+      <span class="xhs-avatar">{{ substr $authorName 0 1 }}</span>
+      {{ $authorName }} · {{ .Date | time.Format ":date_long" }} · {{ .ReadingTime }} 分钟
+    </p>
+    <div class="xhs-copy">{{ .Content }}</div>
+  </div>
+  <aside class="xhs-comments">
+    <h3>评论</h3>
+    <div class="cmt"><span class="xhs-avatar">A</span>太实用了，收藏了！</div>
+    <div class="cmt"><span class="xhs-avatar">B</span>写得很清楚，感谢。</div>
+    <div class="cmt"><span class="xhs-avatar">C</span>请问有英文版吗？</div>
+  </aside>
+</article>

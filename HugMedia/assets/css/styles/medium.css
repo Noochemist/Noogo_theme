@@ -1,0 +1,20 @@
+/* Phase 1 · styles/medium.css — Medium：写作驱动 / 单栏 / 黑白 */
+@import "_base-style.css";
+
+.style-medium {
+  --brand: #000000;
+  --brand-hover: #333333;
+  --brand-soft: #F2F2F2;
+  --brand-contrast: #ffffff;
+  --link: var(--brand);
+
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+
+  /* 单栏窄阅读，正文衬线 */
+  --content-max: 42.5rem; /* 680px */
+  --font-body: "Georgia","Source Serif 4","Songti SC","SimSun",serif;
+  --font-title: "Inter","Helvetica Neue","Arial","PingFang SC",sans-serif;
+}

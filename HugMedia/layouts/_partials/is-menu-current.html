@@ -1,0 +1,7 @@
+{{- /* is-menu-current.html — 判断菜单项是否为当前页
+   输入 dict: {page, menu, entry}
+   返回 bool，用作 {{ if }} 条件。 */}}
+{{- $page := .page }}
+{{- $menu := .menu }}
+{{- $entry := .entry }}
+{{- return $page.IsMenuCurrent $menu $entry -}}

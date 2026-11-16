@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>对话 on HugMedia 示例站（中文）</title>
+		<link>http://localhost:1313/tags/%E5%AF%B9%E8%AF%9D/</link>
+		<description>Recent content in 对话 on HugMedia 示例站（中文）</description>
+		<generator>Hugo</generator>
+		<language>zh-hans</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/tags/%E5%AF%B9%E8%AF%9D/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>《血字的研究》开篇（福尔摩斯）</title>
+				<link>http://localhost:1313/posts/holmes-study-in-scarlet/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/posts/holmes-study-in-scarlet/</guid>
+				<description>&lt;h1 id=&#34;血字的研究开篇阿瑟柯南道尔&#34;&gt;《血字的研究》开篇（阿瑟·柯南·道尔）&lt;/h1&gt;&#xA;&lt;p&gt;摘录自《血字的研究》(A Study in Scarlet, 1887)，用于演示跨行引用、对话块、图片与代码块特性。&lt;/p&gt;&#xA;&lt;h2 id=&#34;引言&#34;&gt;引言&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;In the year 1878 I took my degree of Doctor of Medicine of the University of London, and proceeded to Netley to go through the course prescribed for surgeons in the army.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;——这是华生医生回忆与福尔摩斯相遇前的开篇。&lt;/p&gt;&#xA;&lt;h2 id=&#34;关于这位侦探&#34;&gt;关于这位侦探&lt;/h2&gt;&#xA;&lt;p&gt;当初我以为他&lt;strong&gt;不过&lt;/strong&gt;是位化学研究者；后来才知道，他在侦探艺术上的造诣，远超常人之想象：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;他精通化学、解剖学与罪案档案；&lt;/li&gt;&#xA;&lt;li&gt;他能从一根发丝推断出此人曾到过何地；&lt;/li&gt;&#xA;&lt;li&gt;他一再告诫我要「看见」而非「仅仅看」。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;一段对话（对话引用块）：&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&amp;ldquo;You see, but you do not observe. The distinction is clear.&amp;quot;（你看见了，但你并未观察。区别正是如此。）&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;代码呈现render-codeblock-语言标签--复制按钮&#34;&gt;代码呈现（render-codeblock 语言标签 + 复制按钮）&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;detective&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Sherlock Holmes&amp;#34;&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;city&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;London&amp;#34;&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;debut&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1887&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#34;residence&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;221B Baker Street&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;行内代码如 &lt;code&gt;deduction&lt;/code&gt;、&lt;code&gt;observation&lt;/code&gt; 亦会以等宽字体呈现。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

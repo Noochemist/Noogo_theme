@@ -1,0 +1,21 @@
+/* Phase 1 · components/nav.css — 共享“悬浮”特性（风格层之上的公共能力）
+   这是所有风格网页共同享有的悬浮行为，而不是某个导航组件或样式。
+   任意风格的导航根元素加上 [data-floating-nav] 即可获得“悬浮置顶”能力；
+   具体的视觉（高度/圆角/配色）仍由各风格自己的 nav 样式负责。
+   悬浮细节用 CSS 变量驱动，各风格可局部覆盖，无需复制行为代码。 */
+[data-floating-nav] {
+  --nav-blur: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--color-canvas) 86%, transparent);
+  -webkit-backdrop-filter: blur(var(--nav-blur));
+  backdrop-filter: blur(var(--nav-blur));
+  box-shadow: var(--shadow-sm);
+  /* 悬浮条内联内容尊重整页面宽，去掉 body 侧边留白造成的贴边错位 */
+  width: 100%;
+}
+/* 风格若想让导航完全不透明，加 data-floating-solid 关闭模糊 */
+[data-floating-nav][data-floating-solid] {
+  --nav-blur: 0px;
+}

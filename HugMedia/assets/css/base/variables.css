@@ -1,0 +1,62 @@
+/* Phase 0 · base/variables.css — 设计令牌骨架（风格无关）
+   风格层（styles/_base-style.css，Phase 1）会覆盖 --color-brand 等品牌令牌；
+   字体变量会在 <head> 由配置 [params.fonts] 内联覆盖。 */
+:root {
+  /* ── 颜色：中性基底 ─────────────────────────── */
+  --color-canvas:        #ffffff;
+  --color-surface:       #ffffff;
+  --color-fg:            #1f2933;
+  --color-fg-soft:       #52606d;
+  --color-muted:         #9aa5b1;
+  --color-line:          #e4e7eb;
+  --color-brand:         #2563eb;
+  --color-brand-contrast:#ffffff;
+  --color-link:          #2563eb;
+
+  /* ── 字体：默认回退栈（头部按配置覆盖） ──────── */
+  --font-body:  "Georgia","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",serif;
+  --font-title: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",sans-serif;
+  --font-nav:   "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",sans-serif;
+  --font-code:  "JetBrains Mono","Fira Code","SF Mono",Menlo,monospace;
+
+  /* ── 字号比例 ───────────────────────────────── */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* ── 行高 / 字重 ────────────────────────────── */
+  --leading-tight: 1.25;
+  --leading-normal: 1.6;
+  --leading-loose: 1.8;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* ── 间距 ───────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  /* ── 圆角 / 阴影 ────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+
+  /* ── 布局容器 ───────────────────────────────── */
+  --container-max: 72rem;
+  --content-max: 42rem;
+
+  /* ── 过渡 ───────────────────────────────────── */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 150ms;
+}

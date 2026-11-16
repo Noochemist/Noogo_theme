@@ -1,0 +1,294 @@
+# ═══════════════════════════════════════════════════════════
+# HugMedia 主题 · Hugo Configuration Reference（cross.dsv4f 版）
+# HugMedia = Hugo + social media，五种社交风格一键切换
+# 五种社交风格可通过 [params.style] 一键切换
+# 本文件为 hugo.example.toml 的修正版（原版备份为 hugo.example.seed_code.toml）
+# ═══════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────
+# 基础配置
+# ───────────────────────────────────────────────────────────
+baseURL = "https://example.org/"
+# 多语言：中文为主（默认），英文为辅，可扩展更多语言。
+# 采用"不同语言不同 contentDir"，各语言内容互不干扰。
+# 官方文档：https://gohugo.io/content-management/multilingual/
+# 说明：语言键 zh-hans / en 即生成路径与 <html lang> 依据，无需再设 locale。
+defaultContentLanguage = "zh-hans"
+
+[languages]
+  [languages.zh-hans]
+    title        = "My HugMedia Blog"
+    contentDir   = "content/zh-hans"
+    label        = "中文"       # 语言切换器显示名
+    weight       = 1           # 排序，越小越靠前（默认语言）
+  [languages.en]
+    title        = "My HugMedia Blog EN"
+    contentDir   = "content/en"
+    label        = "English"
+    weight       = 2
+    # 扩展更多语言：追加一个 [languages.xx] 块 + 对应 contentDir 即可
+# 注意：theme = "." 表示本目录即主题（主题仓库场景）。
+# 若此配置放在 exampleSite 中，需改为真实主题名，例如 theme = "drhugo_theme"。
+theme = "."
+
+# ───────────────────────────────────────────────────────────
+# 菜单与导航（Hugo 原生 [[menu.main]]）
+# 动态加载：删掉某一项 → 导航中没有；新增某一项 → 自动出现。
+# pageRef 指向 content/ 下的一级目录（Section），如 /posts → content/posts/。
+# 常用字段：
+#   name / title  显示名或 i18n 翻译键
+#   pageRef       页面引用（推荐，非硬编码 URL）
+#   weight        升序排序
+#   pre / post    在链接文本前/后插入 HTML（常用于图标）
+#   identifier    唯一标识（当前页高亮时用到）
+#   parent        父菜单标识（用于子菜单分组）
+# 当前页高亮可用 menu.IsMenuCurrent / Page.HasMenuCurrent 判断。
+# 注意：原生 menu 是站点级（全局），所有风格共享同一组条目；
+#       风格差异仅体现在渲染位置/样式（顶栏水平 vs 侧栏垂直）。
+#       图标建议用 pre/post 或菜单项的 .Params 扩展。
+# ───────────────────────────────────────────────────────────
+[[menu.main]]
+  identifier = "home"
+  name       = "首页"
+  pageRef    = "/"
+  weight     = 10
+
+[[menu.main]]
+  identifier = "posts"
+  name       = "文章"
+  pageRef    = "/posts"
+  weight     = 20
+
+[[menu.main]]
+  identifier = "about"
+  name       = "关于"
+  pageRef    = "/about"
+  weight     = 60
+
+# 以下为可选导航项，取消注释即可启用（对应 content/ 下需有同名文件夹）
+# [[menu.main]]
+#   identifier = "collections"
+#   name       = "合集"
+#   pageRef    = "/collections"
+#   weight     = 30
+# [[menu.main]]
+#   identifier = "recommends"
+#   name       = "推荐"
+#   pageRef    = "/recommends"
+#   weight     = 40
+# [[menu.main]]
+#   identifier = "projects"
+#   name       = "项目"
+#   pageRef    = "/projects"
+#   weight     = 50
+
+# ───────────────────────────────────────────────────────────
+# 输出格式
+# ───────────────────────────────────────────────────────────
+# swup SPA 方案直接 fetch HTML 替换 <main>，无需 JSON 输出格式
+[outputs]
+  home    = ["HTML", "RSS"]
+  page    = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+
+# RSS 全文输出
+[outputFormats.RSS]
+  mediatype = "application/rss+xml"
+
+# ───────────────────────────────────────────────────────────
+# 构建管道
+# ───────────────────────────────────────────────────────────
+[build]
+  writeStats = false
+  cacheDir = ".cache"
+
+# ───────────────────────────────────────────────────────────
+# Hugo Pipes (CSS / JS 处理)
+# ───────────────────────────────────────────────────────────
+[params]
+  # 主题风格选择 —— 核心参数
+  # 可选值: "xhs" | "zhihu" | "wechat" | "medium" | "quora"
+  # 切换此参数即可更换整站社交风格
+  style = "xhs"
+
+  # ── 字体配置 ───────────────────────────────────────────
+  # 支持系统字体、web font、自托管字体
+  # 推荐用 CSS 字体栈组合。
+  #
+  # 【语言与字体变量的关系——建议】
+  # 无需为"中/英/日/韩"分别各建一套 title/body 变量。浏览器的字体回退按"字符"
+  # 逐字挑选：某字符在栈内第一个字体没有字形时，会自动顺延到下一个字体。因此
+  # 正确做法是把各脚本字体写进【同一个栈】：拉丁字体在最前 → zh-Hans/Hant →
+  # ja → ko → 通用字体族。这样一套变量即可覆盖中英日韩混排，配置短小、
+  # 无需按文章语言切换或注入额外变量。
+  #
+  # 仅当确需"按语言差异化"(如日文站想单独用一款日文字体的省略注音等)时，
+  # 才追加 title_ja / body_ja 之类的覆盖变量，并在 CSS 中按 lang 属性定向应用——
+  # 属进阶用法；默认开箱即用用不到。
+  [params.fonts]
+    # 文章标题、H1-H3
+    title = '"Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif'
+    # 正文段落
+    body  = '"Georgia", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", serif'
+    # 导航栏、菜单、按钮
+    nav   = '"Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif'
+    # 代码块（等宽字体，通常无需 CJK 变体）
+    code  = '"JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace'
+
+  # ── 功能开关 ────────────────────────────────────────────
+  [params.features]
+    darkMode      = true     # 暗黑模式切换
+    spa           = true     # SPA 无刷新导航 (swup)
+    search        = true     # 站内搜索 (Pagefind / 本地索引)
+    toc           = true     # 文章目录 TOC
+    readingTime   = true     # 阅读时间 / 字数统计
+    syntaxHighlight = true   # 代码语法高亮 (Chroma)
+    codeCopy      = true     # 代码块复制按钮
+    math          = false    # KaTeX 数学公式 (构建时渲染)
+    mermaid       = false    # Mermaid 图表 (客户端)
+    comments      = true     # 评论系统
+    socialLinks   = true     # 社交链接
+    i18n          = false    # 多语言
+    printFriendly = true     # 打印友好样式
+    accessible    = true     # 无障碍增强 (ARIA / focus)
+    analytics     = false    # 分析统计占位
+
+  # ── SEO / 元数据 ────────────────────────────────────────
+  [params.meta]
+    description = "一个基于 HugMedia 主题的博客，支持五种社交风格切换"
+    keywords    = ["blog", "hugo", "redstyle"]
+    author      = "Your Name"
+    ogImage     = "/images/og-default.png"
+
+  # ── 作者卡片 ────────────────────────────────────────────
+  [params.author]
+    name        = "Your Name"
+    avatar      = "/images/avatar.jpg"
+    bio         = "热爱分享，关注技术、设计与生活"
+    location    = "Earth"
+    email       = "me@example.org"
+
+  # ── 社交链接 ────────────────────────────────────────────
+  [params.social]
+    # 国内平台（写全名或统一分词，用于 icon 与 aria-label）
+    douyin      = ""                       # 抖音
+    kuaishou    = ""                       # 快手
+    bilibili    = ""                       # B站
+    xiaohongshu = ""                       # 小红书
+    zhihu       = ""                       # 知乎
+    toutiao     = ""                       # 头条
+    # 个人博客
+    blog        = ""                       # 个人博客
+    # 国外平台
+    youtube     = ""                       # YouTube
+    tiktok      = ""                       # TikTok
+    lemmy       = ""                       # Lemmy
+    # 其他 / 站内
+    github      = "https://github.com/yourname"
+    twitter     = "https://twitter.com/yourname"
+    mastodon    = ""
+    email       = "mailto:me@example.org"
+    rss         = "/index.xml"
+
+  # ── 评论系统 ────────────────────────────────────────────
+  # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"
+  [params.comments]
+    provider  = "disqus"
+    disqusShortname = "your-disqus-shortname"
+    utterancesRepo  = ""
+    giscusRepo      = ""
+    mastodonUser    = ""
+
+  # ── 风格专属参数 ────────────────────────────────────────
+  # 小红书：瀑布流列数、卡片封面比例
+  [params.styleOptions.xhs]
+    gridColumns    = 5      # 1440px 以下自动减列
+    cardRatio      = "3/4"  # 默认卡片封面比例
+    showCategoryBar = true
+
+  # 知乎：热榜是否显示
+  [params.styleOptions.zhihu]
+    showHotList    = true
+    answerCollaps  = true   # 长回答默认折叠
+
+  # Medium：目录 sticky 滚动
+  [params.styleOptions.medium]
+    stickyToc      = true
+    maxContentWidth = 680
+
+  # Quora：三栏布局
+  [params.styleOptions.quora]
+    showRightRail  = true
+
+  # 公众号：最大宽度
+  [params.styleOptions.wechat]
+    maxContentWidth = 677
+    showAuthorBar   = true
+
+  # ── 暗黑模式 ────────────────────────────────────────────
+  [params.dark]
+    defaultMode = "auto"    # "auto" | "light" | "dark"
+    # "auto": 跟随系统 prefers-color-scheme
+    # "light": 强制亮色
+    # "dark": 强制暗色
+
+# ───────────────────────────────────────────────────────────
+# Markdown 渲染
+# ───────────────────────────────────────────────────────────
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = false    # 保持关闭（更安全）。KaTeX 为构建时渲染、Mermaid 走短代码，通常无需全站内联 HTML
+    # 仅当你的自定义短代码确实需要输出内联 HTML 时，才把上面改为 unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    tabWidth = 4
+    # Chroma 语法高亮主题 (对应代码高亮文件)
+    style = "monokai"
+
+# ───────────────────────────────────────────────────────────
+# 模块依赖
+# ───────────────────────────────────────────────────────────
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.140.0"
+
+# swup 通过 npm 安装，Hugo js.Build 从 node_modules 打包
+# 需要先执行: npm init && npm install swup @swup/preload-plugin @swup/scroll-plugin
+
+# ───────────────────────────────────────────────────────────
+# 服务器
+# ───────────────────────────────────────────────────────────
+[server]
+  port = 1313
+  disableFastRender = false
+
+# ───────────────────────────────────────────────────────────
+# 分类与标签
+# 主题不声明任何 taxonomy，完全依赖 Hugo 默认的 categories 和 tags。
+# 因此这里没有 [taxonomies] 配置段，保持默认即可。
+# ───────────────────────────────────────────────────────────
+
+# ───────────────────────────────────────────────────────────
+# RSS
+# ───────────────────────────────────────────────────────────
+[services.rss]
+  limit = 50
+
+# ───────────────────────────────────────────────────────────
+# 图片处理 (响应式 srcset)
+# ───────────────────────────────────────────────────────────
+[imaging]
+  resampleFilter = "Lanczos"
+  # 注意：v0.163 起 quality/hint 不再用顶层键，需按格式分别设置（旧键已弃用）
+  [imaging.jpeg]
+    quality = 85
+  [imaging.webp]
+    quality = 85
+    hint = "photo"
+  [imaging.avif]
+    quality = 85
+    hint = "photo"

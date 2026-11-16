@@ -1,0 +1,5 @@
+{{/* 视频 shortcode：{{< video "video-url" >}} 或 {{< video "url" "type" >}}；可选 poster=".." */}}
+<video controls preload="metadata" {{ with .Get 2 }}poster="{{ . }}"{{ end }} style="width:100%">
+  <source src="{{ .Get 0 }}" type="{{ with .Get 1 }}{{ . }}{{ else }}video/mp4{{ end }}">
+  {{ i18n "browserNoVideo" | default "Your browser does not support the video element." }}
+</video>

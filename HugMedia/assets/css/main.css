@@ -1,0 +1,29 @@
+/* Phase 0 · main.css — 样式入口
+   加载顺序：base/*
+     → features/*（Phase 3 按参数条件加载）
+     → styles/*（Phase 1 按 style 参数加载）
+
+   @import 由 css.Build(esbuild) 解析。 */
+@import "base/reset.css";
+@import "base/variables.css";
+@import "base/typography.css";
+
+/* 骨架附属风格（Phase 0 保留 Header/Footer 组件的基建外框） */
+@import "components/header.css";
+@import "components/footer.css";
+/* 共享“悬浮”特性（Phase 1 · 风格层之上的公共能力，供各风格导航选用） */
+@import "components/nav.css";
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}

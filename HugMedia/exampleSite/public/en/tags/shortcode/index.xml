@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Shortcode on HugMedia Sample Site (EN)</title>
+		<link>http://localhost:1313/en/tags/shortcode/</link>
+		<description>Recent content in Shortcode on HugMedia Sample Site (EN)</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/en/tags/shortcode/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Media &amp; Shortcodes Test</title>
+				<link>http://localhost:1313/en/posts/media-and-shortcodes/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/media-and-shortcodes/</guid>
+				<description>&lt;h1 id=&#34;media--shortcodes-test&#34;&gt;Media &amp;amp; Shortcodes Test&lt;/h1&gt;&#xA;&lt;p&gt;This page exercises &lt;strong&gt;shortcodes&lt;/strong&gt;: audio, video, YouTube, and Bilibili.&lt;/p&gt;&#xA;&lt;h2 id=&#34;audio-audio-shortcode&#34;&gt;Audio (audio shortcode)&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;audio&lt;/code&gt; shortcode renders a native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; player. Usage:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;audio controls preload=&#34;none&#34; style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;audio-source-url&#34; type=&#34;audio/mpeg&#34;&gt;&#xA;  Your browser does not support the audio element.&#xA;&lt;/audio&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Actual call:&lt;/p&gt;&#xA;&#xA;&lt;audio controls preload=&#34;none&#34; style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3&#34; type=&#34;audio/mpeg&#34;&gt;&#xA;  Your browser does not support the audio element.&#xA;&lt;/audio&gt;&#xA;&lt;h2 id=&#34;video-video-shortcode&#34;&gt;Video (video shortcode)&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;video&lt;/code&gt; shortcode renders a native &lt;code&gt;&amp;lt;video&amp;gt;&lt;/code&gt; player (MDN public sample). Usage:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;video controls preload=&#34;metadata&#34;  style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;video-source-url&#34; type=&#34;video/mp4&#34;&gt;&#xA;  Your browser does not support the video element.&#xA;&lt;/video&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Actual call:&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

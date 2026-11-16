@@ -1,0 +1,16 @@
+/* Phase 1 · styles/zhihu.css — 知乎：问答驱动 / 列表 / 蓝色系 */
+@import "_base-style.css";
+
+.style-zhihu {
+  --brand: #0066FF;
+  --brand-hover: #0052CC;
+  --brand-soft: #EBF2FF;
+  --brand-contrast: #ffffff;
+  --link: var(--brand);
+
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --bg-body: #F6F6F6;
+}

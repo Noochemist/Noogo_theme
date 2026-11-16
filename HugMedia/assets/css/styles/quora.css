@@ -1,0 +1,19 @@
+/* Phase 1 · styles/quora.css — Quora：知识驱动 / 三栏 / 红棕色调 */
+@import "_base-style.css";
+
+.style-quora {
+  --brand: #B92B27;
+  --brand-hover: #9E2420;
+  --brand-soft: #FBE9E8;
+  --brand-contrast: #ffffff;
+  --link: var(--brand);
+
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-canvas: #F6F7F9;
+  --color-surface: #ffffff;
+
+  /* 内容栏窄化，配合三栏布局 */
+  --content-max: 42.5rem;
+  --container-max: 76rem;
+}

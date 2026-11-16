@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Home on HugMedia Sample Site (EN)</title>
+		<link>http://localhost:1313/en/</link>
+		<description>Recent content in Home on HugMedia Sample Site (EN)</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/en/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>A Study in Scarlet (opening)</title>
+				<link>http://localhost:1313/en/posts/holmes-study-in-scarlet/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/holmes-study-in-scarlet/</guid>
+				<description>&lt;h1 id=&#34;a-study-in-scarlet--opening-arthur-conan-doyle&#34;&gt;A Study in Scarlet — opening (Arthur Conan Doyle)&lt;/h1&gt;&#xA;&lt;p&gt;Excerpt from &lt;em&gt;A Study in Scarlet&lt;/em&gt; (1887), used to demonstrate block dialog, images, and code blocks.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prologue&#34;&gt;Prologue&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;In the year 1878 I took my degree of Doctor of Medicine of the University of London, and proceeded to Netley to go through the course prescribed for surgeons in the army.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;So begins Watson&amp;rsquo;s account, before he ever met Sherlock Holmes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;about-the-detective&#34;&gt;About the detective&lt;/h2&gt;&#xA;&lt;p&gt;At first I took him for &lt;strong&gt;no more&lt;/strong&gt; than a researcher in chemistry; only later did I learn how far his genius in the art of detection exceeded a common man&amp;rsquo;s reach:&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>About</title>
+				<link>http://localhost:1313/en/about/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/about/</guid>
+				<description>&lt;p&gt;This is the English placeholder for the &amp;ldquo;About&amp;rdquo; page.&lt;/p&gt;&#xA;&lt;p&gt;It tests how a regular page renders under the English content directory.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Code Optimization Demo &amp; Reading Time</title>
+				<link>http://localhost:1313/en/posts/code-optimization/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/code-optimization/</guid>
+				<description>&lt;h1 id=&#34;code-optimization-demo--reading-time&#34;&gt;Code Optimization Demo &amp;amp; Reading Time&lt;/h1&gt;&#xA;&lt;p&gt;This page demonstrates &lt;strong&gt;code blocks (syntax highlighting + language label + copy button)&lt;/strong&gt; and &lt;strong&gt;reading time / word count&lt;/strong&gt; on a longer body. It also shows the common &amp;ldquo;before vs. after&amp;rdquo; optimization pattern.&lt;/p&gt;&#xA;&lt;h2 id=&#34;scenario-summing-optimization&#34;&gt;Scenario: summing optimization&lt;/h2&gt;&#xA;&lt;p&gt;A plain Python implementation is intuitive, but readability and edge-case handling can be improved.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Before (naive loop):&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sum_before&lt;/span&gt;(n):&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    total &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        total &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; i&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; total&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;After (Gauss formula, O(1), with input guard):&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>HugMedia Theme Development</title>
+				<link>http://localhost:1313/en/projects/hugmedia-theme/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/projects/hugmedia-theme/</guid>
+				<description>&lt;h1 id=&#34;hugmedia-theme-development&#34;&gt;HugMedia Theme Development&lt;/h1&gt;&#xA;&lt;p&gt;This is a &lt;strong&gt;project page&lt;/strong&gt; example, used to test a top-level section (besides posts) and to demonstrate SEO-related front matter (&lt;code&gt;description&lt;/code&gt; / &lt;code&gt;keywords&lt;/code&gt;).&lt;/p&gt;&#xA;&lt;h2 id=&#34;project-goals&#34;&gt;Project goals&lt;/h2&gt;&#xA;&lt;p&gt;Build a simple, maintainable, out-of-the-box Hugo theme:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Switch among five social-platform styles (xhs / zhihu / wechat / medium / quora)&lt;/li&gt;&#xA;&lt;li&gt;Multilingual (zh-hans primary / en secondary)&lt;/li&gt;&#xA;&lt;li&gt;Built-in site search, dark mode, responsive layout&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;tech-choices&#34;&gt;Tech choices&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Template dispatch: &lt;code&gt;define&lt;/code&gt; + &lt;code&gt;template&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Build: Hugo &lt;code&gt;css.Build&lt;/code&gt; + &lt;code&gt;js.Build&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;Math: KaTeX; diagrams: Mermaid&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;milestones&#34;&gt;Milestones&lt;/h2&gt;&#xA;&lt;table&gt;&#xA;&#x9;&lt;thead&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Phase&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Item&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;Status&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/thead&gt;&#xA;&#x9;&lt;tbody&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Research&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Style design research&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;done&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Coding&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Theme base + tools&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;in progress&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Testing&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;Multilingual + feature content&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;in progress&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h2 id=&#34;cover-preview-image&#34;&gt;Cover preview (image)&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://picsum.photos/seed/hugmedia-project/1200/630&#34; alt=&#34;HugMedia project&#34;&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Media &amp; Shortcodes Test</title>
+				<link>http://localhost:1313/en/posts/media-and-shortcodes/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/media-and-shortcodes/</guid>
+				<description>&lt;h1 id=&#34;media--shortcodes-test&#34;&gt;Media &amp;amp; Shortcodes Test&lt;/h1&gt;&#xA;&lt;p&gt;This page exercises &lt;strong&gt;shortcodes&lt;/strong&gt;: audio, video, YouTube, and Bilibili.&lt;/p&gt;&#xA;&lt;h2 id=&#34;audio-audio-shortcode&#34;&gt;Audio (audio shortcode)&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;audio&lt;/code&gt; shortcode renders a native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; player. Usage:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;audio controls preload=&#34;none&#34; style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;audio-source-url&#34; type=&#34;audio/mpeg&#34;&gt;&#xA;  Your browser does not support the audio element.&#xA;&lt;/audio&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Actual call:&lt;/p&gt;&#xA;&#xA;&lt;audio controls preload=&#34;none&#34; style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3&#34; type=&#34;audio/mpeg&#34;&gt;&#xA;  Your browser does not support the audio element.&#xA;&lt;/audio&gt;&#xA;&lt;h2 id=&#34;video-video-shortcode&#34;&gt;Video (video shortcode)&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;video&lt;/code&gt; shortcode renders a native &lt;code&gt;&amp;lt;video&amp;gt;&lt;/code&gt; player (MDN public sample). Usage:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;video controls preload=&#34;metadata&#34;  style=&#34;width:100%&#34;&gt;&#xA;  &lt;source src=&#34;video-source-url&#34; type=&#34;video/mp4&#34;&gt;&#xA;  Your browser does not support the video element.&#xA;&lt;/video&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Actual call:&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Record of Yueyang Tower (excerpt)</title>
+				<link>http://localhost:1313/en/posts/guwen-yueyanglou/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/guwen-yueyanglou/</guid>
+				<description>&lt;h1 id=&#34;record-of-yueyang-tower-excerpt-from-guwen-guanzhi&#34;&gt;Record of Yueyang Tower (excerpt, from &lt;em&gt;Guwen Guanzhi&lt;/em&gt;)&lt;/h1&gt;&#xA;&lt;p&gt;An excerpt from Fan Zhongyan&amp;rsquo;s &amp;ldquo;Record of Yueyang Tower&amp;rdquo;, used to demonstrate headings, paragraphs, blockquotes, lists, tables, flowcharts, and images.&lt;/p&gt;&#xA;&lt;h2 id=&#34;part-1--narration&#34;&gt;Part 1 · Narration&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;In the fourth year of Qingli, Teng Zijing was banished as governor of Baling Commandery. The following year, governance was smooth and the people harmonious; all neglected affairs were revived. He therefore rebuilt the Yueyang Tower, enlarged its original scale, and had the prose and verse of the Tang sages and his contemporaries inscribed upon it. He charged me to compose a record for it.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+			</item>
+			<item>
+				<title>Triple Integral: Volume of a Sphere in Spherical Coordinates</title>
+				<link>http://localhost:1313/en/posts/math-triple-integral/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/math-triple-integral/</guid>
+				<description>&lt;h1 id=&#34;triple-integral-volume-of-a-sphere-in-spherical-coordinates&#34;&gt;Triple Integral: Volume of a Sphere in Spherical Coordinates&lt;/h1&gt;&#xA;&lt;p&gt;This page demonstrates how math formulas (KaTeX: inline and display) appear in example content.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setup-and-change-of-variables&#34;&gt;Setup and change of variables&lt;/h2&gt;&#xA;&lt;p&gt;Let the sphere be $B = { (x,y,z) : x^2 + y^2 + z^2 \le R^2 }$. Use spherical coordinates:&lt;/p&gt;&#xA;&lt;p&gt;$$&#xA;x = \rho\sin\varphi\cos\theta,\quad&#xA;y = \rho\sin\varphi\sin\theta,\quad&#xA;z = \rho\cos\varphi&#xA;$$&lt;/p&gt;&#xA;&lt;p&gt;with $\rho \in [0, R]$, $\varphi \in [0, \pi]$, $\theta \in [0, 2\pi]$. The Jacobian is $\rho^2\sin\varphi$.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,4 @@
+{{- /* 头部：按风格分发导航。各风格拥有独立导航组件/样式；
+   需要“悬浮”时由该风格导航自行加 data-floating-nav（共享特性见 components/nav.css）。 */}}
+{{- $style := site.Params.style | default "xhs" }}
+{{ partial (printf "nav/nav-%s.html" $style) . }}

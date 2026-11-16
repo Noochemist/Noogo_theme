@@ -1,0 +1,9 @@
+{{- /* head/link.html — 统一渲染 CSS <link>（dev 免指纹 / prod fingerprint + integrity） */}}
+{{- $css := .css }}
+{{- if hugo.IsDevelopment }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{- else }}
+  {{- with $css | fingerprint }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+  {{- end }}
+{{- end }}

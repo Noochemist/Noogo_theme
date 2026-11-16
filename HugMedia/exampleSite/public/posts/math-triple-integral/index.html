@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-hans" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>三重积分：球坐标法推导球体体积 | HugMedia 示例站（中文）</title>
+<style>
+:root{
+  --font-title: "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif;
+  --font-body: "Georgia", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", serif;
+  --font-nav: "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif;
+  --font-code: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+}
+</style>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/styles/xhs.css">
+
+      <script src="/js/main.js"></script>
+
+</head>
+<body class="style-xhs">
+  <header data-floating-nav>
+    
+
+<div class="xhs-topbar">
+  <a class="xhs-logo" href="/">HugMedia 示例站（中文）</a>
+  <input class="xhs-search" type="search" placeholder="搜索笔记" aria-label="搜索">
+  <a class="xhs-cta" href="http://localhost:1313/" rel="noopener">打开App</a>
+</div>
+  </header>
+  <main id="main-content">
+    
+<article class="xhs-article">
+  <div class="xhs-content">
+    <h1 class="xhs-title-lg">三重积分：球坐标法推导球体体积</h1>
+    <p class="xhs-postmeta">
+      <span class="xhs-avatar">Y</span>
+      Your Name · 2026年11月16日 · 1 分钟
+    </p>
+    <div class="xhs-copy"><h1 id="三重积分球坐标法推导球体体积">三重积分：球坐标法推导球体体积</h1>
+<p>本页演示数学公式（KaTeX：行内与块级）如何在示例内容中呈现。</p>
+<h2 id="问题设定与变量代换">问题设定与变量代换</h2>
+<p>设球体 $B = { (x,y,z) : x^2 + y^2 + z^2 \le R^2 }$。改用球坐标：</p>
+<p>$$
+x = \rho\sin\varphi\cos\theta,\quad
+y = \rho\sin\varphi\sin\theta,\quad
+z = \rho\cos\varphi
+$$</p>
+<p>其中 $\rho \in [0, R]$、$\varphi \in [0, \pi]$、$\theta \in [0, 2\pi]$，雅可比行列式为 $\rho^2\sin\varphi$。</p>
+<p>该球体的体积可由「对 1 作三重积分」求得：</p>
+<p>$$
+V = \iiint_{B} 1,dV
+= \int_0^{2\pi}\int_0^{\pi}\int_0^{R}\rho^2\sin\varphi,
+d\rho,d\varphi,d\theta
+$$</p>
+<h2 id="逐层分离可分离变量">逐层分离（可分离变量）</h2>
+<p>由于被积函数可分离，三重积分化为三个一重积分之积：</p>
+<p>$$
+\begin{aligned}
+V
+&amp;= \left(\int_0^{2\pi} d\theta\right)
+\left(\int_0^{\pi}\sin\varphi, d\varphi\right)
+\left(\int_0^{R}\rho^2, d\rho\right)\
+&amp;= (2\pi)(2)\left(\frac{R^3}{3}\right)
+= \frac{4}{3}\pi R^3
+\end{aligned}
+$$</p>
+<p>因此球体积公式为</p>
+<p>$$
+V = \frac{4}{3}\pi R^3 \quad \checkmark
+$$</p>
+<h2 id="推导流程mermaid-流程图">推导流程（Mermaid 流程图）</h2>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">flowchart LR
+  A[被积函数为 1] --&gt; B[球坐标代换]
+  B --&gt; C[雅可比 ρ² sin φ]
+  C --&gt; D[分离变量为三积分之积]
+  D --&gt; E[V = 4/3 π R³]
+</code></pre><h2 id="数值验证python-代码块">数值验证（Python 代码块）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy <span style="color:#f92672">import</span> integrate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>R <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>f <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> z, y, x: <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在球体范围内对 1 作数值三重积分</span>
+</span></span><span style="display:flex;"><span>volume, _ <span style="color:#f92672">=</span> integrate<span style="color:#f92672">.</span>tplquad(
+</span></span><span style="display:flex;"><span>    f,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span>R, R,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> x: <span style="color:#f92672">-</span>np<span style="color:#f92672">.</span>sqrt(R<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> x<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>),      <span style="color:#66d9ef">lambda</span> x: np<span style="color:#f92672">.</span>sqrt(R<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> x<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> x, y: <span style="color:#f92672">-</span>np<span style="color:#f92672">.</span>sqrt(R<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> x<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> y<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> x, y:  np<span style="color:#f92672">.</span>sqrt(R<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> x<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> y<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>print(volume)            <span style="color:#75715e"># 4.18879...</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#ae81ff">4</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>pi <span style="color:#f92672">*</span> R<span style="color:#f92672">**</span><span style="color:#ae81ff">3</span>)   <span style="color:#75715e"># 4.18879...  二者一致</span>
+</span></span></code></pre></div></div>
+  </div>
+  <aside class="xhs-comments">
+    <h3>评论</h3>
+    <div class="cmt"><span class="xhs-avatar">A</span>太实用了，收藏了！</div>
+    <div class="cmt"><span class="xhs-avatar">B</span>写得很清楚，感谢。</div>
+    <div class="cmt"><span class="xhs-avatar">C</span>请问有英文版吗？</div>
+  </aside>
+</article>
+
+  </main>
+  <footer>
+    <p>Copyright 2026. All rights reserved.</p>
+
+  </footer>
+</body>
+</html>

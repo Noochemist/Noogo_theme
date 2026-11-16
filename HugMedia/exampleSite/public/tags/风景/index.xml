@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>风景 on HugMedia 示例站（中文）</title>
+		<link>http://localhost:1313/tags/%E9%A3%8E%E6%99%AF/</link>
+		<description>Recent content in 风景 on HugMedia 示例站（中文）</description>
+		<generator>Hugo</generator>
+		<language>zh-hans</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/tags/%E9%A3%8E%E6%99%AF/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>《岳阳楼记》节选</title>
+				<link>http://localhost:1313/posts/guwen-yueyanglou/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/posts/guwen-yueyanglou/</guid>
+				<description>&lt;h1 id=&#34;岳阳楼记节选古文观止&#34;&gt;《岳阳楼记》节选（《古文观止》）&lt;/h1&gt;&#xA;&lt;p&gt;本文节选自范仲淹《岳阳楼记》，用于演示标题层级、段落、引用、列表、表格、流程图与图片等特性。&lt;/p&gt;&#xA;&lt;h2 id=&#34;第一段--叙事&#34;&gt;第一段 · 叙事&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废俱兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上。属予作文以记之。&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;第二段--写景&#34;&gt;第二段 · 写景&lt;/h2&gt;&#xA;&lt;p&gt;予观夫巴陵胜状，在洞庭一湖：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;衔远山，吞长江&lt;/strong&gt;，浩浩汤汤，横无际涯；&lt;/li&gt;&#xA;&lt;li&gt;朝晖夕阴，气象万千，此则岳阳楼之大观也。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;至若春和景明，波澜不惊，上下天光，一碧万顷。——这既是写景，也是作者心境的映照。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;重点字词对照&#34;&gt;重点字词对照&lt;/h2&gt;&#xA;&lt;table&gt;&#xA;&#x9;&lt;thead&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;词&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;释义&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;th&gt;例句&lt;/th&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/thead&gt;&#xA;&#x9;&lt;tbody&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;谪守&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;因罪被贬而任地方官&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;滕子京谪守巴陵郡&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;属&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;同「嘱」，嘱咐&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;属予作文以记之&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&#x9;&#x9;&lt;tr&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;浩浩汤汤&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;水势浩大&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;td&gt;浩浩汤汤，横无际涯&lt;/td&gt;&#xA;&#x9;&#x9;&#x9;&lt;/tr&gt;&#xA;&#x9;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h2 id=&#34;文章结构图mermaid-流程图&#34;&gt;文章结构图（Mermaid 流程图）&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;flowchart TD&#xA;  A[岳阳楼记] --&amp;gt; B[叙事：重修岳阳楼]&#xA;  A --&amp;gt; C[写景：洞庭气象]&#xA;  C --&amp;gt; D[阴雨之景]&#xA;  C --&amp;gt; E[春和之景]&#xA;  A --&amp;gt; F[议论：先忧后乐]&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;图片演示render-image&#34;&gt;图片演示（render-image）&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://picsum.photos/seed/dongting-lake/800/600&#34; alt=&#34;洞庭一景&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;扩展阅读&#34;&gt;扩展阅读&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;相关链接（render-link）：&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo 官方文档&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;英文对译版：&lt;code&gt;en/posts/guwen-yueyanglou.md&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+			</item>
+	</channel>
+</rss>

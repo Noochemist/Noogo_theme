@@ -1,0 +1,18 @@
+/* Phase 1 · styles/_base-style.css — 风格层骨架
+   被各风格文件 @import 引入。定义风格层共用的结构令牌，
+   品牌色 / 布局数值由各风格文件覆盖。 */
+html {
+  --navbar-height: 3.25rem;
+  --header-sticky: 0; /* 风格可启用 sticky 顶部 */
+}
+
+body[class|='style'] {
+  /* 风格层统一挂载点：所有风格变量在此作用域下生效 */
+  --content-radius: var(--radius-md);
+  --input-height: 2.25rem;
+}
+
+a.active {
+  color: var(--color-brand);
+  font-weight: var(--weight-medium);
+}

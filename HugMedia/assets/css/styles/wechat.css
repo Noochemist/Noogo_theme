@@ -1,0 +1,19 @@
+/* Phase 1 · styles/wechat.css — 公众号：阅读驱动 / 单栏 / 绿色系 */
+@import "_base-style.css";
+
+.style-wechat {
+  --brand: #07C160;
+  --brand-hover: #06AD56;
+  --brand-soft: #E6F9EF;
+  --brand-contrast: #ffffff;
+  --link: var(--brand);
+
+  --color-brand: var(--brand);
+  --color-link: var(--link);
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+
+  /* 沉浸式单栏窄阅读 */
+  --content-max: 42.3rem; /* 677px */
+  --header-sticky: 1;
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="style-{{ site.Params.style | default "xhs" }}">
+  {{- /* 悬浮特性挂载到整页面壳的 header，以整页为活动容器才能整页悬浮；风格导航自身不重复挂载。 */}}
+  <header data-floating-nav>
+    {{ partial "header.html" . }}
+  </header>
+  <main id="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
+  <footer>
+    {{ partial "footer.html" . }}
+  </footer>
+</body>
+</html>

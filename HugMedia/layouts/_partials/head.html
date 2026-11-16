@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{- $fonts := site.Params.fonts | default dict }}
+{{- $fontTitle := index $fonts "title" | default `"Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",sans-serif` }}
+{{- $fontBody   := index $fonts "body"   | default `"Georgia","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",serif` }}
+{{- $fontNav    := index $fonts "nav"    | default `"Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",sans-serif` }}
+{{- $fontCode   := index $fonts "code"   | default `"JetBrains Mono","Fira Code","SF Mono",Menlo,monospace` }}
+<style>
+:root{
+  --font-title: {{ $fontTitle | safeCSS }};
+  --font-body: {{ $fontBody | safeCSS }};
+  --font-nav: {{ $fontNav | safeCSS }};
+  --font-code: {{ $fontCode | safeCSS }};
+}
+</style>
+{{ partialCached "head/css.html" . }}
+{{ partialCached "head/js.html" . }}

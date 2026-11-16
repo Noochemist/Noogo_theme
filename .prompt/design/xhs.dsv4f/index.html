@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小红书 · 首页</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="home-page">
+
+<!-- ========== 顶部导航栏 ========== -->
+<header class="top-nav">
+  <div class="nav-inner">
+    <!-- 左侧：更多菜单 -->
+    <div class="nav-left">
+      <button class="nav-btn" aria-label="更多">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- 中部：搜索框 -->
+    <div class="nav-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+      <input type="text" class="search-input" placeholder="搜索商品 笔记 用户 地点">
+    </div>
+
+    <!-- 右侧：打开APP -->
+    <div class="nav-right">
+      <button class="open-app">打开App</button>
+    </div>
+  </div>
+</header>
+
+<!-- ========== 左侧垂直导航 ========== -->
+<aside class="side-nav">
+  <div class="side-top">
+    <span class="side-logo">搜</span>
+    <nav class="side-menu">
+      <a href="#" class="side-item active"><span class="side-ico">🏠</span>首页</a>
+      <a href="#" class="side-item"><span class="side-ico">🔍</span>发现</a>
+      <a href="#" class="side-item"><span class="side-ico">📺</span>视频</a>
+      <a href="#" class="side-item"><span class="side-ico">📍</span>附近</a>
+      <a href="#" class="side-item"><span class="side-ico">🔴</span>直播</a>
+    </nav>
+  </div>
+  <div class="side-bottom">
+    <a href="#" class="side-post">
+      <span class="post-ico">✏️</span>
+      <span>发布</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ========== 双列瀑布流 ========== -->
+<main class="feed">
+  <div class="feed-inner">
+
+    <!-- 卡片 1 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#ff512f 0%,#dd2476 100%);">
+          <span class="thumb-emoji">🍜</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 12.8k</span>
+          <span class="hover-comment">💬 320</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">深夜食堂 · 一人食也有仪式感，这碗面我连汤都喝光了</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)">食</div>
+            <span>干饭人小王</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 2 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#36d1dc 0%,#5b86e5 100%);">
+          <span class="thumb-emoji">🏔️</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 3.2k</span>
+          <span class="hover-comment">💬 89</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">川西小众秘境，两天一夜自驾全攻略，人少景美随便拍</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#fccb90,#d57eeb)">旅</div>
+            <span>旅行打工人</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 3 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);">
+          <span class="thumb-emoji">💄</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 45.6k</span>
+          <span class="hover-comment">💬 1.2k</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">秋冬口红试色合集，黄皮亲测显白不踩雷，快来看看</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#f093fb,#f5576c)">妆</div>
+            <span>美妆观察员</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 4 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#f6d365 0%,#fda085 100%);">
+          <span class="thumb-emoji">☕</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 9.7k</span>
+          <span class="hover-comment">💬 210</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">杭州小众咖啡馆探店地图，每一家都好拍到飞起</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#84fab0,#8fd3f4)">咖</div>
+            <span>咖啡续命君</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 5 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#c471f5 0%,#fa71cd 100%);">
+          <span class="thumb-emoji">📚</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 67.1k</span>
+          <span class="hover-comment">💬 3.4k</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">用Notion做读书笔记系统，效率直接翻三倍，附模板下载</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#667eea,#764ba2)">学</div>
+            <span>自律小树苗</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 6 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#30e8bf 0%,#ff8235 100%);">
+          <span class="thumb-emoji">🪴</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 2.1k</span>
+          <span class="hover-comment">💬 67</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">新手养多肉必看，这5种皮实好养，越养越漂亮的秘诀</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#43cea2,#185a9d)">绿</div>
+            <span>阳台园丁</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 7 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#11998e 0%,#38ef7d 100%);">
+          <span class="thumb-emoji">💪</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 15.3k</span>
+          <span class="hover-comment">💬 480</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">30天居家健身计划表，不用去健身房也能瘦，亲测有效</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#56ab2f,#a8e063)">健</div>
+            <span>自律的G胖</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 卡片 8 -->
+    <article class="post-card">
+      <a href="post.html" class="cover">
+        <div class="thumb" style="background: linear-gradient(135deg,#fdcbf1 0%,#e6dee9 100%);">
+          <span class="thumb-emoji">🧶</span>
+        </div>
+        <div class="cover-hover">
+          <span class="hover-like">♥ 8.9k</span>
+          <span class="hover-comment">💬 156</span>
+        </div>
+      </a>
+      <div class="card-info">
+        <h3 class="card-title">秋冬毛衣开衫合集，温柔系穿搭，日常通勤都能穿</h3>
+        <div class="card-meta">
+          <div class="author">
+            <div class="avatar" style="background:linear-gradient(135deg,#ee9ca7,#ffdde1)">穿</div>
+            <span>穿搭小助手</span>
+          </div>
+          <button class="like-btn" aria-label="收藏">♡</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- 右下回到顶部 -->
+<button class="back-top" id="backTop" aria-label="回到顶部">▲</button>
+
+<script src="script.js"></script>
+</body>
+</html>

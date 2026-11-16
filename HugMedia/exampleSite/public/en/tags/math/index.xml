@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Math on HugMedia Sample Site (EN)</title>
+		<link>http://localhost:1313/en/tags/math/</link>
+		<description>Recent content in Math on HugMedia Sample Site (EN)</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/en/tags/math/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Triple Integral: Volume of a Sphere in Spherical Coordinates</title>
+				<link>http://localhost:1313/en/posts/math-triple-integral/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/math-triple-integral/</guid>
+				<description>&lt;h1 id=&#34;triple-integral-volume-of-a-sphere-in-spherical-coordinates&#34;&gt;Triple Integral: Volume of a Sphere in Spherical Coordinates&lt;/h1&gt;&#xA;&lt;p&gt;This page demonstrates how math formulas (KaTeX: inline and display) appear in example content.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setup-and-change-of-variables&#34;&gt;Setup and change of variables&lt;/h2&gt;&#xA;&lt;p&gt;Let the sphere be $B = { (x,y,z) : x^2 + y^2 + z^2 \le R^2 }$. Use spherical coordinates:&lt;/p&gt;&#xA;&lt;p&gt;$$&#xA;x = \rho\sin\varphi\cos\theta,\quad&#xA;y = \rho\sin\varphi\sin\theta,\quad&#xA;z = \rho\cos\varphi&#xA;$$&lt;/p&gt;&#xA;&lt;p&gt;with $\rho \in [0, R]$, $\varphi \in [0, \pi]$, $\theta \in [0, 2\pi]$. The Jacobian is $\rho^2\sin\varphi$.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

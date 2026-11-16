@@ -1,0 +1,116 @@
+/* Phase 0 · base/typography.css — 基础排版（风格无关，由字体变量驱动） */
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-fg);
+  background-color: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  color: var(--color-fg);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+p {
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-4);
+}
+
+small {
+  font-size: var(--text-sm);
+  color: var(--color-fg-soft);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+strong, b { font-weight: var(--weight-bold); }
+em, i { font-style: italic; }
+
+blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-2) var(--space-6);
+  border-left: 4px solid var(--color-line);
+  color: var(--color-fg-soft);
+}
+blockquote p { margin-bottom: var(--space-2); }
+
+ul, ol {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+li { margin-bottom: var(--space-1); }
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+}
+
+code {
+  background: var(--color-line);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.4em;
+}
+
+pre {
+  margin: var(--space-6) 0;
+  padding: var(--space-4);
+  background: var(--color-fg);
+  color: var(--color-canvas);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  line-height: var(--leading-normal);
+}
+pre code {
+  background: none;
+  padding: 0;
+}
+
+img,
+video {
+  margin: var(--space-4) 0;
+  border-radius: var(--radius-md);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: var(--space-8) 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-6) 0;
+}
+th, td {
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+}
+th { font-family: var(--font-title); font-weight: var(--weight-medium); }

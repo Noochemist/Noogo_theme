@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Posts | HugMedia Sample Site (EN)</title>
+<style>
+:root{
+  --font-title: "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif;
+  --font-body: "Georgia", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", serif;
+  --font-nav: "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", sans-serif;
+  --font-code: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace;
+}
+</style>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/styles/xhs.css">
+
+      <script src="/js/main.js"></script>
+
+</head>
+<body class="style-xhs">
+  <header data-floating-nav>
+    
+
+<div class="xhs-topbar">
+  <a class="xhs-logo" href="/en/">HugMedia Sample Site (EN)</a>
+  <input class="xhs-search" type="search" placeholder="搜索笔记" aria-label="搜索">
+  <a class="xhs-cta" href="http://localhost:1313/" rel="noopener">打开App</a>
+</div>
+  </header>
+  <main id="main-content">
+    
+  <h1>Posts</h1>
+  <p>This directory holds English example posts.</p>
+
+  
+    <section>
+      <h2><a href="/en/posts/holmes-study-in-scarlet/">A Study in Scarlet (opening)</a></h2>
+      <h1 id="a-study-in-scarlet--opening-arthur-conan-doyle">A Study in Scarlet — opening (Arthur Conan Doyle)</h1>
+<p>Excerpt from <em>A Study in Scarlet</em> (1887), used to demonstrate block dialog, images, and code blocks.</p>
+<h2 id="prologue">Prologue</h2>
+<blockquote>
+<p>In the year 1878 I took my degree of Doctor of Medicine of the University of London, and proceeded to Netley to go through the course prescribed for surgeons in the army.</p>
+</blockquote>
+<p>So begins Watson&rsquo;s account, before he ever met Sherlock Holmes.</p>
+<h2 id="about-the-detective">About the detective</h2>
+<p>At first I took him for <strong>no more</strong> than a researcher in chemistry; only later did I learn how far his genius in the art of detection exceeded a common man&rsquo;s reach:</p>
+    </section>
+  
+    <section>
+      <h2><a href="/en/posts/code-optimization/">Code Optimization Demo &amp; Reading Time</a></h2>
+      <h1 id="code-optimization-demo--reading-time">Code Optimization Demo &amp; Reading Time</h1>
+<p>This page demonstrates <strong>code blocks (syntax highlighting + language label + copy button)</strong> and <strong>reading time / word count</strong> on a longer body. It also shows the common &ldquo;before vs. after&rdquo; optimization pattern.</p>
+<h2 id="scenario-summing-optimization">Scenario: summing optimization</h2>
+<p>A plain Python implementation is intuitive, but readability and edge-case handling can be improved.</p>
+<p><strong>Before (naive loop):</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sum_before</span>(n):
+</span></span><span style="display:flex;"><span>    total <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>        total <span style="color:#f92672">+=</span> i
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> total
+</span></span></code></pre></div><p><strong>After (Gauss formula, O(1), with input guard):</strong></p>
+    </section>
+  
+    <section>
+      <h2><a href="/en/posts/media-and-shortcodes/">Media &amp; Shortcodes Test</a></h2>
+      <h1 id="media--shortcodes-test">Media &amp; Shortcodes Test</h1>
+<p>This page exercises <strong>shortcodes</strong>: audio, video, YouTube, and Bilibili.</p>
+<h2 id="audio-audio-shortcode">Audio (audio shortcode)</h2>
+<p>The <code>audio</code> shortcode renders a native <code>&lt;audio&gt;</code> player. Usage:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>
+<audio controls preload="none" style="width:100%">
+  <source src="audio-source-url" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+</span></span></code></pre></div><p>Actual call:</p>
+
+<audio controls preload="none" style="width:100%">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2 id="video-video-shortcode">Video (video shortcode)</h2>
+<p>The <code>video</code> shortcode renders a native <code>&lt;video&gt;</code> player (MDN public sample). Usage:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>
+<video controls preload="metadata"  style="width:100%">
+  <source src="video-source-url" type="video/mp4">
+  Your browser does not support the video element.
+</video>
+</span></span></code></pre></div><p>Actual call:</p>
+    </section>
+  
+    <section>
+      <h2><a href="/en/posts/guwen-yueyanglou/">Record of Yueyang Tower (excerpt)</a></h2>
+      <h1 id="record-of-yueyang-tower-excerpt-from-guwen-guanzhi">Record of Yueyang Tower (excerpt, from <em>Guwen Guanzhi</em>)</h1>
+<p>An excerpt from Fan Zhongyan&rsquo;s &ldquo;Record of Yueyang Tower&rdquo;, used to demonstrate headings, paragraphs, blockquotes, lists, tables, flowcharts, and images.</p>
+<h2 id="part-1--narration">Part 1 · Narration</h2>
+<blockquote>
+<p>In the fourth year of Qingli, Teng Zijing was banished as governor of Baling Commandery. The following year, governance was smooth and the people harmonious; all neglected affairs were revived. He therefore rebuilt the Yueyang Tower, enlarged its original scale, and had the prose and verse of the Tang sages and his contemporaries inscribed upon it. He charged me to compose a record for it.</p>
+</blockquote>
+    </section>
+  
+    <section>
+      <h2><a href="/en/posts/math-triple-integral/">Triple Integral: Volume of a Sphere in Spherical Coordinates</a></h2>
+      <h1 id="triple-integral-volume-of-a-sphere-in-spherical-coordinates">Triple Integral: Volume of a Sphere in Spherical Coordinates</h1>
+<p>This page demonstrates how math formulas (KaTeX: inline and display) appear in example content.</p>
+<h2 id="setup-and-change-of-variables">Setup and change of variables</h2>
+<p>Let the sphere be $B = { (x,y,z) : x^2 + y^2 + z^2 \le R^2 }$. Use spherical coordinates:</p>
+<p>$$
+x = \rho\sin\varphi\cos\theta,\quad
+y = \rho\sin\varphi\sin\theta,\quad
+z = \rho\cos\varphi
+$$</p>
+<p>with $\rho \in [0, R]$, $\varphi \in [0, \pi]$, $\theta \in [0, 2\pi]$. The Jacobian is $\rho^2\sin\varphi$.</p>
+    </section>
+  
+
+  </main>
+  <footer>
+    <p>Copyright 2026. All rights reserved.</p>
+
+  </footer>
+</body>
+</html>

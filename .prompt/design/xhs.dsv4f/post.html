@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深夜食堂 · 小红书笔记</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="post-page">
+
+<!-- ========== 顶部栏 ========== -->
+<header class="post-header">
+  <div class="post-header-inner">
+    <button class="back-btn" onclick="history.back()" aria-label="返回">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="post-header-title">笔记详情</span>
+    <button class="share-btn" aria-label="分享">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ========== 主体：左图右信息 ========== -->
+<main class="post-main">
+
+  <!-- 左侧：笔记封面图 -->
+  <section class="post-media">
+    <div class="media-thumb" style="background: linear-gradient(135deg,#ff512f 0%,#dd2476 100%);">
+      <span class="media-emoji">🍜</span>
+    </div>
+    <div class="media-dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- 右侧：内容区 -->
+  <section class="post-side">
+
+    <!-- 作者行 -->
+    <div class="post-author">
+      <div class="author-main">
+        <div class="avatar avatar-lg" style="background:linear-gradient(135deg,#ff9a9e,#fad0c4)">食</div>
+        <div class="author-text">
+          <span class="author-name">干饭人小王</span>
+          <span class="author-id">小红书号：123456789</span>
+        </div>
+      </div>
+      <button class="follow-btn">＋关注</button>
+    </div>
+
+    <!-- 标题与正文 -->
+    <div class="post-title">深夜食堂 · 一人食也有仪式感，这碗面我连汤都喝光了</div>
+
+    <p class="post-desc">
+      加班到晚上九点，拖着疲惫的身体回到家。想到冰箱里还剩的几样食材，决定给自己煮一碗热腾腾的番茄鸡蛋面。切几个小番茄，煎一颗溏心蛋，再撒上一把葱花…… 有时候幸福就是这么简单，一碗热气腾腾的面就能治愈一天的疲惫。
+    </p>
+
+    <!-- 标签 -->
+    <div class="post-tags">
+      <a href="#" class="tag"># 一人食</a>
+      <a href="#" class="tag"># 深夜食堂</a>
+      <a href="#" class="tag"># 日常分享</a>
+    </div>
+
+    <div class="post-divider"></div>
+
+    <!-- 操作条 -->
+    <div class="post-actions">
+      <button class="act-btn" id="likeBtn">
+        <svg class="act-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <span id="likeCount">12.8k</span>
+      </button>
+      <button class="act-btn" id="favBtn">
+        <svg class="act-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        <span id="favCount">3.2k</span>
+      </button>
+      <button class="act-btn" onclick="document.getElementById('commentInput').focus()">
+        <svg class="act-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>320</span>
+      </button>
+    </div>
+
+    <div class="post-divider"></div>
+
+    <!-- 评论输入 -->
+    <div class="comment-box">
+      <div class="avatar" style="background:linear-gradient(135deg,#a1c4fd,#c2e9fb)">我</div>
+      <input type="text" class="comment-input" id="commentInput" placeholder="说点什么吧…">
+      <button class="comment-submit" id="commentSubmit" disabled>发送</button>
+    </div>
+
+    <!-- 评论区 -->
+    <div class="comment-list">
+
+      <div class="comment-item">
+        <div class="avatar" style="background:linear-gradient(135deg,#fbc2eb,#a6c1ee)">兔</div>
+        <div class="comment-main">
+          <div class="comment-head">
+            <span class="c-name">爱吃零食的兔子</span>
+            <span class="c-time">2小时前</span>
+          </div>
+          <p class="c-text">天呐看起来也太香了吧！求教程！！我也超爱番茄鸡蛋面😋</p>
+          <div class="comment-foot">
+            <span>12</span>
+            <span>回复</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-item">
+        <div class="avatar" style="background:linear-gradient(135deg,#fddb92,#d1fdff)">夜</div>
+        <div class="comment-main">
+          <div class="comment-head">
+            <span class="c-name">熬夜冠军本冠</span>
+            <span class="c-time">5小时前</span>
+          </div>
+          <p class="c-text">深夜看到这个真的破防了，我也要爬起来煮一碗！</p>
+          <div class="comment-foot">
+            <span>8</span>
+            <span>回复</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-item">
+        <div class="avatar" style="background:linear-gradient(135deg,#fad0c4,#ffd1ff)">汤</div>
+        <div class="comment-main">
+          <div class="comment-head">
+            <span class="c-name">干饭三碗半</span>
+            <span class="c-time">昨天</span>
+          </div>
+          <p class="c-text">溏心蛋是灵魂！！我每次都要加两片午餐肉👌</p>
+          <div class="comment-foot">
+            <span>5</span>
+            <span>回复</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

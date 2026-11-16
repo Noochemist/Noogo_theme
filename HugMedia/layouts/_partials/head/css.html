@@ -1,0 +1,19 @@
+{{- /* CSS 构建：base 层 + 按 style 参数加载风格层（构建隔离） */}}
+{{- /* 1) 基础层 & 组件层 */}}
+{{- $cssOpts := dict
+  "minify" (cond hugo.IsDevelopment false true)
+  "sourceMap" (cond hugo.IsDevelopment "linked" "none") }}
+{{- with resources.Get "css/main.css" }}
+  {{- with . | css.Build $cssOpts }}
+    {{- partial "head/link.html" (dict "css" . ) }}
+  {{- end }}
+{{- end }}
+
+{{- /* 2) 当前风格层（仅打包选中的那一份） */}}
+{{- $style := site.Params.style | default "xhs" }}
+{{- $styleFile := printf "css/styles/%s.css" $style }}
+{{- with resources.Get $styleFile }}
+  {{- with . | css.Build $cssOpts }}
+    {{- partial "head/link.html" (dict "css" .) }}
+  {{- end }}
+{{- end }}

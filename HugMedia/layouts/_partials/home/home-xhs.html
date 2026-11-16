@@ -1,0 +1,29 @@
+{{- /* 小红书首页主体（partial 分发风格体） */}}
+{{- $author := site.Params.author | default dict }}
+{{- $authorName := $author.name | default site.Title }}
+<div class="xhs-layout">
+  {{ partial "sidebar-xhs.html" . }}
+  <section>
+    <div class="xhs-grid">
+      {{- range site.RegularPages }}
+        <a class="xhs-card" href="{{ .RelPermalink }}">
+          <span class="xhs-cover">
+            {{- with .Resources.GetMatch "cover.*" }}
+              <img src="{{ .RelPermalink }}" alt="{{ .Title }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy">
+            {{- else }}
+              <span class="placeholder-note">暂无封面</span>
+            {{- end }}
+          </span>
+          <span class="xhs-body">
+            <span class="xhs-title">{{ .Title }}</span>
+            <span class="xhs-meta">
+              <span class="xhs-avatar">{{ substr $authorName 0 1 }}</span>
+              {{ $authorName }}
+              <span class="xhs-likes">♥ {{ .Params.likes | default 128 }}</span>
+            </span>
+          </span>
+        </a>
+      {{- end }}
+    </div>
+  </section>
+</div>

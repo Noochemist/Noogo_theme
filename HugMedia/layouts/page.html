@@ -1,0 +1,7 @@
+{{ define "main" }}
+  {{- /* 风格路由：partial 按 style 分发；未实现风格回退 xhs（后续 Phase 逐个加入） */}}
+  {{- $implemented := slice "xhs" }}
+  {{- $style := site.Params.style | default "xhs" }}
+  {{- if not (in $implemented $style) }}{{ $style = "xhs" }}{{ end }}
+  {{- partial (printf "page/page-%s.html" $style) . }}
+{{ end }}

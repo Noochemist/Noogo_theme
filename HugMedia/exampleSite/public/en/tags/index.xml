@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Tags on HugMedia Sample Site (EN)</title>
+		<link>http://localhost:1313/en/tags/</link>
+		<description>Recent content in Tags on HugMedia Sample Site (EN)</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/en/tags/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Calculus</title>
+				<link>http://localhost:1313/en/tags/calculus/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/calculus/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Classical</title>
+				<link>http://localhost:1313/en/tags/classical/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/classical/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Detective</title>
+				<link>http://localhost:1313/en/tags/detective/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/detective/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Dev</title>
+				<link>http://localhost:1313/en/tags/dev/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/dev/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Dialogue</title>
+				<link>http://localhost:1313/en/tags/dialogue/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/dialogue/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Hugo</title>
+				<link>http://localhost:1313/en/tags/hugo/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/hugo/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Math</title>
+				<link>http://localhost:1313/en/tags/math/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/math/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Media</title>
+				<link>http://localhost:1313/en/tags/media/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/media/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Mermaid</title>
+				<link>http://localhost:1313/en/tags/mermaid/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/mermaid/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Optimization</title>
+				<link>http://localhost:1313/en/tags/optimization/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/optimization/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Programming</title>
+				<link>http://localhost:1313/en/tags/programming/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/programming/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Python</title>
+				<link>http://localhost:1313/en/tags/python/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/python/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Scenery</title>
+				<link>http://localhost:1313/en/tags/scenery/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/scenery/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Shortcode</title>
+				<link>http://localhost:1313/en/tags/shortcode/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/shortcode/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Theme</title>
+				<link>http://localhost:1313/en/tags/theme/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/theme/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Triple Integral</title>
+				<link>http://localhost:1313/en/tags/triple-integral/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/tags/triple-integral/</guid>
+				<description></description>
+			</item>
+	</channel>
+</rss>

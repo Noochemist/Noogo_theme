@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>小红书 - 发现</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-home">
+
+<!-- ============ 顶栏 ============ -->
+<header class="topbar">
+  <a class="logo" href="#">
+    <span class="logo-red">小</span>
+    <span class="logo-book">红书</span>
+  </a>
+
+  <div class="top-search">
+    <svg viewBox="0 0 24 24" class="top-search-ico"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="搜索商品、笔记、用户、地点">
+  </div>
+
+  <div class="top-right">
+    <button class="open-app">打开App</button>
+  </div>
+</header>
+
+<!-- ============ 左侧边栏 ============ -->
+<aside class="sidebar">
+  <a class="side-item active" href="#">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 9 7v11h-5v-7h-8v7H3V10z"/></svg>
+    <span>发现</span>
+  </a>
+  <a class="side-item" href="#">
+    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="m23 7-7 5 7 5zM1 5h15v14H1z"/></svg>
+    <span>视频</span>
+  </a>
+  <a class="side-item" href="#">
+    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span>消息</span>
+  </a>
+  <a class="side-item" href="#">
+    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <span>我</span>
+  </a>
+
+  <div class="side-divider"></div>
+
+  <a class="side-post" href="#">
+    <div class="post-thumb"></div>
+    <span>发布笔记</span>
+  </a>
+</aside>
+
+<!-- ============ 主内容：瀑布流 ============ -->
+<main class="feed">
+  <div class="feed-grid">
+
+    <!-- 1 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:3/4">
+        <div class="ph ph-1"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">终于找到一家超棒的咖啡馆！氛围感拉满，拍照超出片 ☕️</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-1">咖</div><span>咖啡续命君</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            2.1w
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:4/5">
+        <div class="ph ph-2"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">秋冬穿搭合集｜温柔风通勤look，质感满满不挑身材</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-2">穿</div><span>穿搭小助手</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            8967
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:3/4">
+        <div class="ph ph-3"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">川西小众秘境｜两天一夜自驾攻略，人少景美随便拍</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-3">旅</div><span>旅行打工人</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            3201
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:1/1">
+        <div class="ph ph-4"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">一人食｜番茄鸡蛋面的神仙做法，连汤都喝光</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-4">食</div><span>干饭人小王</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            5678
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:3/4">
+        <div class="ph ph-5"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">秋冬口红试色合集｜黄皮亲测显白不踩雷，速进！</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-5">妆</div><span>美妆观察员</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            4.5w
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:4/5">
+        <div class="ph ph-6"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">用 Notion 搭建高效读书系统，附模板下载 📚</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-6">学</div><span>自律小树苗</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            3.1w
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:3/4">
+        <div class="ph ph-7"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">新手养多肉｜5 种皮实好养品种推荐，越养越漂亮</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-7">绿</div><span>阳台园丁</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            879
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:1/1">
+        <div class="ph ph-8"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">居家健身 30 天挑战｜亲测有效，不用去健身房</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-8">健</div><span>自律的G胖</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            1.2w
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:4/5">
+        <div class="ph ph-9"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">杭州小众咖啡馆地图｜每一家都好拍到飞起</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-1">咖</div><span>咖啡续命君</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            9734
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="note">
+      <a href="post.html" class="note-cover" style="aspect-ratio:3/4">
+        <div class="ph ph-10"></div>
+      </a>
+      <div class="note-meta">
+        <h3 class="note-title">深夜食堂｜一人食也有仪式感，治愈一整天的疲惫</h3>
+        <div class="note-footer">
+          <div class="note-author"><div class="av av-4">食</div><span>干饭人小王</span></div>
+          <button class="note-like">
+            <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            6211
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- 右下悬浮按钮组 -->
+<div class="fab-group">
+  <button class="fab-item" title="消息">
+    <svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+  <button class="fab-item" id="backTop" title="回到顶部">
+    <svg viewBox="0 0 24 24"><polyline fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" points="18 15 12 9 6 15"/></svg>
+  </button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

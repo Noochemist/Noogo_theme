@@ -1,0 +1,6 @@
+{{- /* 小红书顶部栏（风格专属导航）：Logo + 搜索 + 打开App；悬浮已由 baseof 的 <header> 承担 */}}
+<div class="xhs-topbar">
+  <a class="xhs-logo" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+  <input class="xhs-search" type="search" placeholder="搜索笔记" aria-label="搜索">
+  <a class="xhs-cta" href="{{ (site.Params.social | default dict).xiaohongshu | default site.BaseURL }}" rel="noopener">打开App</a>
+</div>

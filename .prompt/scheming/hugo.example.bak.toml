@@ -1,0 +1,227 @@
+# ═══════════════════════════════════════════════════════════
+# RedStyle 主题 · Hugo Configuration Reference
+# 五种社交风格可通过 [params.style] 一键切换
+# ═══════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────
+# 基础配置
+# ───────────────────────────────────────────────────────────
+baseURL = "https://example.org/"
+languageCode = "zh-CN"
+defaultContentLanguage = "zh-CN"
+title = "My RedStyle Blog"
+theme = "."
+
+# ───────────────────────────────────────────────────────────
+# 输出格式
+# ───────────────────────────────────────────────────────────
+# swup SPA 方案直接 fetch HTML 替换 <main>，无需 JSON 输出格式
+[outputs]
+  home    = ["HTML"]
+  page    = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+
+# RSS 全文输出
+[outputFormats.RSS]
+  mediatype = "application/rss+xml"
+
+# ───────────────────────────────────────────────────────────
+# 构建管道
+# ───────────────────────────────────────────────────────────
+[build]
+  writeStats = false
+  cacheDir = ".cache"
+
+# ───────────────────────────────────────────────────────────
+# Hugo Pipes (CSS / JS 处理)
+# ───────────────────────────────────────────────────────────
+[params]
+  # 主题风格选择 —— 核心参数
+  # 可选值: "xhs" | "zhihu" | "wechat" | "medium" | "quora"
+  # 切换此参数即可更换整站社交风格
+  style = "xhs"
+
+  # ── 字体配置 ───────────────────────────────────────────
+  # 支持系统字体、web font、自托管字体
+  # 推荐用 CSS 字体栈组合
+  [params.fonts]
+    # 文章标题、H1-H3
+    title = '"PingFang SC", "Source Han Sans SC", "Helvetica Neue", sans-serif'
+    # 正文段落
+    body  = '"PingFang SC", "Source Han Sans SC", "Georgia", serif'
+    # 导航栏、菜单、按钮
+    nav   = '"PingFang SC", "Source Han Sans SC", "Helvetica Neue", sans-serif'
+    # 代码块
+    code  = '"JetBrains Mono", "Fira Code", "SF Mono", Menlo, monospace'
+
+  # ── 功能开关 ────────────────────────────────────────────
+  [params.features]
+    darkMode      = true     # 暗黑模式切换
+    spa           = true     # SPA 无刷新导航 (swup)
+    search        = true     # 站内搜索 (Pagefind / 本地索引)
+    toc           = true     # 文章目录 TOC
+    readingTime   = true     # 阅读时间 / 字数统计
+    syntaxHighlight = true   # 代码语法高亮 (Chroma)
+    codeCopy      = true     # 代码块复制按钮
+    math          = false    # KaTeX 数学公式 (构建时渲染)
+    mermaid       = false    # Mermaid 图表 (客户端)
+    comments      = true     # 评论系统
+    socialLinks   = true     # 社交链接
+    rssFull       = true     # RSS 全文输出
+    i18n          = false    # 多语言
+    printFriendly = true     # 打印友好样式
+    accessible    = true     # 无障碍增强 (ARIA / focus)
+    analytics     = false    # 分析统计占位
+
+  # ── SEO / 元数据 ────────────────────────────────────────
+  [params.meta]
+    description = "一个基于 RedStyle 主题的博客，支持五种社交风格切换"
+    keywords    = ["blog", "hugo", "redstyle"]
+    author      = "Your Name"
+    ogImage     = "/images/og-default.png"
+
+  # ── 作者卡片 ────────────────────────────────────────────
+  [params.author]
+    name        = "Your Name"
+    avatar      = "/images/avatar.jpg"
+    bio         = "热爱分享，关注技术、设计与生活"
+    location    = "Earth"
+    email       = "me@example.org"
+
+  # ── 社交链接 ────────────────────────────────────────────
+  [params.social]
+    github    = "https://github.com/yourname"
+    twitter   = "https://twitter.com/yourname"
+    mastodon  = ""
+    email     = "mailto:me@example.org"
+    rss       = "/index.xml"
+
+  # ── 评论系统 ────────────────────────────────────────────
+  # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"
+  [params.comments]
+    provider  = "disqus"
+    disqusShortname = "your-disqus-shortname"
+    utterancesRepo  = ""
+    giscusRepo      = ""
+    mastodonUser    = ""
+
+  # ── 导航菜单（由用户完全自定义）──────────────────────────
+  # 动态加载：删掉某一项 → 导航中就没有；新增某一项 → 自动出现
+  # pageRef 指向 content/ 下的一级目录（如 /posts → content/posts/）
+  # 支持的字段：name（显示名）、pageRef（路径）、weight（排序）、icon（可选图标类名）
+  [params.nav]
+    [[params.nav.main]]
+      name = "首页"
+      pageRef = "/"
+      weight = 10
+    [[params.nav.main]]
+      name = "文章"
+      pageRef = "/posts"
+      weight = 20
+    [[params.nav.main]]
+      name = "关于"
+      pageRef = "/about"
+      weight = 60
+
+    # 以下为可选导航项，取消注释即可启用（对应 content/ 下需有同名文件夹）
+    # [[params.nav.main]]
+    #   name = "合集"
+    #   pageRef = "/collections"
+    #   weight = 30
+    # [[params.nav.main]]
+    #   name = "推荐"
+    #   pageRef = "/recommends"
+    #   weight = 40
+    # [[params.nav.main]]
+    #   name = "项目"
+    #   pageRef = "/projects"
+    #   weight = 50
+
+  # ── 风格专属参数 ────────────────────────────────────────
+  # 小红书：瀑布流列数、卡片封面比例
+  [params.styleOptions.xhs]
+    gridColumns    = 5      # 1440px 以下自动减列
+    cardRatio      = "3/4"  # 默认卡片封面比例
+    showCategoryBar = true
+
+  # 知乎：热榜是否显示
+  [params.styleOptions.zhihu]
+    showHotList    = true
+    answerCollaps  = true   # 长回答默认折叠
+
+  # Medium：目录 sticky 滚动
+  [params.styleOptions.medium]
+    stickyToc      = true
+    maxContentWidth = 680
+
+  # Quora：三栏布局
+  [params.styleOptions.quora]
+    showRightRail  = true
+
+  # 公众号：最大宽度
+  [params.styleOptions.wechat]
+    maxContentWidth = 677
+    showAuthorBar   = true
+
+  # ── 暗黑模式 ────────────────────────────────────────────
+  [params.dark]
+    defaultMode = "auto"    # "auto" | "light" | "dark"
+    # "auto": 跟随系统 prefers-color-scheme
+    # "light": 强制亮色
+    # "dark": 强制暗色
+
+# ───────────────────────────────────────────────────────────
+# Markdown 渲染
+# ───────────────────────────────────────────────────────────
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true    # 允许内联 HTML (KaTeX / Mermaid 等需要)
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    tabWidth = 4
+    # Chroma 语法高亮主题 (对应代码高亮文件)
+    style = "monokai"
+
+# ───────────────────────────────────────────────────────────
+# 模块依赖
+# ───────────────────────────────────────────────────────────
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.140.0"
+
+# swup 通过 npm 安装，Hugo js.Build 从 node_modules 打包
+# 需要先执行: npm init && npm install swup @swup/preload-plugin @swup/scroll-plugin
+
+# ───────────────────────────────────────────────────────────
+# 服务器
+# ───────────────────────────────────────────────────────────
+[server]
+  port = 1313
+  disableFastRender = false
+
+# ───────────────────────────────────────────────────────────
+# 分类与标签
+# Hugo 默认只注册 categories 和 tags 两个 taxonomy，
+# 主题内不注册任何自定义 taxonomy。
+# ───────────────────────────────────────────────────────────
+[taxonomies]
+  category = "categories"
+  tag      = "tags"
+
+# ───────────────────────────────────────────────────────────
+# RSS
+# ───────────────────────────────────────────────────────────
+[services.rss]
+  limit = 50
+
+# ───────────────────────────────────────────────────────────
+# 图片处理 (响应式 srcset)
+# ───────────────────────────────────────────────────────────
+[imaging]
+  resampleFilter = "Lanczos"
+  quality = 85
+  hint = "photo"

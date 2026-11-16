@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Python on HugMedia Sample Site (EN)</title>
+		<link>http://localhost:1313/en/tags/python/</link>
+		<description>Recent content in Python on HugMedia Sample Site (EN)</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+			<managingEditor>me@example.org (Your Name)</managingEditor>
+		
+		
+			<webMaster>me@example.org (Your Name)</webMaster>
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/en/tags/python/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Code Optimization Demo &amp; Reading Time</title>
+				<link>http://localhost:1313/en/posts/code-optimization/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate><author>me@example.org (Your Name)</author>
+				<guid>http://localhost:1313/en/posts/code-optimization/</guid>
+				<description>&lt;h1 id=&#34;code-optimization-demo--reading-time&#34;&gt;Code Optimization Demo &amp;amp; Reading Time&lt;/h1&gt;&#xA;&lt;p&gt;This page demonstrates &lt;strong&gt;code blocks (syntax highlighting + language label + copy button)&lt;/strong&gt; and &lt;strong&gt;reading time / word count&lt;/strong&gt; on a longer body. It also shows the common &amp;ldquo;before vs. after&amp;rdquo; optimization pattern.&lt;/p&gt;&#xA;&lt;h2 id=&#34;scenario-summing-optimization&#34;&gt;Scenario: summing optimization&lt;/h2&gt;&#xA;&lt;p&gt;A plain Python implementation is intuitive, but readability and edge-case handling can be improved.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Before (naive loop):&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sum_before&lt;/span&gt;(n):&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    total &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;):&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        total &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; i&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; total&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;After (Gauss formula, O(1), with input guard):&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>
