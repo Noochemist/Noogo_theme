@@ -1,0 +1,13 @@
+{{/* _partials/shared/figure.html figure image 短代码共享渲染逻辑 */}}
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" | default "" -}}
+{{- $class := .Get "class" | default "" -}}
+<figure class="figure {{ $class }}">
+  {{- with $.Page.Resources.GetMatch $src }}
+    <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy">
+  {{- else }}
+    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy">
+  {{- end }}
+  {{- with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

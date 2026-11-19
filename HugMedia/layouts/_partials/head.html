@@ -1,6 +1,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{- /* RSS 自动发现 (3.15) */}}
+{{- with .OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ .RelPermalink }}">{{ end }}
+{{- /* SEO / OpenGraph / Schema (3.5) */}}
+{{ partialCached "head/meta.html" . .RelPermalink }}
 {{- $fonts := site.Params.fonts | default dict }}
 {{- $fontTitle := index $fonts "title" | default `"Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",sans-serif` }}
 {{- $fontBody   := index $fonts "body"   | default `"Georgia","PingFang SC","Hiragino Sans GB","Source Han Sans SC","Noto Sans SC",serif` }}

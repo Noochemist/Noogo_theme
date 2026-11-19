@@ -1,0 +1,8 @@
+{{/* callout 短代码：callout type 内容，类型 note tip warning danger */}}
+{{- $type := .Get 0 | default "note" -}}
+{{- $icons := dict "note" "ℹ" "tip" "💡" "warning" "⚠" "danger" "⛔" -}}
+{{- $icon := index $icons $type | default "ℹ" -}}
+<aside class="callout callout--{{ $type }}" role="note">
+  <span class="callout__icon" aria-hidden="true">{{ $icon }}</span>
+  <div class="callout__body">{{ .Inner | markdownify }}</div>
+</aside>

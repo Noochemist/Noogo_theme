@@ -1,0 +1,48 @@
+# Tiếng Việt dịch · HugMedia theme mặc định i18n
+# Bản dịch menu / UI. Có thể ghi đè bằng exampleSite/i18n/ nếu cần.
+
+# ── Menu điều hướng (khóa name của menu.main) ──
+[home]
+  other = "Trang chủ"
+[posts]
+  other = "Bài viết"
+[about]
+  other = "Giới thiệu"
+[recommends]
+  other = "Đề xuất"
+[projects]
+  other = "Dự án"
+[collections]
+  other = "Bộ sưu tập"
+[collects]
+  other = "Bộ sưu tập"
+[tags]
+  other = "Nhãn"
+
+# ── UI chung ──
+[languageSwitch]
+  other = "Đổi ngôn ngữ"
+[skipToContent]
+  other = "Chuyển đến nội dung chính"
+[searchPlaceholder]
+  other = "Tìm kiếm"
+[searchLabel]
+  other = "Tìm kiếm trong trang"
+[toggleTheme]
+  other = "Bật/tắt chế độ sáng tối"
+[toggleView]
+  other = "Chuyển đổi dạng lưới/danh sách"
+[toc]
+  other = "Mục lục"
+[minutes]
+  other = "phút"
+[readingTime]
+  other = "đọc"
+[words]
+  other = "từ"
+[email]
+  other = "Email"
+[browserNoVideo]
+  other = "Trình duyệt của bạn không hỗ trợ phát video"
+[browserNoAudio]
+  other = "Trình duyệt của bạn không hỗ trợ phát âm thanh"

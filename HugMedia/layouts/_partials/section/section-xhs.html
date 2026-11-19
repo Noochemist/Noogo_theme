@@ -1,0 +1,21 @@
+{{- /* 小红书 section 页面主体（partial 分发风格体）
+     入参契约（由 section.html 根级传入）：dict "page" . "pager" $pager
+     复用首页左栏导航 + 卡片网格；每篇文章只显示摘要（卡片 partial 输出），不再全文展示。
+     标题 + 描述（若存在）作为板块头部，随后是文章列表。 */}}
+{{- $page := .page }}
+{{- $pager := .pager }}
+<div class="xhs-layout">
+  {{ partial "sidebar-xhs.html" $page }}
+  <section>
+    <header class="xhs-section-head">
+      {{- with $page.Title }}<h1 class="xhs-section-title">{{ . }}</h1>{{ end }}
+      {{- with $page.Content }}<div class="xhs-section-desc">{{ . }}</div>{{ end }}
+    </header>
+    <div class="xhs-grid" data-infinite-grid>
+      {{- range $pager.Pages }}
+        {{ partial "cards/card-xhs.html" . }}
+      {{- end }}
+    </div>
+    {{ partial "pagination.html" $pager }}
+  </section>
+</div>

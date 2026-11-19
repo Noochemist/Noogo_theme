@@ -1,0 +1,7 @@
+{{- /* features-enabled.html — 输出启用的 features 逗号分隔键，供 JS 决定装载 */}}
+{{- $f := site.Params.features | default dict }}
+{{- $keys := slice }}
+{{- range $k, $v := $f }}
+  {{- if $v }}{{ $keys = $keys | append $k }}{{ end }}
+{{- end }}
+{{ delimit $keys "," }}

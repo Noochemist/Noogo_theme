@@ -1,0 +1,48 @@
+# 日本語（日本語）翻訳 · HugMedia テーマ既定 i18n
+# メニュー / UI の翻訳。必要に応じて exampleSite/i18n/ で上書き。
+
+# ── ナビゲーションメニュー（menu.main の name キー）──
+[home]
+  other = "ホーム"
+[posts]
+  other = "記事"
+[about]
+  other = "このブログについて"
+[recommends]
+  other = "おすすめ"
+[projects]
+  other = "プロジェクト"
+[collections]
+  other = "コレクション"
+[collects]
+  other = "コレクション"
+[tags]
+  other = "タグ"
+
+# ── 共通 UI ──
+[languageSwitch]
+  other = "言語切替"
+[skipToContent]
+  other = "本文へスキップ"
+[searchPlaceholder]
+  other = "検索"
+[searchLabel]
+  other = "サイト内検索"
+[toggleTheme]
+  other = "ライト/ダーク切り替え"
+[toggleView]
+  other = "グリッド/リスト表示切り替え"
+[toc]
+  other = "目次"
+[minutes]
+  other = "分"
+[readingTime]
+  other = "読了"
+[words]
+  other = "語"
+[email]
+  other = "メール"
+[browserNoVideo]
+  other = "お使いのブラウザは動画を再生できません"
+[browserNoAudio]
+  other = "お使いのブラウザは音声を再生できません"

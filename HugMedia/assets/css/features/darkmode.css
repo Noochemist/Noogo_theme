@@ -1,0 +1,84 @@
+/* Phase 3 · features/darkmode.css — 暗黑模式
+   通过 <html data-theme="dark"> 切换。中性色令牌覆盖为暗色；
+   品牌色由各风格层在 data-theme 作用域内再覆写。 */
+
+/* 默认走系统偏好（JS 负责写入 dark/light） */
+:root {
+  color-scheme: light dark;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+/* 暗色中性基底
+   注意：风格层（styles/*.css）会在 body.style-* 上显式声明 --color-canvas
+   等变量的浅色值，其级联作用于 body 子树，会覆盖从 html 继承来的暗色。
+   因此暗色基底必须同时在 body（及其风格类）作用域重新声明，
+   才能穿透到导航栏、侧边栏、正文背景等实际使用这些变量的位置。 */
+:root[data-theme='dark'],
+:root[data-theme='dark'] body,
+:root[data-theme='dark'] body[class|='style'] {
+  --color-canvas:        #0f1419;
+  --color-surface:       #161c23;
+  --color-fg:            #e4e9ef;
+  --color-fg-soft:       #aab4c0;
+  --color-muted:         #64707e;
+  --color-line:          #2a3340;
+  --color-link:          #7aa2f7;
+  --color-brand:         #6b8cff;
+  --color-brand-contrast:#ffffff;
+}
+
+/* 风格层通常在 :root 或 style-* 上覆写品牌，这里为其暗色提供默认回退 */
+body[class|='style'] {
+  /* 供风格层在暗色下微调品牌；未覆盖则沿用上方 --color-brand */
+}
+
+/* 图片在暗色下略微柔和，避免刺眼 */
+:root[data-theme='dark'] img {
+  filter: brightness(0.9) contrast(1.05);
+}
+
+/* ── 风格层暗色微调（以 style 类作用域穿透高亮色域）──────────── */
+/* 品牌默认暗色回退；各风格层可在 data-theme 作用域内再覆写品牌 */
+:root[data-theme='dark'] body[class|='style'] {
+  --brand-soft: #3a2433;
+  --brand-hover: #ff6480;
+  --brand: var(--color-brand);
+  --link: var(--color-link);
+}
+
+/* 正文排版在暗色下统一使用令牌色（正文背景/前景已由 --color-canvas 驱动） */
+:root[data-theme='dark'] body {
+  color: var(--color-fg);
+}
+
+/* ── 暗黑切换按钮（与语言按钮同款视觉：features/lang-switch.css 的 .lang-switch__trigger）── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--input-height, 2rem);
+  padding: 0 var(--space-3, 0.75rem);
+  border: 1px solid var(--color-line, rgba(0,0,0,0.12));
+  border-radius: var(--radius-md, 8px);
+  background: var(--color-surface, transparent);
+  color: var(--color-fg, inherit);
+  font-family: var(--font-nav, inherit);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--duration, 0.15s) var(--ease, ease);
+}
+.theme-toggle:hover {
+  border-color: var(--color-brand, currentColor);
+}
+.theme-toggle svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: block;
+}
+/* 亮色默认显示太阳、隐藏月亮；暗色反之 */
+.theme-toggle__dark { display: none; }
+:root[data-theme='dark'] .theme-toggle__light { display: none; }
+:root[data-theme='dark'] .theme-toggle__dark { display: inline-flex; }

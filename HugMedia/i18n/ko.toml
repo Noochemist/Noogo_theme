@@ -1,0 +1,48 @@
+# 한국어 번역 · HugMedia 테마 기본 i18n
+# 메뉴 / UI 번역입니다. 필요 시 exampleSite/i18n/ 에서 덮어쓸 수 있습니다.
+
+# ── 내비게이션 메뉴 (menu.main 의 name 키) ──
+[home]
+  other = "홈"
+[posts]
+  other = "글"
+[about]
+  other = "소개"
+[recommends]
+  other = "추천"
+[projects]
+  other = "프로젝트"
+[collections]
+  other = "컬렉션"
+[collects]
+  other = "컬렉션"
+[tags]
+  other = "태그"
+
+# ── 공통 UI ──
+[languageSwitch]
+  other = "언어 전환"
+[skipToContent]
+  other = "본문으로 건너뛰기"
+[searchPlaceholder]
+  other = "검색"
+[searchLabel]
+  other = "사이트 검색"
+[toggleTheme]
+  other = "라이트/다크 전환"
+[toggleView]
+  other = "그리드/리스트 보기 전환"
+[toc]
+  other = "목차"
+[minutes]
+  other = "분"
+[readingTime]
+  other = "읽는 데 걸리는 시간"
+[words]
+  other = "단어"
+[email]
+  other = "이메일"
+[browserNoVideo]
+  other = "브라우저에서 동영상을 재생할 수 없습니다"
+[browserNoAudio]
+  other = "브라우저에서 오디오를 재생할 수 없습니다"

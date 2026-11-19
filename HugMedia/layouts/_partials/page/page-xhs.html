@@ -1,16 +1,22 @@
 {{- /* 小红书详情页主体：左内容右评论（partial 分发风格体） */}}
 {{- $author := site.Params.author | default dict }}
 {{- $authorName := $author.name | default site.Title }}
+{{- partial "features/katex.html" . }}
+{{- partial "features/mermaid.html" . }}
 <article class="xhs-article">
-  <div class="xhs-content">
-    <h1 class="xhs-title-lg">{{ .Title }}</h1>
+  {{- /* 仅索引正文内容：Pagefind 只抓 data-pagefind-body，排除导航/页脚/评论 asides */}}
+  <div class="xhs-content" data-pagefind-body>
+    <h1 class="xhs-title-lg" data-pagefind-title>{{ .Title }}</h1>
     <p class="xhs-postmeta">
       <span class="xhs-avatar">{{ substr $authorName 0 1 }}</span>
-      {{ $authorName }} · {{ .Date | time.Format ":date_long" }} · {{ .ReadingTime }} 分钟
+      {{ $authorName }} · {{ .Date | time.Format ":date_long" }}
+      {{- if site.Params.features.readingTime }} · {{ partial "features/reading.html" . | chomp }}{{ end }}
     </p>
     <div class="xhs-copy">{{ .Content }}</div>
+    {{ partial "features/comments.html" . }}
   </div>
-  <aside class="xhs-comments">
+  <aside class="xhs-comments" data-pagefind-ignore>
+    <div class="cmt-nav">{{ partial "features/toc.html" . }}</div>
     <h3>评论</h3>
     <div class="cmt"><span class="xhs-avatar">A</span>太实用了，收藏了！</div>
     <div class="cmt"><span class="xhs-avatar">B</span>写得很清楚，感谢。</div>

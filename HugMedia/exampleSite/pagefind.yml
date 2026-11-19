@@ -1,0 +1,10 @@
+# Pagefind 配置：只索引文章目录（posts/projects 详情页），
+# 布局内 data-pagefind-body 限定正文，data-pagefind-ignore 排除评论/目录。
+site: public
+glob: "**/{posts,projects}/*/index.html"
+exclude_selectors:
+  - ".highlight"
+  - ".xhs-comments"
+  - ".toc"
+  - ".cmt"
+  - ".mermaid"

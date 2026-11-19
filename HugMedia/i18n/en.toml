@@ -1,0 +1,48 @@
+# English translations · HugMedia theme defaults
+# Blocks duplicate keys from zh-hans file; override in exampleSite/i18n if needed.
+
+# ── Navigation menu (menu.main name keys) ──
+[home]
+  other = "Home"
+[posts]
+  other = "Posts"
+[about]
+  other = "About"
+[recommends]
+  other = "Recommendations"
+[projects]
+  other = "Projects"
+[collections]
+  other = "Collections"
+[collects]
+  other = "Collections"
+[tags]
+  other = "Tags"
+
+# ── Common UI ──
+[languageSwitch]
+  other = "Language"
+[skipToContent]
+  other = "Skip to main content"
+[searchPlaceholder]
+  other = "Search"
+[searchLabel]
+  other = "Site search"
+[toggleTheme]
+  other = "Toggle light/dark mode"
+[toggleView]
+  other = "Toggle grid/list view"
+[toc]
+  other = "Table of contents"
+[minutes]
+  other = "min"
+[readingTime]
+  other = "read"
+[words]
+  other = "words"
+[email]
+  other = "Email"
+[browserNoVideo]
+  other = "Your browser does not support the video element"
+[browserNoAudio]
+  other = "Your browser does not support the audio element"

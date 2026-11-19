@@ -1,0 +1,21 @@
+{{- /* features/social.html 社交链接（图标展示，遍历 site.Params.social 非空项）。
+     图标：按平台键直接读取 assets/icons/socials/{key}.svg（键名 === 受支持图标文件名）；
+     图标存在则渲染图标链接，缺失时回退为该键的 humanize 文字（不丢失入口）。
+     任意非空 URL 均展示（含 mailto: 邮箱、/index.xml 站内源、无协议账号主页）。 */}}
+{{- if site.Params.features.socialLinks }}
+  {{- $social := site.Params.social | default dict }}
+  <ul class="social-links" aria-label="Social links">
+    {{- range $key, $url := $social }}
+      {{- if $url }}
+        {{- $label := $key | humanize }}
+        {{- if eq $key "email" }}{{ $label = i18n "email" | default "Email" }}{{ end }}
+        {{- $icon := resources.Get (printf "icons/socials/%s.svg" $key) }}
+        <li>
+          <a href="{{ $url }}" rel="noopener" aria-label="{{ $label }}">
+            {{- with $icon }}<span class="social-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ else }}{{ $label }}{{ end }}
+          </a>
+        </li>
+      {{- end }}
+    {{- end }}
+  </ul>
+{{- end }}

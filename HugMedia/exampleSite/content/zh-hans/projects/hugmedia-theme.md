@@ -3,7 +3,7 @@ title: "HugMedia 主题开发"
 description: "一个支持五种社交风格切换的 Hugo 主题"
 keywords: ["hugo", "theme", "social", "multilingual"]
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["开发", "hugo", "主题"]
 categories: ["项目"]
 status: "进行中"

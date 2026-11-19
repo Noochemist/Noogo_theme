@@ -1,0 +1,39 @@
+{{- /* features/mermaid.html — Mermaid 图表，客户端渲染。features.mermaid 开启时注入。
+  Mermaid 由 esbuild (js.Build) 本地打包（替代 unpkg CDN），扫描页面上的 mermaid 代码块并渲染为 SVG。
+  监听 theme:content-replaced，供 SPA (swup) 导航后对新内容再次渲染。 */}}
+{{- $on := site.Params.features.mermaid | default false }}
+{{- if $on }}
+{{- $jsOpts := dict
+  "minify" (cond hugo.IsDevelopment false true)
+  "sourceMap" (cond hugo.IsDevelopment "linked" "none")
+}}
+{{- with resources.Get "js/vendor/mermaid-build.js" }}
+  {{- with . | js.Build $jsOpts }}
+    <script defer src="{{ .RelPermalink }}"></script>
+  {{- end }}
+{{- end }}
+<script>
+  (function () {
+    var LANG = 'mermaid';
+    // 从“highlight 代码块”里挑出 mermaid 源码块，替换为 mermaid 容器
+    function renderAll() {
+      if (!window.mermaid) return;
+      document.querySelectorAll('.highlight[data-lang="' + LANG + '"] pre > code')
+        .forEach(function (code) {
+          var outer = code.closest('.highlight');
+          if (!outer || outer.__rendered) return;
+          var box = document.createElement('div');
+          box.className = 'mermaid';
+          box.textContent = code.textContent;
+          outer.replaceWith(box);
+          outer.__rendered = true;
+          mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' });
+          mermaid.run({ nodes: [box] });
+        });
+    }
+    // 首次及 SPA 内容替换后渲染
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(renderAll, 0); });
+    document.addEventListener('theme:content-replaced', renderAll);
+  })();
+</script>
+{{- end }}

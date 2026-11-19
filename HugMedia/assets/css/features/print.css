@@ -1,0 +1,37 @@
+/* Phase 3 · features/print.css — 打印友好
+   打印时隐藏导航/侧栏/评论区，展开全部内容，简化颜色。 */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  nav,
+  [class*='topbar'],
+  [class*='sidebar'],
+  [class*='comments'],
+  .toc,
+  footer,
+  .code-copy,
+  .codeblock-head,
+  [data-floating-nav],
+  [data-theme-toggle] {
+    display: none !important;
+  }
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  a {
+    color: #000 !important;
+  }
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #555;
+  }
+  .highlight,
+  pre,
+  blockquote {
+    break-inside: avoid;
+  }
+}

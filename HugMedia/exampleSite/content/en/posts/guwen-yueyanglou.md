@@ -1,7 +1,7 @@
 ---
 title: "Record of Yueyang Tower (excerpt)"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["classical", "scenery", "mermaid"]
 categories: ["literature"]
 ---

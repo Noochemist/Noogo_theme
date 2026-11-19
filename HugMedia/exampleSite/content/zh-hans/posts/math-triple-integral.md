@@ -1,7 +1,7 @@
 ---
 title: "三重积分：球坐标法推导球体体积"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["数学", "高等数学", "三重积分"]
 categories: ["数学"]
 math: true

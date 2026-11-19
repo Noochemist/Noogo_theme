@@ -21,11 +21,15 @@ defaultContentLanguage = "zh-hans"
     contentDir   = "content/zh-hans"
     label        = "中文"       # 语言切换器显示名
     weight       = 1           # 排序，越小越靠前（默认语言）
+    [languages.zh-hans.params]
+      shortLabel = "中"        # 语言切换按钮简短标签（省略则为 label）
   [languages.en]
     title        = "My HugMedia Blog EN"
     contentDir   = "content/en"
     label        = "English"
     weight       = 2
+    [languages.en.params]
+      shortLabel = "En"
     # 扩展更多语言：追加一个 [languages.xx] 块 + 对应 contentDir 即可
 # 注意：theme = "." 表示本目录即主题（主题仓库场景）。
 # 若此配置放在 exampleSite 中，需改为真实主题名，例如 theme = "drhugo_theme"。
@@ -43,49 +47,55 @@ theme = "."
 #   identifier    唯一标识（当前页高亮时用到）
 #   parent        父菜单标识（用于子菜单分组）
 # 当前页高亮可用 menu.IsMenuCurrent / Page.HasMenuCurrent 判断。
+# 多语言：name 填 i18n 键（见 i18n/zh-hans.toml 与 en.toml），
+#        Hugo 会按当前语言自动翻译；缺翻译时回退显示键本身。
 # 注意：原生 menu 是站点级（全局），所有风格共享同一组条目；
 #       风格差异仅体现在渲染位置/样式（顶栏水平 vs 侧栏垂直）。
 #       图标建议用 pre/post 或菜单项的 .Params 扩展。
 # ───────────────────────────────────────────────────────────
 [[menu.main]]
   identifier = "home"
-  name       = "首页"
+  name       = "home"
   pageRef    = "/"
   weight     = 10
 
 [[menu.main]]
   identifier = "posts"
-  name       = "文章"
+  name       = "posts"
   pageRef    = "/posts"
   weight     = 20
 
 [[menu.main]]
   identifier = "about"
-  name       = "关于"
+  name       = "about"
   pageRef    = "/about"
   weight     = 60
 
+[[menu.main]]
+  identifier = "collects"
+  name       = "collects"
+  pageRef    = "/collects"
+  weight     = 30
+
 # 以下为可选导航项，取消注释即可启用（对应 content/ 下需有同名文件夹）
 # [[menu.main]]
-#   identifier = "collections"
-#   name       = "合集"
-#   pageRef    = "/collections"
-#   weight     = 30
-# [[menu.main]]
 #   identifier = "recommends"
-#   name       = "推荐"
+#   name       = "recommends"
 #   pageRef    = "/recommends"
 #   weight     = 40
-# [[menu.main]]
-#   identifier = "projects"
-#   name       = "项目"
-#   pageRef    = "/projects"
-#   weight     = 50
+[[menu.main]]
+  identifier = "projects"
+  name       = "projects"
+  pageRef    = "/projects"
+  weight     = 50
 
 # ───────────────────────────────────────────────────────────
 # 输出格式
 # ───────────────────────────────────────────────────────────
 # swup SPA 方案直接 fetch HTML 替换 <main>，无需 JSON 输出格式
+[pagination]
+  pagerSize = 9
+  path = 'page'
 [outputs]
   home    = ["HTML", "RSS"]
   page    = ["HTML"]
@@ -145,11 +155,13 @@ theme = "."
     readingTime   = true     # 阅读时间 / 字数统计
     syntaxHighlight = true   # 代码语法高亮 (Chroma)
     codeCopy      = true     # 代码块复制按钮
-    math          = false    # KaTeX 数学公式 (构建时渲染)
-    mermaid       = false    # Mermaid 图表 (客户端)
+    math          = true     # KaTeX 数学公式 (客户端渲染)
+    mermaid       = true     # Mermaid 图表 (客户端渲染)
     comments      = true     # 评论系统
     socialLinks   = true     # 社交链接
-    i18n          = false    # 多语言
+    i18n          = true     # 多语言切换（遍历 languages，支持任意多种）
+    viewToggle    = true     # 网格/列表视图切换（顶栏按钮，localStorage 持久化）
+    infiniteScroll = true    # 列表页滑动加载分页（服务端分页 + 前端追加卡片）
     printFriendly = true     # 打印友好样式
     accessible    = true     # 无障碍增强 (ARIA / focus)
     analytics     = false    # 分析统计占位
@@ -170,9 +182,13 @@ theme = "."
     email       = "me@example.org"
 
   # ── 社交链接 ────────────────────────────────────────────
+  # 图标机制：键名与 assets/icons/socials/{键名}.svg 文件名一一对应，按平台键直接内联读取。
+  # 若新增社交平台缺少图标：把图标 SVG 放入 assets/icons/socials/ 文件夹，
+  # 并以该平台的键名命名文件（如 wechat → wechat.svg）即可自动显示；
+  # 无图标时该项回退为纯文字链接，不影响展示。
   [params.social]
     # 国内平台（写全名或统一分词，用于 icon 与 aria-label）
-    douyin      = ""                       # 抖音
+    douyin      = "douyin.com/example"                       # 抖音
     kuaishou    = ""                       # 快手
     bilibili    = ""                       # B站
     xiaohongshu = ""                       # 小红书
@@ -190,6 +206,23 @@ theme = "."
     mastodon    = ""
     email       = "mailto:me@example.org"
     rss         = "/index.xml"
+    # 以下平台已内置图标，需要时取消注释并填入链接即可（键名即图标文件名）：
+    # wechat      = ""                     # 微信
+    # qq          = ""                     # QQ
+    # telegram    = ""                     # Telegram
+    # alipay      = ""                     # 支付宝
+    # taobao      = ""                     # 淘宝
+    # xigua       = ""                     # 西瓜视频
+    # vigo        = ""                     # 火山小视频
+    # huoshanzhibo = ""                    # 抖音火山
+    # fanqiexiaoshuo = ""                  # 番茄小说
+    # facebook    = ""                     # Facebook
+    # apple       = ""                     # Apple
+    # google      = ""                     # Google
+    # lark        = ""                     # 飞书
+    # paypal      = ""                     # PayPal
+    # sketch      = ""                     # Sketch
+    # tumblr      = ""                     # Tumblr
 
   # ── 评论系统 ────────────────────────────────────────────
   # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"
@@ -255,6 +288,21 @@ theme = "."
   [module.hugoVersion]
     extended = true
     min = "0.140.0"
+
+# ───────────────────────────────────────────────────────────
+# 安全：放行 npm 依赖的读取（swup 等由 Hugo js.Build 从 node_modules 打包）
+# ⚠️ 注意：Hugo 出于安全考虑【不会】合并主题配置里的 [security] 段，
+# 请把下面这段复制到【你的站点】hugo.toml（而非主题内）才能生效。
+# 默认 allowread = ['.'] 只允许读取站点工作目录；当主题位于工作目录之外
+# （Hugo Modules 缓存 / exampleSite 符号链接）时，需加入主题 node_modules：
+#
+#   [security]
+#     [security.node]
+#       [security.node.permissions]
+#         allowread = ['.', '../node_modules']
+#
+# 若主题以子模块方式放在站点 themes/ 目录下，则默认 '.' 已覆盖，无需此配置。
+# ───────────────────────────────────────────────────────────
 
 # swup 通过 npm 安装，Hugo js.Build 从 node_modules 打包
 # 需要先执行: npm init && npm install swup @swup/preload-plugin @swup/scroll-plugin

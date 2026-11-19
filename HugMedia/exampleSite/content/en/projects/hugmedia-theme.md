@@ -3,7 +3,7 @@ title: "HugMedia Theme Development"
 description: "A Hugo theme supporting five social-media style switchings"
 keywords: ["hugo", "theme", "social", "multilingual"]
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["dev", "hugo", "theme"]
 categories: ["project"]
 status: "in progress"

@@ -1,0 +1,7 @@
+{{- /* features-config.html — 输出 JS 运行时配置（JSON），如暗黑默认模式 */}}
+{{- $cfg := dict
+  "dark" (site.Params.dark | default dict)
+  "meta" (site.Params.meta | default dict)
+  "author" (site.Params.author | default dict)
+}}
+{{- $cfg | jsonify | safeJS }}

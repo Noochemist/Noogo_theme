@@ -1,0 +1,8 @@
+{{/* _markup/render-codeblock.html 代码块渲染钩子
+   使用 Hugo 内置 highlight 应用 Chroma 高亮，并在外层 div 加上
+   data-lang 语言属性，供 code-copy.js 注入语言标签与复制按钮。 */}}
+{{- $code := .Inner }}
+{{- $lang := .Type | default "text" }}
+<div class="highlight" data-lang="{{ $lang }}">
+  {{ highlight $code $lang }}
+</div>

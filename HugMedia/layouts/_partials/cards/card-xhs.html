@@ -1,0 +1,29 @@
+{{- /* 小红书文章卡片（首页网格 / section 列表共用）
+     结构：封面（图片 or 文字模拟）+ body（标题 + 摘要 + 作者行）
+     摘要 .xhs-card-desc 默认隐藏（网格视图保持首页观感），列表视图 (data-view="list") 时显示。
+     摘要纯文本处理：优先 Description，其次 Summary 去标签后截字，不含代码块/HTML。 */}}
+{{- $author := site.Params.author | default dict }}
+{{- $authorName := $author.name | default site.Title }}
+{{- $summary := .Description | default ((.Summary | plainify | htmlUnescape) | truncate 150) }}
+<a class="xhs-card" href="{{ .RelPermalink }}">
+  <span class="xhs-cover">
+    {{- with .Resources.GetMatch "cover.*" }}
+      <img src="{{ .RelPermalink }}" alt="{{ .Title }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy">
+    {{- else }}
+      {{- $excerpt := .Description | default (.Content | plainify | htmlUnescape | truncate 60) }}
+      <span class="xhs-text-cover">
+        <span class="xhs-text-cover__title">{{ .Title }}</span>
+        <span class="xhs-text-cover__body">{{ $excerpt }}</span>
+      </span>
+    {{- end }}
+  </span>
+  <span class="xhs-body">
+    <span class="xhs-title">{{ .Title }}</span>
+    <span class="xhs-card-desc">{{ $summary }}</span>
+    <span class="xhs-meta">
+      <span class="xhs-avatar">{{ substr $authorName 0 1 }}</span>
+      {{ $authorName }}
+      <span class="xhs-likes">♥ {{ .Params.likes | default 128 }}</span>
+    </span>
+  </span>
+</a>

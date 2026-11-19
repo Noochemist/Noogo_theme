@@ -1,0 +1,48 @@
+# 中文（简体）翻译 · HugMedia 主题默认 i18n
+# 站点可用 exampleSite/i18n/ 同名文件覆盖，无需改动主题。
+
+# ── 导航菜单（menu.main 的 name 引用这些键）──
+[home]
+  other = "首页"
+[posts]
+  other = "文章"
+[about]
+  other = "关于"
+[recommends]
+  other = "推荐"
+[projects]
+  other = "项目"
+[collections]
+  other = "合集"
+[collects]
+  other = "合集"
+[tags]
+  other = "标签"
+
+# ── 通用 UI ──
+[languageSwitch]
+  other = "语言切换"
+[skipToContent]
+  other = "跳到主要内容"
+[searchPlaceholder]
+  other = "搜索"
+[searchLabel]
+  other = "站内搜索"
+[toggleTheme]
+  other = "切换亮/暗模式"
+[toggleView]
+  other = "切换网格/列表视图"
+[toc]
+  other = "目录"
+[minutes]
+  other = "分钟"
+[readingTime]
+  other = "阅读"
+[words]
+  other = "字"
+[email]
+  other = "邮箱"
+[browserNoVideo]
+  other = "您的浏览器不支持视频元素"
+[browserNoAudio]
+  other = "您的浏览器不支持音频元素"

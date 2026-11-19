@@ -1,10 +1,10 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-      {{ .Summary }}
-    </section>
-  {{ end }}
+  {{- /* 风格路由：partial 按 style 分发；未实现风格回退 xhs（后续 Phase 逐个加入） */}}
+  {{- $implemented := slice "xhs" }}
+  {{- $style := site.Params.style | default "xhs" }}
+  {{- if not (in $implemented $style) }}{{ $style = "xhs" }}{{ end }}
+  {{- /* section 主体：标题 + 文章列表（复用首页卡片结构，摘要由卡片 partial 输出） */}}
+  {{- /* 分页（功能层）：根级统一计算 Paginator，风格 partial 只消费分页后的页集 */}}
+  {{- $pager := .Paginate .Pages }}
+  {{- partial (printf "section/section-%s.html" $style) (dict "page" . "pager" $pager) }}
 {{ end }}

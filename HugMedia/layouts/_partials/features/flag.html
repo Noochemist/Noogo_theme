@@ -1,0 +1,26 @@
+{{- /* features/flag.html — 渲染语言所在国家/地区的国旗小图标（跨风格共享）。
+   参数：lang（字符串，站点语言代码，如 en / zh-hans）。
+   返回：UTF-8 国旗 emoji，直接内联（不再依赖 assets 下的 SVG 资源）。
+
+   语言→国旗 emoji 的映射内置于此，但允许通过 site.Params.i18n.flagMap 覆盖：
+     [params.i18n]
+       [params.i18n.flagMap]
+         en = "🇺🇸"      # 用美国旗表示英语
+         "zh-hans" = "🇨🇳"
+   映射缺失时回退到同 key 的 emoji；为空则回退到内建映射；最终仍为空时不输出。 */}}
+{{- $lang := .lang | default site.Language.Lang }}
+{{- $flagMap := dict
+      "zh-hans" "🇨🇳"
+      "en"      "🇬🇧"
+      "ja"      "🇯🇵"
+      "ko"      "🇰🇷"
+      "vi"      "🇻🇳" }}
+{{- with site.Params.i18n }}
+  {{- with .flagMap }}
+    {{- $flagMap = merge $flagMap . }}
+  {{- end }}
+{{- end }}
+{{- $emoji := index $flagMap $lang | default "" }}
+{{- if $emoji }}
+  <span class="lang-switch__flag" role="img" aria-label="{{ $lang }}">{{ $emoji }}</span>
+{{- end }}

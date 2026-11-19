@@ -1,7 +1,7 @@
 ---
 title: "《血字的研究》开篇（福尔摩斯）"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["侦探", "英文", "对话"]
 categories: ["小说"]
 ---

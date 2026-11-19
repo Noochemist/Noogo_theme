@@ -27,3 +27,46 @@ main {
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
 }
+
+/* ── 页面切换过渡（Phase 2 · swup SPA）──────────────── */
+/* swup v4 fade-through：动画期间 <html> 先获得 is-leaving（旧内容淡出），
+   内容替换后获得 is-rendering（新内容淡入），动画结束 clear()。 */
+/* 给 html 固定画布背景，淡出间隙不露出页面下层，避免闪烁 */
+html {
+  background: var(--color-canvas);
+}
+.swup-transition-fade {
+  opacity: 1;
+  transition: opacity 0.24s var(--ease);
+}
+/* 离开：旧主内容淡出 */
+html.is-leaving .swup-transition-fade {
+  opacity: 0;
+}
+/* 进入：新主内容淡入 */
+html.is-rendering .swup-transition-fade {
+  opacity: 1;
+}
+/* 尊重系统“减少动效”偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .swup-transition-fade {
+    transition: none;
+  }
+}
+
+/* ── 暗黑模式过渡（Phase 3 · features/darkmode）──────── */
+/* 仅当主题发生变化时对布局与文字颜色做平滑过渡，避免每次加载都动效。
+   通过 JS 在切换瞬间给 <html> 短暂加 is-theme-transitioning 类激活过渡。 */
+html.is-theme-transitioning body,
+html.is-theme-transitioning body * {
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    fill var(--duration) var(--ease) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.is-theme-transitioning body * {
+    transition: none !important;
+  }
+}

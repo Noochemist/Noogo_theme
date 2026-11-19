@@ -1,0 +1,44 @@
+{{- /* head/meta.html — SEO / OpenGraph / Twitter Card / Schema.org */}}
+{{- $title := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) }}
+{{- $desc := .Description | default (.Summary | plainify | htmlUnescape | truncate 160) }}
+{{- $meta := site.Params.meta | default dict }}
+{{- $siteAuthor := (site.Params.author | default dict).name | default site.Title }}
+{{- $ogImage := "" }}
+{{- with .Resources.GetMatch "og.*" }}{{ $ogImage = .Permalink }}{{ else }}{{ with $meta.ogImage }}{{ $ogImage = . | absURL }}{{ end }}{{ end }}
+{{- $url := .Permalink }}
+{{- $type := cond .IsPage "article" "website" }}
+
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ $siteAuthor }}">
+{{ with $meta.keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+
+<link rel="canonical" href="{{ $url }}">
+
+{{- /* OpenGraph */}}
+<meta property="og:type" content="{{ $type }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ $url }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+{{ if $ogImage }}<meta property="og:image" content="{{ $ogImage }}">{{ end }}
+{{ with .Params.tags }}<meta property="article:tag" content="{{ delimit . ", " }}">{{ end }}
+
+{{- /* Twitter Card */}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{ if $ogImage }}<meta name="twitter:image" content="{{ $ogImage }}">{{ end }}
+
+{{- /* Schema.org (JSON-LD) */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": {{ if .IsPage }}"Article"{{ else }}"WebSite"{{ end }},
+  "headline": {{ $title | jsonify }},
+  "description": {{ $desc | jsonify }},
+  "url": {{ $url | jsonify }},
+  "author": {{ $siteAuthor | jsonify }},
+  {{ if .IsPage }}"datePublished": {{ (.PublishDate | default .Date).Format "2006-01-02" | jsonify }},{{ end }}
+  "publisher": {{ site.Title | jsonify }}
+}
+</script>

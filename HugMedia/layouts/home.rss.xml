@@ -1,0 +1,29 @@
+{{- /* RSS 首页 feed（新规范 root 级模板）。输出整站正文全文而非默认摘要。 */}}
+{{- $pages := site.RegularPages }}
+{{- $main := site.Params.mainSections }}
+{{- if gt (len $main) 0 }}{{ $pages = where $pages "Type" "in" $main }}{{ end }}
+{{- $limit := .Site.Config.Services.RSS.Limit | default 20 }}
+{{- if gt $limit 0 }}{{ $pages = $pages | first $limit }}{{ end }}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.Title }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>Recent content{{ with site.Title }} on {{ . }}{{ end }}</description>
+    <generator>Hugo</generator>
+    <language>{{ site.Language.Locale | default site.Language.Lang }}</language>
+    <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />
+    {{- range $pages }}
+    {{- $authorName := site.Params.author.name | default site.Title }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <author>{{ $authorName }}</author>
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ .Content | html }}</description>
+      {{- range .Params.tags }}<category>{{ . }}</category>{{ end }}
+    </item>
+    {{- end }}
+  </channel>
+</rss>

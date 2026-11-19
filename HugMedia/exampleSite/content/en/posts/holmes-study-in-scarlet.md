@@ -1,7 +1,7 @@
 ---
 title: "A Study in Scarlet (opening)"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["detective", "dialogue"]
 categories: ["fiction"]
 ---

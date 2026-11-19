@@ -1,0 +1,10 @@
+{{/* 折叠代码块：code-fold lang label 内容
+   点击 summary 展开代码，内部代码不经过 Chroma 高亮（保持原始）。 */}}
+{{- $lang := .Get "lang" | default "text" }}
+{{- $label := .Get "label" | default (printf "%s code" $lang) }}
+<details class="code-fold">
+  <summary>{{ $label }}</summary>
+  <div class="highlight" data-lang="{{ $lang }}">
+    <pre><code class="language-{{ $lang }}">{{ .Inner }}</code></pre>
+  </div>
+</details>

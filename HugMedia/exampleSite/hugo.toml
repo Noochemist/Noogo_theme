@@ -1,15 +1,55 @@
 baseURL = 'https://example.org/'
 theme = 'HugMedia'
 defaultContentLanguage = 'zh-hans'
+[pagination]
+  pagerSize = 3
+  path = 'page'
+
+[params.features]
+  infiniteScroll = true
 
 [languages]
   [languages.zh-hans]
-    title      = 'HugMedia 示例站（中文）'
+    title      = 'HugMedia 示例站'
     contentDir = 'content/zh-hans'
     label      = '中文'
     weight     = 1
+    [languages.zh-hans.params]
+      shortLabel = '中'   # 语言切换按钮显示的简短标签（省略则为 label）
   [languages.en]
-    title      = 'HugMedia Sample Site (EN)'
+    title      = 'HugMedia Sample Site'
     contentDir = 'content/en'
     label      = 'English'
     weight     = 2
+    [languages.en.params]
+      shortLabel = 'En'
+  [languages.ja]
+    title      = 'HugMedia サンプルサイト'
+    contentDir = 'content/ja'
+    label      = '日本語'
+    weight     = 3
+    [languages.ja.params]
+      shortLabel = '日'
+  [languages.ko]
+    title      = 'HugMedia 예시 사이트'
+    contentDir = 'content/ko'
+    label      = '한국어'
+    weight     = 4
+    [languages.ko.params]
+      shortLabel = '韩'
+  [languages.vi]
+    title      = 'Trang web mẫu HugMedia'
+    contentDir = 'content/vi'
+    label      = 'Tiếng Việt'
+    weight     = 5
+    [languages.vi.params]
+      shortLabel = '越'
+
+# 主题通过 npm 依赖（swup 等）供 Hugo js.Build 打包。
+# Hugo 不合并主题配置中的 [security]，必须在站点配置里显式放行：
+# 此处 themes/HugMedia 是指向主题根目录的符号链接（位于站点工作目录之外），
+# 故把主题 node_modules 加入 allowread 白名单。
+[security]
+  [security.node]
+    [security.node.permissions]
+      allowread = ['.', '../node_modules']

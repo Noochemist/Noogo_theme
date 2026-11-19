@@ -1,0 +1,33 @@
+{{- /* features/katex.html 数学公式 KaTeX，客户端渲染。features.math 且页面 math true 时注入。
+     KaTeX 由 esbuild (js.Build) 本地打包，替代 unpkg CDN，摆脱跨境网络依赖。 */}}
+{{- $mathOn := site.Params.features.math | default false }}
+{{- if and $mathOn (eq (.Params.math | default false) true) }}
+  {{- /* 本地 KaTeX 样式与字体（static/katex/），替代 unpkg CDN */}}
+  <link rel="stylesheet" href="{{ "katex/katex.min.css" | relURL }}">
+  {{- $jsOpts := dict
+    "minify" (cond hugo.IsDevelopment false true)
+    "sourceMap" (cond hugo.IsDevelopment "linked" "none")
+  }}
+  {{- with resources.Get "js/vendor/katex-build.js" }}
+    {{- with . | js.Build $jsOpts }}
+      <script defer src="{{ .RelPermalink }}"></script>
+    {{- end }}
+  {{- end }}
+  <script>
+    (function () {
+      // 仅当 KaTeX 两个库都就绪后渲染；首次、以及 SPA (theme:content-replaced) 后再次渲染
+      function renderMath() {
+        if (!window.renderMathInElement || !window.katex) return;
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+          ],
+          throwOnError: false,
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(renderMath, 0); });
+      document.addEventListener('theme:content-replaced', renderMath);
+    })();
+  </script>
+{{- end }}

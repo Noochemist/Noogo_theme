@@ -33,6 +33,8 @@
 }
 .xhs-logo { color: var(--brand); font-weight: 700; font-family: var(--font-title); }
 .xhs-search {
+  display: flex;
+  align-items: center;
   flex: 0 1 20rem;
   height: var(--input-height);
   padding: 0 0.8rem;
@@ -40,13 +42,34 @@
   border-radius: 999px;
   background: #f7f7f7;
 }
-.xhs-cta {
+.xhs-search-input {
+  flex: 1;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-fg);
+  font-size: var(--text-sm);
+  outline: none;
+}
+/* 聚焦：柔和品牌色边框（替代全局红色 focus 环，不污染 UI） */
+.xhs-search-input:focus {
+  outline: none;
+}
+.xhs-search:focus-within {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand);
+}
+.xhs-search-input::placeholder {
+  color: var(--color-muted, rgba(0,0,0,0.45));
+}
+/* 顶栏右侧功能区：Dark Mode + 语言切换，整体推到最右 */
+.xhs-topbar-actions {
   margin-left: auto;
-  padding: 0.4rem 1rem;
-  border-radius: 18px;
-  background: var(--brand);
-  color: var(--brand-contrast);
-  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 /* ── 左栏垂直导航 + 主体 ←→ 双列布局 ─────── */
@@ -55,16 +78,98 @@
   grid-template-columns: 12rem 1fr;
   gap: 1.5rem;
 }
+/* 左栏导航悬浮：跟随滚动固定在顶栏下方；右列撑高 grid 以提供滚动行程 */
+.xhs-sidenav {
+  position: sticky;
+  top: var(--navbar-height);
+  align-self: start;
+}
 .xhs-sidenav a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius-md);
   color: var(--color-fg-soft);
+  text-decoration: none;
+}
+.xhs-sidenav .menu-ico {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.xhs-sidenav .menu-ico svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: block;
 }
 .xhs-sidenav a:hover,
 .xhs-sidenav a.active {
   background: var(--brand-soft);
   color: var(--brand);
+}
+
+/* ── 左栏下方：标签展示栏 ────────────────── */
+.xhs-sidenav-tags {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+.xhs-sidenav-heading {
+  margin: 0 0 0.625rem;
+  font-size: var(--text-sm);
+  font-family: var(--font-title);
+  font-weight: 600;
+  color: var(--color-muted, var(--color-fg-soft));
+}
+.xhs-sidenav-tags ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.xhs-sidenav-tags a {
+  display: inline-flex;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 0.75rem;
+}
+.xhs-sidenav-tags a:hover {
+  background: var(--brand);
+  color: var(--brand-contrast);
+}
+
+/* ── 左栏最下方：社交账号图标 ────────────── */
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 1rem 0 0;
+  list-style: none;
+}
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  color: var(--color-fg-soft);
+}
+.social-links a:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.social-ico svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: block;
 }
 
 /* ── 瀑布流卡片 ───────────────────────────── */
@@ -89,6 +194,68 @@
   transition: transform var(--duration) var(--ease);
 }
 .xhs-card:hover { transform: translateY(-2px); }
+/* ── 板块页头部（section 列表页标题 + 描述）── */
+.xhs-section-head { margin-bottom: var(--grid-gap); }
+.xhs-section-title {
+  font-family: var(--font-title);
+  font-size: var(--text-2xl);
+  margin: 0 0 0.375rem;
+}
+.xhs-section-desc {
+  color: var(--color-fg-soft);
+  font-size: var(--text-sm);
+  margin-bottom: 1rem;
+}
+/* ── 卡片摘要：默认隐藏（网格视图保持封面观感），列表视图显示 ── */
+.xhs-card-desc {
+  display: none;
+  color: var(--color-fg-soft);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+/* ── 列表视图（html[data-view='list']，顶栏视图切换按钮驱动）── */
+:root[data-view='list'] .xhs-grid {
+  grid-template-columns: 1fr;
+}
+:root[data-view='list'] .xhs-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem;
+}
+:root[data-view='list'] .xhs-cover {
+  flex: 0 0 5.5rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: var(--card-radius);
+}
+:root[data-view='list'] .xhs-text-cover__body { display: none; }
+:root[data-view='list'] .xhs-text-cover__title {
+  font-size: var(--text-sm);
+  color: var(--color-fg);
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+:root[data-view='list'] .xhs-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+:root[data-view='list'] .xhs-title { font-size: var(--text-base); }
+:root[data-view='list'] .xhs-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  :root[data-view='list'] .xhs-cover { flex-basis: 4.5rem; width: 4.5rem; height: 4.5rem; }
+}
 .xhs-cover {
   aspect-ratio: 3 / 4;
   background: var(--brand-soft);
@@ -98,11 +265,43 @@
   overflow: hidden;
 }
 .xhs-cover img { width: 100%; height: 100%; object-fit: cover; }
-.xhs-cover .placeholder-note {
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-  padding: 0.5rem;
+/* 无封面图时以文字排版模拟封面：大号标题 + 节选正文居中，淡暖白渐变底（区别于"缺失占位"观感） */
+.xhs-text-cover {
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: linear-gradient(165deg, #fdf9f4 0%, #f7eadf 100%);
+}
+.xhs-text-cover__title {
+  font-family: var(--font-title);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1.35;
   text-align: center;
+  color: var(--color-fg);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.xhs-text-cover__body {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  text-align: center;
+  color: var(--color-fg-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .xhs-text-cover__title { font-size: var(--text-base); }
+  .xhs-text-cover__body { font-size: var(--text-xs); }
 }
 .xhs-body {
   padding: 0.5rem 0.625rem 0.75rem;
@@ -149,7 +348,20 @@
 }
 @media (max-width: 768px) {
   .xhs-article { grid-template-columns: 1fr; }
-  aside.xhs-comments { display: none; }
+  /* 移动端：评论隐藏，目录保留在正文之后 */
+  aside.xhs-comments {
+    position: static;
+    border: none;
+    padding: 0;
+  }
+  aside.xhs-comments .cmt-nav {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--card-radius);
+  }
+  aside.xhs-comments h3,
+  aside.xhs-comments .cmt { display: none; }
 }
 .xhs-comments {
   position: sticky;
@@ -162,6 +374,24 @@
   font-size: var(--text-base);
   margin: 0 0 0.75rem;
   font-family: var(--font-title);
+}
+/* 悬浮目录区：位于右栏评论上方，内部过长可滚动 */
+.xhs-comments .cmt-nav {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.xhs-comments .cmt-nav .toc {
+  max-height: 45vh;
+  overflow-y: auto;
+  margin-right: -0.5rem;
+  padding-right: 0.5rem;
+}
+.xhs-comments .cmt-nav .toc__title {
+  margin-bottom: 0.5rem;
+}
+.xhs-comments .cmt-nav .toc a {
+  padding: 0.25rem 0.5rem;
 }
 .xhs-comments .cmt {
   display: flex;
@@ -190,4 +420,28 @@
 }
 .xhs-copy img {
   border-radius: var(--card-radius);
+}
+
+/* ── 暗色微调（对 feature/darkmode.css 的通用基底做 xhs 专属补充）─ */
+:root[data-theme='dark'] .xhs-search {
+  background: #20272f;
+  color: var(--color-fg);
+}
+:root[data-theme='dark'] .xhs-cover,
+:root[data-theme='dark'] .xhs-card {
+  background-color: var(--color-line);
+  background: var(--color-surface);
+}
+/* 无封面文字排版的暗色适配：深底浅字，保证对比度 */
+:root[data-theme='dark'] .xhs-text-cover {
+  background: #262b33;
+}
+:root[data-theme='dark'] .xhs-text-cover__title {
+  color: var(--color-fg);
+}
+:root[data-theme='dark'] .xhs-text-cover__body {
+  color: var(--color-fg-soft);
+}
+:root[data-theme='dark'] .xhs-card:hover {
+  box-shadow: var(--shadow-md);
 }

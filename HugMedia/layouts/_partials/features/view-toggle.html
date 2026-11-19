@@ -1,0 +1,11 @@
+{{- /* features/view-toggle.html 网格/列表视图切换按钮
+     图标：Tabler（layout-grid / list），按功能共享存放于 assets/icons/features/，
+     缺失时静默跳过（不破坏按钮），与导航图标同一套加载约定。
+     状态由 features/view-toggle.js 写 <html data-view>（grid | list）持久化到 localStorage，
+     CSS 依 data-view 选择器切换布局（各风格层负责自己的 list 视觉）。 */}}
+{{- if site.Params.features.viewToggle }}
+  <button type="button" class="view-toggle" data-view-toggle aria-pressed="false" aria-label="{{ i18n "toggleView" | default "切换视图" }}">
+    {{- with resources.Get "icons/features/view-grid.svg" }}<span class="view-toggle__grid" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+    {{- with resources.Get "icons/features/view-list.svg" }}<span class="view-toggle__list" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+  </button>
+{{- end }}

@@ -1,0 +1,42 @@
+{{- /* features/comments.html 评论系统，provider: disqus utterances giscus mastodon custom */}}
+{{- if site.Params.features.comments }}
+  {{- $c := site.Params.comments | default dict }}
+  {{- $provider := $c.provider | default "disqus" }}
+  {{- if eq $provider "disqus" }}
+    {{- with $c.disqusShortname }}
+      <div id="disqus_thread"></div>
+      <script>
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://{{ . }}.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    {{- end }}
+  {{- else if eq $provider "utterances" }}
+    {{- with $c.utterancesRepo }}
+      <script src="https://utteranc.es/client.js"
+        repo="{{ . }}"
+        issue-term="pathname"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async></script>
+    {{- end }}
+  {{- else if eq $provider "giscus" }}
+    {{- with $c.giscusRepo }}
+      <script src="https://giscus.app/client.js"
+        data-repo="{{ . }}"
+        data-repo-id="{{ $c.giscusRepoId | default "" }}"
+        data-category="{{ $c.giscusCategory | default "General" }}"
+        data-mapping="pathname"
+        data-reactions-enabled="1"
+        data-theme="preferred_color_scheme"
+        crossorigin="anonymous"
+        async></script>
+    {{- end }}
+  {{- else if eq $provider "custom" }}
+    {{- with .Params.commentsHtml }}{{ . | safeHTML }}{{ end }}
+  {{- end }}
+{{- end }}

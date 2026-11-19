@@ -17,3 +17,41 @@
     {{- partial "head/link.html" (dict "css" .) }}
   {{- end }}
 {{- end }}
+
+{{- /* 3) 功能层（Phase 3）：按 features 开关条件加载对应 CSS */}}
+{{- $f := site.Params.features | default dict }}
+{{- /* 3a) 始终加载的核心功能 CSS（响应式布局 3.1、短代码 3.12） */}}
+{{- $alwaysCss := slice "css/features/responsive.css" "css/features/shortcodes.css" }}
+{{- range $file := $alwaysCss }}
+  {{- with resources.Get $file }}
+    {{- with . | css.Build $cssOpts }}
+      {{- partial "head/link.html" (dict "css" .) }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- /* 3b) 按开关加载的功能 CSS */}}
+{{- $featureCss := dict
+  "darkMode"       "css/features/darkmode.css"
+  "syntaxHighlight" "css/features/syntax.css"
+  "codeCopy"       "css/features/syntax.css"
+  "toc"            "css/features/toc.css"
+  "printFriendly"  "css/features/print.css"
+  "accessible"     "css/features/accessible.css"
+  "i18n"           "css/features/lang-switch.css"
+  "search"         "css/features/search.css"
+  "viewToggle"     "css/features/view-toggle.css"
+  "infiniteScroll" "css/features/infinite.css"
+}}
+{{- $loaded := slice }}
+{{- range $key, $file := $featureCss }}
+  {{- if not (in $loaded $file) }}
+    {{- if index $f $key }}
+      {{- with resources.Get $file }}
+        {{- with . | css.Build $cssOpts }}
+          {{- partial "head/link.html" (dict "css" .) }}
+        {{- end }}
+      {{- end }}
+      {{- $loaded = $loaded | append $file }}
+    {{- end }}
+  {{- end }}
+{{- end }}

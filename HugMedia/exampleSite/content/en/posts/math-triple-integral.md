@@ -1,7 +1,7 @@
 ---
 title: "Triple Integral: Volume of a Sphere in Spherical Coordinates"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["math", "calculus", "triple integral"]
 categories: ["mathematics"]
 math: true

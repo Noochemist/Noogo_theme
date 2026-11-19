@@ -2,7 +2,7 @@
 title: "Media & Shortcodes Test"
 description: "Audio, video, YouTube, Bilibili shortcode tests"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["media", "shortcode", "dev"]
 categories: ["tutorial"]
 ---

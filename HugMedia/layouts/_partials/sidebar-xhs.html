@@ -1,4 +1,7 @@
-{{- /* 小红书左侧垂直导航（风格专属导航）：遍历 site.Menus.main */}}
+{{- /* 小红书左侧垂直导航（风格专属导航）：主导航 + 下方标签展示栏 + 社交账号图标。
+     导航图标：按当前风格从 assets/icons/{style}/{identifier}.svg 内联读取；
+     仅当图标文件存在时才渲染，缺失则静默跳过（不破坏导航）。 */}}
+{{- $style := site.Params.style | default "xhs" }}
 <aside class="xhs-sidenav">
   <nav aria-label="主导航">
     <ul style="padding:0;list-style:none;">
@@ -7,11 +10,27 @@
           <li>
             <a href="{{ .URL }}"
               {{- if partial "is-menu-current.html" (dict "page" $.Page "menu" "main" "entry" .) }} class="active" aria-current="page"{{ end }}>
-              {{- .Pre }}{{ .Name }}{{ .Post -}}
+              {{- $icon := resources.Get (printf "icons/%s/%s.svg" $style .Identifier) }}
+              {{- with $icon }}
+                <span class="menu-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>
+              {{- end }}
+              {{- .Pre }}{{ i18n .Name | default .Name }}{{ .Post -}}
             </a>
           </li>
         {{- end }}
       {{- end }}
     </ul>
   </nav>
+  {{- /* 标签展示栏：展示当前语言的标签清单，无标签时整块省略 */}}
+  {{- with site.Taxonomies.tags }}
+  <section class="xhs-sidenav-tags" aria-label="{{ i18n "tags" | default "标签" }}">
+    <h3 class="xhs-sidenav-heading">{{ i18n "tags" | default "标签" }}</h3>
+    <ul>
+      {{- range .Alphabetical }}
+        <li><a href="{{ .Page.RelPermalink }}">#{{ .Page.Title }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+  {{- partial "features/social.html" . }}
 </aside>

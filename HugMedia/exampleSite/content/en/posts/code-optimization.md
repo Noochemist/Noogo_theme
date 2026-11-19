@@ -2,7 +2,7 @@
 title: "Code Optimization Demo & Reading Time"
 description: "Demonstrates code blocks, syntax highlighting, and reading time"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["programming", "optimization", "python"]
 categories: ["tutorial"]
 ---

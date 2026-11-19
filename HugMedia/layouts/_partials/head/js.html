@@ -1,14 +1,31 @@
+{{- /* JS 构建：core 入口 + 可选 SPA (swup) 加载器（构建隔离，按 features.spa 开关） */}}
+{{- $jsOpts := dict
+  "minify" (cond hugo.IsDevelopment false true)
+  "sourceMap" (cond hugo.IsDevelopment "linked" "none")
+}}
+{{- /* 1) 核心入口（core / features / style-behaviors） */}}
 {{- with resources.Get "js/main.js" }}
-  {{- $opts := dict
-    "minify" (cond hugo.IsDevelopment false true)
-    "sourceMap" (cond hugo.IsDevelopment "linked" "none")
-  }}
-  {{- with . | js.Build $opts }}
+  {{- with . | js.Build $jsOpts }}
     {{- if hugo.IsDevelopment }}
       <script src="{{ .RelPermalink }}"></script>
     {{- else }}
       {{- with . | fingerprint }}
         <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{- /* 2) SPA 层（swup）：仅在 features.spa 开启时打包 */}}
+{{- if site.Params.features.spa | default true }}
+  {{- with resources.Get "js/spa/swup-loader.js" }}
+    {{- with . | js.Build $jsOpts }}
+      {{- if hugo.IsDevelopment }}
+        <script src="{{ .RelPermalink }}"></script>
+      {{- else }}
+        {{- with . | fingerprint }}
+          <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+        {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}

@@ -1,0 +1,27 @@
+{{- /* RSS section feed（新规范 root 级模板）。对每个 section 目录生成独立 feed。 */}}
+{{- $pages := .RegularPages }}
+{{- $limit := .Site.Config.Services.RSS.Limit | default 20 }}
+{{- if gt $limit 0 }}{{ $pages = $pages | first $limit }}{{ end }}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ .Title }} | {{ site.Title }}</title>
+    <link>{{ .Permalink }}</link>
+    <description>Recent content{{ with .Title }} in {{ . }}{{ end }}{{ with site.Title }} on {{ . }}{{ end }}</description>
+    <generator>Hugo</generator>
+    <language>{{ site.Language.Locale | default site.Language.Lang }}</language>
+    <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml" />
+    {{- range $pages }}
+    {{- $authorName := site.Params.author.name | default site.Title }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <pubDate>{{ .PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <author>{{ $authorName }}</author>
+      <guid>{{ .Permalink }}</guid>
+      <description>{{ .Content | html }}</description>
+      {{- range .Params.tags }}<category>{{ . }}</category>{{ end }}
+    </item>
+    {{- end }}
+  </channel>
+</rss>

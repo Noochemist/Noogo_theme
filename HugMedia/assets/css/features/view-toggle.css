@@ -1,0 +1,35 @@
+/* Phase 3 · features/view-toggle.css — 网格 / 列表视图切换
+   状态由 JS 写入 <html data-view>（grid | list，localStorage 持久化）。
+   本文件只负责按钮本体视觉与图标显隐；
+   列表视图的具体布局规则由各风格层在自己 styles/*.css 中实现（data-view 选择器）。 */
+
+/* 按钮与 fun 按钮同款视觉：参照 features/lang-switch.css 的 .lang-switch__trigger / darkmode 的 .theme-toggle */
+.view-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--input-height, 2rem);
+  padding: 0 var(--space-3, 0.75rem);
+  border: 1px solid var(--color-line, rgba(0,0,0,0.12));
+  border-radius: var(--radius-md, 8px);
+  background: var(--color-surface, transparent);
+  color: var(--color-fg, inherit);
+  font-family: var(--font-nav, inherit);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--duration, 0.15s) var(--ease, ease);
+}
+.view-toggle:hover {
+  border-color: var(--color-brand, currentColor);
+}
+.view-toggle svg {
+  width: 1.15em;
+  height: 1.15em;
+  display: block;
+}
+
+/* 默认（网格视图）显示网格图标；列表视图显示列表图标 */
+.view-toggle__list { display: none; }
+:root[data-view='list'] .view-toggle__grid { display: none; }
+:root[data-view='list'] .view-toggle__list { display: inline-flex; }

@@ -2,7 +2,7 @@
 title: "代码优化示范与阅读计时"
 description: "演示代码块优化、语法高亮与阅读时间"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["编程", "优化", "python"]
 categories: ["教程"]
 ---

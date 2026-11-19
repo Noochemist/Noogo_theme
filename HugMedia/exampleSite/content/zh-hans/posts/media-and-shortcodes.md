@@ -2,7 +2,7 @@
 title: "媒体与短代码测试"
 description: "音频、视频、YouTube、B站 shortcode 测试"
 date: 2026-11-16
-publishDate: 2026-11-16
+published: 2026-11-16
 tags: ["媒体", "shortcode", "开发"]
 categories: ["教程"]
 ---

@@ -1,0 +1,7 @@
+
+{{- /* features/reading.html 阅读时间 / 字数统计 */}}
+<span class="post-reading" title="{{ .WordCount }} 字">
+  {{ .ReadingTime }} {{ i18n "minutes" | default "分钟" }} {{ i18n "readingTime" | default "阅读" }}
+  <span aria-hidden="true">·</span>
+  {{ .WordCount }} {{ i18n "words" | default "字" }}
+</span>

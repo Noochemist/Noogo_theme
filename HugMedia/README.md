@@ -18,6 +18,7 @@
   - [字体配置 / Fonts](#字体配置--fonts)
   - [菜单导航 / Menus](#菜单导航--menus)
   - [短代码 / Shortcodes](#短代码--shortcodes)
+  - [文章封面 / Cover Image](#文章封面--cover-image)
   - [作者与社交 / Author & Social](#作者与社交--author--social)
 - [路线图 / Roadmap](#路线图--roadmap)
 - [许可证 / License](#许可证--license)
@@ -179,6 +180,24 @@ The theme ships the following shortcodes for common media-embedding cases.
 
 ---
 
+### 文章封面 / Cover Image
+
+> 文章列表卡片会优先展示封面图。这是主题层通用机制、与当前风格无关：采用 Hugo **页面资源** 约定，在一篇文章的叶子目录（Leaf Bundle）中放置以 `cover` 命名的图片文件即可自动生效，无需任何配置。
+
+> List cards prefer a cover image. This is a theme-wide mechanism independent of the current style. It follows Hugo's **page-resource** convention: drop a file named after `cover` into the post's leaf-bundle directory and it will be picked up automatically — no configuration needed.
+
+```text
+content/posts/my-post/
+├── index.md      # 文章正文（Leaf Bundle 的入口文件）
+└── cover.jpg     # 封面图（cover.* 均可，如 cover.png / cover.webp）
+```
+
+> 未提供封面图片时，列表卡片自动回退为「文字排版封面」——大号标题 + 居中节选正文，无需额外处理。
+
+> If no cover image is supplied, the card automatically falls back to a text-composed cover — a large title with a centered excerpt of the post — with nothing extra to configure.
+
+---
+
 ### 作者与社交 / Author & Social
 
 > 站点作者信息与社交链接（用于作者卡片、页脚等）。`social` 覆盖国内外主流平台，留空即不显示对应图标。
@@ -200,11 +219,32 @@ The theme ships the following shortcodes for common media-embedding cases.
 
 ---
 
+### 站内搜索 / Site Search
+
+> 基于 [Pagefind](https://pagefind.app) 的离线站内搜索。构建期对站点生成静态索引，前端按需加载并支持空格多关键字模糊匹配、多语言（中英日韩越）分词与命中高亮，无需外部服务，可将索引部署到任意静态主机。
+
+> Offline site search powered by [Pagefind](https://pagefind.app). A static index is generated at build time; the front end loads it on demand with space-separated multi-keyword fuzzy matching, multilingual (zh/en/ja/ko/vi) tokenization, and hit highlighting — no external service required, deployable to any static host.
+
+```bash
+# 安装依赖
+npm install
+# 构建站点
+hugo --minify
+# 生成搜索索引（pagefind.yml 已配置：只索引文章目录 + 排除代码/评论/目录）
+npx pagefind
+```
+
+> 开关：`[params.features].search = true`（默认开启）。搜索 UI 由共享组件提供，仅使用通用类 `search-ui__*`，输入框视觉归各风格（如 `.xhs-search`），与风格完全解耦。主题自带的 `npm run build` 已串联 `hugo` 与 `pagefind`。
+
+> Toggle: `[params.features].search = true` (default on). The search UI comes from a shared component that uses only generic `search-ui__*` classes; the input's look belongs to each style (e.g. `.xhs-search`), keeping it fully style-agnostic. The theme's `npm run build` already chains `hugo` with `pagefind`.
+
+---
+
 ## 路线图 / Roadmap
 
-> 以下功能开关已在 `[params.features]` 中预留，将在后续开发阶段陆续实现并在此文档同步补充配置示例：暗黑模式 (`darkMode`)、SPA 无刷新导航 (`spa`)、站内搜索 (`search`)、文章目录 (`toc`)、阅读时间 (`readingTime`)、语法高亮 (`syntaxHighlight`)、代码复制 (`codeCopy`)、KaTeX 数学公式 (`math`)、Mermaid 图表 (`mermaid`)、评论系统 (`comments`)、社交图标 (`socialLinks`)、打印友好 (`printFriendly`)、无障碍 (`accessible`)、统计 (`analytics`)。
+> 以下功能开关已在 `[params.features]` 中预留，将在后续开发阶段陆续实现并在此文档同步补充配置示例：暗黑模式 (`darkMode`)、SPA 无刷新导航 (`spa`)、文章目录 (`toc`)、阅读时间 (`readingTime`)、语法高亮 (`syntaxHighlight`)、代码复制 (`codeCopy`)、KaTeX 数学公式 (`math`)、Mermaid 图表 (`mermaid`)、评论系统 (`comments`)、社交图标 (`socialLinks`)、打印友好 (`printFriendly`)、无障碍 (`accessible`)、统计 (`analytics`)。
 
-> The following switches are reserved under `[params.features]` and will be implemented over upcoming phases, with config examples appended here: dark mode (`darkMode`), SPA navigation (`spa`), site search (`search`), TOC (`toc`), reading time (`readingTime`), syntax highlighting (`syntaxHighlight`), code copy (`codeCopy`), KaTeX math (`math`), Mermaid diagrams (`mermaid`), comments (`comments`), social icons (`socialLinks`), print-friendly styles (`printFriendly`), accessibility (`accessible`), and analytics (`analytics`).
+> The following switches are reserved under `[params.features]` and will be implemented over upcoming phases, with config examples appended here: dark mode (`darkMode`), SPA navigation (`spa`), TOC (`toc`), reading time (`readingTime`), syntax highlighting (`syntaxHighlight`), code copy (`codeCopy`), KaTeX math (`math`), Mermaid diagrams (`mermaid`), comments (`comments`), social icons (`socialLinks`), print-friendly styles (`printFriendly`), accessibility (`accessible`), and analytics (`analytics`).
 
 ---
 

@@ -1,0 +1,9 @@
+{{- /* features/dark-toggle.html 暗黑模式切换按钮
+     图标：Tabler Icons（sun/moon），按功能共享存放于 assets/icons/features/，
+     缺失时静默跳过（不破坏按钮），与导航图标同一套加载约定。 */}}
+{{- if site.Params.features.darkMode }}
+  <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="{{ i18n "toggleTheme" | default "切换亮/暗模式" }}">
+    {{- with resources.Get "icons/features/sun.svg" }}<span class="theme-toggle__light" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+    {{- with resources.Get "icons/features/moon.svg" }}<span class="theme-toggle__dark" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+  </button>
+{{- end }}

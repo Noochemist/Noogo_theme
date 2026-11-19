@@ -1,0 +1,147 @@
+/*
+  功能层 · infinite scroll 基础样式
+  只承载行为/布局基础（状态提示、sentinel 占位），且全部通过
+  [data-infinite-pagination] 等 data-* 钩子作用——不写任何风格前缀。
+  各风格的具体观感（间距、颜色、hover 态）由 styles/{style}.css 覆盖
+  [data-infinite-pagination] 分支自行实现，与 search/css.html 解耦模式一致。
+*/
+
+/* 分页区域：基础占位不干扰风格层定位；sentinel 仅作观察锚点。 */
+[data-infinite-pagination] {
+  display: block;
+  margin-top: var(--space-6, 1.5rem);
+}
+
+/* ── 双向分页控件：上一页 | 页码跳转 | 下一页 ─────────── */
+[data-infinite-pagination] .infinite-pagination__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2, 0.5rem);
+}
+
+/* 通用按钮基础（上一页/下一页/跳转；外观细节由风格层可覆盖） */
+[data-infinite-pagination] .infinite-pagination__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0 var(--space-3, 0.75rem);
+  border: 1px solid var(--color-line, rgba(0, 0, 0, 0.12));
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-surface, #fff);
+  color: var(--color-fg, inherit);
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+[data-infinite-pagination] .infinite-pagination__btn:hover:not(.is-muted) {
+  border-color: var(--color-brand, currentColor);
+  color: var(--color-brand, inherit);
+}
+/* 边界态：无上一页/下一页时置灰不可点 */
+[data-infinite-pagination] .infinite-pagination__btn.is-muted {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 跳转表单：页码输入 + 总页数 + 跳转按钮 */
+[data-infinite-pagination] .infinite-pagination__jump {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1, 0.25rem);
+}
+[data-infinite-pagination] .infinite-pagination__jump-label {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-muted, rgba(0, 0, 0, 0.45));
+}
+[data-infinite-pagination] .infinite-pagination__jump-input {
+  width: 3.5rem;
+  min-height: 2.25rem;
+  padding: 0 var(--space-1, 0.25rem);
+  border: 1px solid var(--color-line, rgba(0, 0, 0, 0.12));
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-surface, #fff);
+  color: var(--color-fg, inherit);
+  font-size: var(--text-sm, 0.875rem);
+  text-align: center;
+  -webkit-appearance: none;
+  appearance: none;
+}
+[data-infinite-pagination] .infinite-pagination__jump-input:focus-visible {
+  outline: 2px solid var(--color-brand, currentColor);
+  outline-offset: 1px;
+}
+[data-infinite-pagination] .infinite-pagination__jump-total {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-muted, rgba(0, 0, 0, 0.45));
+  white-space: nowrap;
+}
+
+[data-infinite-pagination] [data-infinite-sentinel] {
+  display: block;
+  height: 1px;
+  visibility: hidden; /* 仅作 IntersectionObserver 定位锚点，不占视觉 */
+}
+
+/* 顶部哨兵（JS 注入网格首行）：跨整行 + 1px 透明锚点，
+   避免在 display:grid 网格中占用网格单元格（破坏卡片列布局）。
+   不可用 display:none——零盒模型元素会被 IntersectionObserver 视为永不相交。 */
+[data-infinite-grid] [data-infinite-sentinel-top] {
+  display: block;
+  grid-column: 1 / -1;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+}
+
+/* 新加载卡片入场动画：触发分页时给出淡入视觉反馈（功能层通用，不涉风格前缀） */
+@keyframes infinite-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+[data-infinite-grid] .infinite-page-enter {
+  animation: infinite-page-in 0.4s ease both;
+}
+
+/* 状态提示条：默认隐藏，出现 loading/end/error 时由 JS 展示 */
+[data-infinite-pagination] [data-infinite-status] {
+  display: none;
+  text-align: center;
+  font-size: 0.875rem;
+}
+[data-infinite-pagination][data-state='loading'] [data-infinite-status],
+[data-infinite-pagination][data-state='end'] [data-infinite-status],
+[data-infinite-pagination][data-state='error'] [data-infinite-status] {
+  display: block;
+}
+
+/* loading 时展示轻量指示器（仅基础内置，风格层可自定义覆盖） */
+[data-infinite-pagination][data-state='loading'] [data-infinite-status]::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  vertical-align: -0.15em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: infinite-spin 0.7s linear infinite;
+}
+
+@keyframes infinite-spin {
+  to { transform: rotate(360deg); }
+}

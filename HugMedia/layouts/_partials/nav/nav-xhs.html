@@ -1,6 +1,20 @@
-{{- /* 小红书顶部栏（风格专属导航）：Logo + 搜索 + 打开App；悬浮已由 baseof 的 <header> 承担 */}}
+{{- /* 小红书顶部栏（风格专属导航）：Logo + 搜索 + 右侧功能按钮；悬浮已由 baseof 的 <header> 承担 */}}
+{{- /* 搜索功能：若 features.search 开启，包装为 data-search 容器由共享 search.js 接管；
+        输入框视觉样式 xhs-search 仍归本风格，交互/结果面板走通用 search-ui__*。 */}}
 <div class="xhs-topbar">
   <a class="xhs-logo" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+  {{- if site.Params.features.search | default true }}
+  <div class="xhs-search search-ui" data-search>
+    <input class="xhs-search-input" type="search" placeholder="{{ i18n "searchPlaceholder" | default "搜索" }}" aria-label="{{ i18n "searchLabel" | default "搜索" }}" data-search-input>
+    <div class="search-ui__results" data-search-results role="listbox"></div>
+  </div>
+  {{- else }}
   <input class="xhs-search" type="search" placeholder="搜索笔记" aria-label="搜索">
-  <a class="xhs-cta" href="{{ (site.Params.social | default dict).xiaohongshu | default site.BaseURL }}" rel="noopener">打开App</a>
+  {{- end }}
+  {{- /* 右侧功能区：视图切换 + Dark Mode + 语言切换（社交账号图标已移至左栏标签下方） */}}
+  <div class="xhs-topbar-actions">
+    {{ partial "features/view-toggle.html" . }}
+    {{ partial "features/dark-toggle.html" . }}
+    {{ partial "features/lang-switch.html" . }}
+  </div>
 </div>

@@ -1,0 +1,64 @@
+/* Phase 3 · features/syntax.css — 代码块增强与复制按钮
+   Chroma 语法着色通过 markup.highlight style 生成，无需此处；
+   此处负责代码块外壳、语言标签与复制按钮的视觉。 */
+.highlight {
+  position: relative;
+  margin: var(--space-6) 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.highlight pre {
+  margin: 0;
+  padding: var(--space-4) var(--space-6);
+  overflow-x: auto;
+}
+
+.highlight > pre {
+  padding-top: calc(var(--space-2) + 1.75rem); /* 给语言/复制行留位 */
+}
+
+/* 语言标签（由 render-codeblock.html 注入） */
+.codeblock-head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-line);
+  color: var(--color-fg-soft);
+  font-size: var(--text-xs);
+  font-family: var(--font-code);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 复制按钮 */
+.code-copy {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--text-xs);
+  font-family: var(--font-nav);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-transform: none;
+  letter-spacing: 0;
+  transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+.code-copy:hover {
+  background: var(--color-muted);
+  color: var(--color-canvas);
+}
+.code-copy.copied {
+  color: #2fbf4f;
+}
+.code-copy.copied::after {
+  content: ' ✓';
+}

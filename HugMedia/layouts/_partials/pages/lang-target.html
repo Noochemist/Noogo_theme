@@ -1,0 +1,27 @@
+{{- /* pages/lang-target.html — 定位某语言下当前页的对应目标。
+   参数 page：当前上下文（页面对象）；language：目标语言对象。
+   返回可 .RelPermalink 的 Page 对象。
+   策略：优先当前页在该语言的翻译页；无翻译则回退该语言首页。
+   支持任意多语言，不硬编码语言名。 */}}
+{{- $page := .page }}
+{{- $lang := .language }}
+{{- $target := $page }}
+{{- $pageLang := $page.Language.Lang }}
+{{- if and $page (ne $pageLang $lang.Lang) }}
+  {{- /* 尝试当前页的翻译 */}}
+  {{- $translated := false }}
+  {{- if $page.IsTranslated }}
+    {{- range $page.AllTranslations }}
+      {{- if eq .Language.Lang $lang.Lang }}
+        {{- $target = . }}{{ $translated = true }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- /* 无翻译则回退该语言首页 */}}
+  {{- if not $translated }}
+    {{- range hugo.Sites }}
+      {{- if eq .Language.Lang $lang.Lang }}{{ $target = .Home }}{{ end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return $target }}

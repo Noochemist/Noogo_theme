@@ -1,0 +1,43 @@
+{{- /* features/lang-switch.html 语言切换下拉（跨风格共享，可放入任意风格导航）。
+   遍历 hugo.Sites 以支持任意多种语言（不限于中英双语）；
+   当前语言作触发按钮，其余语言为下拉项。
+   渲染结果仅基于通用类 lang-switch / lang-switch__*，样式由
+   features/lang-switch.css 提供，不掺任何风格类名，保证与风格解耦。 */}}
+{{- $sites := hugo.Sites }}
+{{- if and site.Params.features.i18n (gt (len $sites) 1) }}
+  {{- $currentLang := site.Language.Lang }}
+  {{- $currentLabel := site.Language.Label | default site.Language.Lang }}
+  {{- $currentShort := site.Language.Params.shortLabel | default $currentLabel }}
+  <div class="lang-switch" data-lang-switch>
+    <button type="button" class="lang-switch__trigger"
+            aria-haspopup="true" aria-expanded="false"
+            data-lang-toggle
+            {{- with $currentLabel }} title="{{ . }}"{{ end }}>
+      <span class="lang-switch__flag-wrap">{{ partial "features/flag.html" (dict "lang" $currentLang) }}</span>
+      <span class="lang-switch__label">{{ $currentShort }}</span>
+      <span class="lang-switch__caret" aria-hidden="true"></span>
+    </button>
+    <ul class="lang-switch__menu" role="menu" aria-label="{{ i18n "languageSwitch" | default "语言切换" }}">
+      {{- range $sites }}
+        {{- $label := .Language.Label | default .Language.Lang }}
+        {{- $target := partial "pages/lang-target.html" (dict "page" $.Page "language" .Language) }}
+        {{- if eq .Language.Lang $currentLang }}
+          <li role="none">
+            <span class="lang-switch__item is-current" role="menuitem" aria-current="true">
+              <span class="lang-switch__flag-wrap">{{ partial "features/flag.html" (dict "lang" .Language.Lang) }}</span>
+              <span class="lang-switch__label">{{ $label }}</span>
+            </span>
+          </li>
+        {{- else }}
+          <li role="none">
+            <a class="lang-switch__item" role="menuitem"
+               data-no-swup href="{{ $target.RelPermalink }}">
+              <span class="lang-switch__flag-wrap">{{ partial "features/flag.html" (dict "lang" .Language.Lang) }}</span>
+              <span class="lang-switch__label">{{ $label }}</span>
+            </a>
+          </li>
+        {{- end }}
+      {{- end }}
+    </ul>
+  </div>
+{{- end }}

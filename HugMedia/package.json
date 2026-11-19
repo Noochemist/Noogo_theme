@@ -1,0 +1,23 @@
+{
+  "name": "hugmedia",
+  "version": "0.1.0",
+  "description": "HugMedia — a Hugo theme with five switchable social-media styles, SPA powered by swup.",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "cd exampleSite && hugo --minify && npx pagefind",
+    "dev": "cd exampleSite && hugo server --disableFastRender",
+    "search": "cd exampleSite && npx pagefind"
+  },
+  "dependencies": {
+    "@swup/preload-plugin": "^3.2.12",
+    "@swup/scroll-plugin": "^4.0.0",
+    "katex": "^0.16.11",
+    "mermaid": "^10.9.1",
+    "swup": "^4.10.0"
+  },
+  "devDependencies": {
+    "pagefind": "^1.6.0"
+  }
+}

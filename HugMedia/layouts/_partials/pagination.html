@@ -1,0 +1,49 @@
+{{- /* 分页（功能层）⑫：双向无限滚动分页 + 上一页/下一页/跳转控件
+     入参 = Paginator 对象（由 home/section 根级模板计算后传入）。
+     输出仅含 data-* 属性与 .infinite-pagination 通用类——
+     功能层（JS/CSS）只消费这些钩子，不写任何风格前缀；
+     各风格外观由 styles/{style}.css 用 [data-infinite-pagination] 自行实现。
+     无 JS / SEO 场景：上一页/下一页链接原生可点，跳转表单由 JS 增强（渐进增强兜底）。
+     data-pages-urls：空格分隔的「页码 → URL」映射，供跳转表单按页码快速定位。 */}}
+
+{{- $p := . }}
+{{- if and $p (gt $p.TotalPages 1) }}
+<nav class="infinite-pagination"
+     data-infinite-pagination
+     data-current-page="{{ $p.PageNumber }}"
+     data-total-pages="{{ $p.TotalPages }}"
+     data-state="idle"
+     data-status-loading="加载中…"
+     data-status-end="已全部加载"
+     data-status-error="加载失败，请重试"
+     data-page-urls="{{ range $p.Pagers }}{{ .URL }} {{ end }}"
+     {{- with $p.Prev }} data-prev-url="{{ .URL }}"{{ end }}
+     {{- with $p.Next }} data-next-url="{{ .URL }}"{{ end }}
+     aria-label="分页导航"
+     tabindex="-1">
+  <div class="infinite-pagination__controls">
+    {{- with $p.Prev }}
+      <a class="infinite-pagination__btn" href="{{ .URL }}" data-infinite-prev rel="prev">‹ 上一页</a>
+    {{- else }}
+      <span class="infinite-pagination__btn is-muted" data-infinite-prev aria-disabled="true">‹ 上一页</span>
+    {{- end }}
+
+    <form class="infinite-pagination__jump" data-infinite-jump>
+      <label class="infinite-pagination__jump-label" for="infinite-page-input">第</label>
+      <input class="infinite-pagination__jump-input" id="infinite-page-input" type="number"
+             min="1" max="{{ $p.TotalPages }}" step="1" inputmode="numeric"
+             value="{{ $p.PageNumber }}" data-infinite-page-input aria-label="页码" />
+      <span class="infinite-pagination__jump-total">/ {{ $p.TotalPages }} 页</span>
+      <button class="infinite-pagination__btn infinite-pagination__jump-go" type="submit">跳转</button>
+    </form>
+
+    {{- with $p.Next }}
+      <a class="infinite-pagination__btn" href="{{ .URL }}" data-infinite-next rel="next">下一页 ›</a>
+    {{- else }}
+      <span class="infinite-pagination__btn is-muted" data-infinite-next aria-disabled="true">下一页 ›</span>
+    {{- end }}
+  </div>
+  <p class="infinite-pagination__status" data-infinite-status role="status" hidden></p>
+  <span class="infinite-pagination__sentinel" data-infinite-sentinel aria-hidden="true"></span>
+</nav>
+{{- end }}

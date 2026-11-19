@@ -1,0 +1,12 @@
+/* Phase 3 · features/responsive.css — 响应式补强
+   风格专属布局（如瀑布流断点）由各风格层 styles/*.css 覆盖；
+   此处仅保留风格无关的通用响应式兜底，
+   按 [params.features.responsive] 开关按需加载。 */
+@media (max-width: 600px) {
+  body {
+    font-size: var(--text-sm);
+  }
+  main {
+    padding: var(--space-6) var(--space-4);
+  }
+}

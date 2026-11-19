@@ -1,0 +1,11 @@
+{{- /* features/toc.html 文章目录，由 page 模板按需调用 */}}
+{{- if site.Params.features.toc }}
+  {{- if ne .Params.toc false }}
+    {{- with .TableOfContents }}
+      <nav class="toc" aria-label="Table of contents">
+        <p class="toc__title">{{ i18n "toc" | default "目录" }}</p>
+        {{ . }}
+      </nav>
+    {{- end }}
+  {{- end }}
+{{- end }}

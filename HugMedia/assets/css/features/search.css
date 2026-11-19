@@ -1,0 +1,127 @@
+/* Phase 4 · features/search.css — 站内搜索界面（跨风格共享组件）
+   与风格完全解耦：仅使用通用类 search-ui__*，颜色/间距/字体全部走 CSS 变量，
+   各风格导航可在自身 style 作用域内覆盖 --search-* 达到风格融合，
+   无需复制本组件的交互/布局逻辑。 */
+
+/* 外层包裹：输入框 + 结果面板的相对定位容器 */
+.search-ui {
+  position: relative;
+}
+
+/* 移除全局 :focus-visible 红色描边环对搜索框的污染
+   （accessible.css 为输入框设了红色 outline，在此收敛为柔和的品牌色内边框，
+     保留焦点可见性但不再突兀）。 */
+.search-ui :is(input, button):focus-visible,
+.search-ui :is(input, button):focus {
+  outline: none;
+}
+.search-ui.is-active .search-ui__results {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 结果面板：绝对定位下拉，右对齐（导航栏常用） */
+.search-ui__results {
+  position: absolute;
+  top: calc(100% + var(--space-2, 0.5rem));
+  right: 0;
+  left: 0;
+  min-width: 18rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-2, 0.5rem);
+  list-style: none;
+  border: 1px solid var(--color-line, rgba(0,0,0,0.12));
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-surface, #fff);
+  box-shadow: var(--shadow-md, 0 8px 24px rgba(0,0,0,0.16));
+  font-family: var(--font-nav, inherit);
+  z-index: 70;
+  /* 初始隐藏，JS 加 is-active 展开 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--duration, 0.18s) var(--ease, ease),
+    transform var(--duration, 0.18s) var(--ease, ease),
+    visibility var(--duration, 0.18s);
+}
+
+/* 单条结果 */
+.search-ui__result {
+  display: block;
+  padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem);
+  border-radius: var(--radius-sm, 6px);
+  color: var(--color-fg, inherit);
+  text-decoration: none;
+}
+.search-ui__result + .search-ui__result {
+  margin-top: var(--space-1, 0.25rem);
+  border-top: 1px solid var(--color-line, rgba(0,0,0,0.08));
+}
+.search-ui__result:hover {
+  background: var(--color-fg-soft, rgba(0,0,0,0.05));
+}
+
+.search-ui__result-title {
+  margin: 0;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: var(--weight-medium, 600);
+  color: var(--color-fg, inherit);
+  line-height: 1.3;
+}
+.search-ui__result-excerpt {
+  margin: var(--space-1, 0.25rem) 0 0;
+  font-size: var(--text-xs, 0.8rem);
+  color: var(--color-fg-soft, rgba(0,0,0,0.6));
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.search-ui__result mark {
+  background: var(--color-brand-soft, rgba(251,50,82,0.25));
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
+/* 严格匹配高亮：查询的完整词，比模糊命中的 <mark> 更醒目（品牌色实底 + 深色文字） */
+.search-ui__result mark.search-ui__m-exact {
+  background: var(--color-brand, rgba(251,50,82,0.9));
+  color: var(--color-brand-on, #fff);
+  font-weight: var(--weight-medium, 600);
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
+/* 文章正文关键词高亮：到达文章页后按 ?kw= 标记的同名高亮（与下拉结果一致的外观） */
+.has-kw-highlight mark.search-ui__m-exact {
+  background: var(--color-brand-soft, rgba(251,50,82,0.28));
+  color: var(--color-fg, inherit);
+  font-weight: var(--weight-medium, 600);
+  border-radius: 3px;
+  padding: 0 0.15em;
+  box-shadow: 0 0 0 1px var(--color-brand, rgba(251,50,82,0.5));
+}
+
+/* 空态提示 */
+.search-ui__empty {
+  margin: 0;
+  padding: var(--space-3, 0.75rem);
+  text-align: center;
+  color: var(--color-muted, rgba(0,0,0,0.45));
+  font-size: var(--text-sm, 0.875rem);
+}
+
+@media (max-width: 600px) {
+  .search-ui__results {
+    position: fixed;
+    top: var(--navbar-height, 3.25rem);
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    border-radius: 0 0 var(--radius-md, 12px) var(--radius-md, 12px);
+  }
+}

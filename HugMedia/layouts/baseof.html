@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
+<html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}"
+      data-features="{{ partialCached "features-enabled.html" . }}"
+      data-config='{{ partialCached "features-config.html" . }}'>
 <head>
   {{ partial "head.html" . }}
 </head>
 <body class="style-{{ site.Params.style | default "xhs" }}">
+  {{- /* 无障碍 (3.13)：跳转到主内容链接 */}}
+  <a class="skip-link" href="#main-content">{{ i18n "skipToContent" | default "跳到主要内容" }}</a>
   {{- /* 悬浮特性挂载到整页面壳的 header，以整页为活动容器才能整页悬浮；风格导航自身不重复挂载。 */}}
   <header data-floating-nav>
     {{ partial "header.html" . }}
   </header>
-  <main id="main-content">
+  <main id="main-content" class="swup-transition-fade">
     {{ block "main" . }}{{ end }}
   </main>
   <footer>
