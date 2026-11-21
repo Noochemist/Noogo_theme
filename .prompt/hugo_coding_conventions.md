@@ -45,11 +45,15 @@ layouts/
 - **不使用** `_default/single.html`、`_default/list.html`、`_default/rss.xml`。
 - 单篇用 `page.html`，分类列表用 `section.html`。
 - taxonomy 页用 `taxonomy.html`（聚合术语列表）+ `term.html`（单个术语），取代旧的 `terms.html`/`term.html` 组。
+- **目录职责**：`_partials/` 放可复用 partial（footer/header 等）；`_shortcodes/` 放自定义 shortcode；`_markup/` 放 render hooks（如 render-codeblock.html）。
+- **shortcode 命名规范**：用**描述性短名**（如 `audio.html`、`bilibili.html`、`callout.html`、`figure.html`、`code-fold.html`），调用即 `{{< audio ... >}}`；**不加 `layout_` 之类前缀**（此前的 `layout_*.html` 说明系误写，已废弃）；内联 shortcode 用短名实参形式，参数命名清晰、带默认值。
 
 ### 2.2 风格分发（多社交风格）
 
-- `home.html` / `page.html` 通过 `partial (printf "home/home-%s.html" $style)` 分发到 `_partials/home/home-xhs.html`、`_partials/page/page-xhs.html`。
-- 未实现的风格回退到 `xhs`。nav 等子组件同理放 `_partials/nav/nav-xhs.html`。
+- `home.html` / `section.html` / `page.html` 通过 `partial (printf "home/home-%s.html" $style)` 分发到 `_partials/home/home-xhs.html`、`_partials/section/section-xhs.html`、`_partials/page/page-xhs.html`。
+- **未实现风格必须显式回退**：根级维护 `$implemented := slice "xhs"`，`$style` 不在清单中一律回退 `xhs`；「模板名恰好与风格名一致时缺失即报错」的写法不成立（Hugo 找不到文件会直接报错，不会静默回退）。
+- nav / card / 分页等子组件同理放 `_partials/nav/nav-xhs.html`、`_partials/cards/card-xhs.html`、`_partials/section/section-xhs.html`。
+- 同构页面（`taxonomy.html` / `term.html` 复用 section）直接复制同结构 + 统一 `.Paginate .Pages`，保持分页体验一致。
 
 ### 2.3 RSS 模板（新规范 root 级）
 
@@ -139,11 +143,17 @@ layouts/
 - 挂载时机：页面初次加载 + `theme:content-replaced`（SPA）事件。
 - `clearPageHighlights` 在重跑前清理旧标记防残留。
 
+### 4.8 分页 / 双向无限滚动（Pagination + Infinite Scroll）
+- **根级统一分页**：`home.html` / `section.html`（含复制同构的 `taxonomy.html` / `term.html`）在根级计算 `$pager := .Paginate ...`，通过 `(dict "page" . "pager" $pager)` 传给风格 partial；风格 partial **只消费分页后的页集**，不在风格层再算分页。
+- **功能层 / 风格层解耦**：`_partials/pagination.html` 只输出通用钩子——类 `.infinite-pagination`、`data-infinite-pagination / data-current-page / data-total-pages / data-page-urls / data-prev-url / data-next-url / data-status-*`；JS/CSS **只消费 data-* 与 .infinite-* 通用类**，绝不写风格类名（如 `.xhs-*`）。各风格外观由 `styles/{style}.css` 用 `[data-infinite-pagination]` 自行实现。
+- **渐进增强**：无 JS / SEO 抓取时，上一页/下一页链接原生可点；页码跳转表单由 JS 增强。这是「静态分页」而非前端 fetch JSON 的关键——SEO 与降级双保底。
+- **行为层入口**：`assets/js/features/infinite.js` 由 `features/index.js` 按 `data-features` 含 `infinitescroll` 动态 import，挂到 `win.infiniteScroll`；**swup 换页后必须先 `destroy()` 旧实例再 `init()`**，否则监听器重复叠加。
+- **列表锚点**：`data-infinite-grid` 网格容器；卡片抽到 `_partials/cards/card-xhs.html` 供 home/section 复用，新增风格一并接线 `cards/card-{style}.html`。
+- **配置**：`[pagination] pagerSize / path`（如 `path = 'page'` 生成 `/page/2/`），`[params.features].infiniteScroll = true`。
+
 ## 5. HTML/JS/CSS 约定
 
 - 所有 HTML partial 顶部用 `{{- /* 中文说明 */}}` 注释。
-- shortcode 文件放 `_shortcodes/`，用**描述性短名命名**（如 `audio.html`、`bilibili.html`、`callout.html`、`figure.html`、`code-fold.html`），调用即 `{{< audio ... >}}`；**不加 `layout_` 之类前缀**（此前的 `layout_*.html` 说明系误写，已废弃）。
-- 内联 shortcode 用短名实参形式，参数命名清晰、带默认值，调用处可读。
 - CSS 按特性拆分到 `assets/css/features/*.css`，经 Hugo 管道合并指纹。
 - 样式路由用 `style-{{ site.Params.style }}` 类挂在 `<body>`。
 - 功能启用状态以 `data-features`（HTML）与 JS 端 feature 检测保持一致。
@@ -153,3 +163,30 @@ layouts/
 - 示例内容覆盖全部特性：数学公式、Mermaid、图片、音频、视频（YouTube/B站 shortcode）、代码优化 + 语法高亮、阅读计时。
 - 文学片段选用《古文观止》（《岳阳楼记》）与《福尔摩斯》章节（《血字的研究》），各语言对译。
 - 目录除 `posts/` 外还有 `projects/` 用于差异测试。
+
+## 7. 坑点与可复用解决（Pitfalls & Reusable Solutions）
+
+> 汇总历次修复中可复用的经验。凡「一次修好、下次照抄」的解法都收在此处。
+
+### 7.1 触控板上滑反复跳动（列表尾部上滑手势）
+**现象**：MacBook 触控板上滑到列表尾部，页面上抬后反复跳动/闪动。
+**根因**：触控板输入是「高频小幅步进 + 惯性长尾（momentum）」。回弹动画期间残余的正向惯性会不断「取消回弹再拉起」，与原生橡皮筋（overscroll）形成拉锯。
+**可复用解法**（集中在 `features/infinite.js`）：
+1. 回弹动画期内 **全量吸纳滚轮输入**，把它计入动画目标，而不是打断动画；
+2. 设置**惯性尾段窗口**（`WHEEL_TAIL_MS ≈ 400ms`）：空白区归零后的 momentum 残存期内，正向滚轮按 `≈0.5` 权重打折计入——防「刚收起的空白区被惯性瞬间弹起」；
+3. 反向 delta（回滚）**软回退而非硬收**：反向权重低，视觉顺滑；
+4. **单次滚轮位移设上限**（`WHEEL_STEP_MAX ≈ 150px`）：只拦截极端惯性加速的「拉满弹跳」；
+5. **`overscroll-behavior-y: none`** 消除原生橡皮筋；左栏导航用 `overscroll-behavior: contain` 限制在自身区域滚动；
+6. 触发阈值用「视口高度的比例」（2/5）而非固定 px，且**松手（touchEnd）才回落**——用户不松手不回落，避免系统抢滚动；
+7. 回落动画时长随上滑像素**自适应**（基础 160ms + 0.35ms/px，上限约 420ms），贴合人手回速，不显突兀。
+
+### 7.2 SPA（swup）与动态功能实例的协作
+- 任何在页面首次加载后新建监听器/观察器的模块（infinite 滚动、语言切换、搜索高亮），**必须在 swup 换页时 `destroy()` 旧实例再 `init()`**，否则重复初始化会叠加监听器与观察器（IntersectionObserver 同元素多次 observe 行为不可控）。
+- `#main-content` 替换完成后等 `theme:content-replaced` 事件再做 DOM 依赖操作（如关键词高亮重跑）。
+
+### 7.3 语言对象上的自定义字段必须放 `params` 子表
+- `langs.Language` 只有原生属性，**点语法访问自定义字段会报错** `can't evaluate field shortLabel in type *langs.Language`。
+- 自定义字段存 `[languages.xx.params]`，模板用 `site.Language.Params.shortLabel` 读；两段回退：`Params.shortLabel | default label`。（实现细节与示例见 §3 语言按钮简短标签）
+
+### 7.4 Hugo 环境与安全（v0.168+）
+- 安全白名单：主题位于站点工作目录外（符号链接 `exampleSite/themes/HugMedia`）时，凡主题要跨目录引用的资源（如 `node_modules` 依赖），需在站点 `hugo.toml` 的 `[security] node.permissions.allowread` 中放行 `'../node_modules'`，否则 js.Build 直接报 "not allowed"（示例见 `exampleSite/hugo.toml` 注释）。

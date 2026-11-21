@@ -21,6 +21,8 @@
       {{- end }}
     </ul>
   </nav>
+  {{- /* 社交账号图标：位于标签阵列上方、主导航之下 */}}
+  {{ partial "features/social.html" . }}
   {{- /* 标签展示栏：展示当前语言的标签清单，无标签时整块省略 */}}
   {{- with site.Taxonomies.tags }}
   <section class="xhs-sidenav-tags" aria-label="{{ i18n "tags" | default "标签" }}">
@@ -32,5 +34,4 @@
     </ul>
   </section>
   {{- end }}
-  {{- partial "features/social.html" . }}
 </aside>

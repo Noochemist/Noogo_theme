@@ -19,6 +19,32 @@
   /* 覆盖 base 背景为纯白 + 粉红软调 */
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
+
+  /* 固定版权页脚总高：页脚钉视口底 → body 底部让位、分页条/状态槽/颜文字
+     统一上移该高度（--infinite-bar-bot 为功能层固定条底部偏移基准） */
+  --footer-h: 3.75rem;
+  --infinite-bar-bot: var(--footer-h);
+}
+
+/* ── 底部版权页脚：固定钉在视口底（不随页面滚动）──────────
+   position:fixed 移出文档流后，body 底部让出等价高度，正文滚动到底
+   不被页脚遮挡；z-index 低于分页条(40)/状态槽(39)，上拉空白区浮于其后。 */
+body.style-xhs {
+  padding-bottom: var(--footer-h);
+}
+.style-xhs footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  min-height: var(--footer-h);
+}
+/* 页脚固定后其内 p 不再产生「空余下边距」，高度即 --footer-h，联动精确 */
+.style-xhs footer p {
+  margin-bottom: 0;
 }
 
 /* ── 顶部导航（风格专属视觉；悬浮底/毛玻璃由共享特性在 <header> 提供）── */
@@ -77,12 +103,58 @@
   display: grid;
   grid-template-columns: 12rem 1fr;
   gap: 1.5rem;
+  /* 底部让位：页面最后一张卡片与内容不被固定跳转条遮挡（固定版权页脚
+   已由 body.style-xhs 的 padding-bottom 让位，此处的预留无需重复计入） */
+  padding-bottom: calc(var(--infinite-bar-h, 3.75rem) + var(--space-4, 1rem));
 }
-/* 左栏导航悬浮：跟随滚动固定在顶栏下方；右列撑高 grid 以提供滚动行程 */
+/* 导航 fixed 移出文档流后，右侧主体显式置于第 2 列（第 1 列留空占位）。 */
+.xhs-layout > section {
+  grid-column: 2;
+  min-width: 0;
+}
+/* 功能层固定条 / 状态提示 / 上拉颜文字的水平对齐：只覆盖右侧主体列。
+   计算基准：容器居中（(100vw - min(100vw, 72rem))/2）+ 内距 1.5rem
+   + 左栏 12rem + 列间距 1.5rem（左缘）/ 仅内距 1.5rem（右缘）。 */
+.style-xhs {
+  --infinite-sec-left: calc((100vw - min(100vw, var(--container-max))) / 2 + 15rem);
+  --infinite-sec-right: calc((100vw - min(100vw, var(--container-max))) / 2 + 1.5rem);
+}
+.style-xhs [data-infinite-pagination] {
+  --infinite-bar-left: var(--infinite-sec-left);
+  --infinite-bar-right: var(--infinite-sec-right);
+  /* 融入页面背景：去掉顶边线、浮起阴影，底色直接用画布色，
+     与正文同色无缝衔接——看不出分页条自身的边界，仅保留内部控件。 */
+  background: var(--color-canvas);
+  border-top: none;
+  box-shadow: none;
+}
+.style-xhs [data-infinite-status] {
+  left: var(--infinite-sec-left);
+  right: var(--infinite-sec-right);
+}
+.style-xhs [data-infinite-pull] [data-infinite-pull-inner] {
+  left: var(--infinite-sec-left);
+  right: var(--infinite-sec-right);
+}
+/* 左栏导航：fixed 固定钉在顶栏下方左缘（与页面滚动完全解耦、永不随滚上抬），
+   高度钉满视口可用区，内容超额时仅自身滚动；
+   overscroll-behavior 防止左栏滚动溢出到页面。 */
 .xhs-sidenav {
-  position: sticky;
-  top: var(--navbar-height);
-  align-self: start;
+  position: fixed;
+  /* 高于页面上拉空白区（body 尾部动态元素、auto 层级、按 DOM 序后绘制），
+     保证它就位后不被上滑拉出的空白背景遮罩；同时低于页脚(30)/状态槽(39)/分页条(40) */
+  z-index: 20;
+  top: calc(var(--navbar-height) + var(--space-8, 2rem));
+  left: calc((100vw - min(100vw, var(--container-max))) / 2 + var(--space-6, 1.5rem));
+  width: 12rem;
+  height: calc(100dvh - var(--navbar-height) - var(--space-8, 2rem) - var(--footer-h, 0));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.xhs-sidenav::-webkit-scrollbar {
+  width: 0;
+  display: none;
 }
 .xhs-sidenav a {
   display: flex;
@@ -142,21 +214,25 @@
   color: var(--brand-contrast);
 }
 
-/* ── 左栏最下方：社交账号图标 ────────────── */
-.social-links {
+/* ── 左栏：社交账号图标（主导航与标签阵列之间的分隔线）──
+   注意：.social-links 是 <ul class> 元素，会被 reset.css 的
+   ul[class]（特异性 0-1-1）覆盖 padding；此处用 .xhs-sidenav .social-links
+   （特异性 0-2-0）压过它，确保分隔线到图标之间有呼吸距离。 */
+.xhs-sidenav .social-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 0;
-  margin: 1rem 0 0;
+  padding: 1.25rem 0 0;
+  margin: 1.25rem 0 0;
   list-style: none;
+  border-top: 1px solid var(--color-line);
 }
 .social-links a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   padding: 0;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-md);
@@ -179,10 +255,17 @@
   gap: var(--grid-gap);
 }
 @media (max-width: 1200px) { .xhs-grid { grid-template-columns: repeat(4, 1fr); } }
-@media (max-width: 1024px) { .xhs-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1024px) { .xhs-grid { grid-template-columns: repeat(3, 1fr); }
+                              /* 右栏逼近最小宽度时压缩控件，避免换行撑高固定条盖住状态提示 */
+                              .style-xhs [data-infinite-pagination] { padding-top: var(--space-2, 0.5rem); padding-bottom: var(--space-2, 0.5rem); }
+                              .style-xhs [data-infinite-pagination] .infinite-pagination__btn,
+                              .style-xhs [data-infinite-pagination] .infinite-pagination__jump-input { min-height: 2rem; padding: 0 var(--space-2, 0.5rem); } }
 @media (max-width: 768px)  { .xhs-grid { grid-template-columns: repeat(2, 1fr); }
                               .xhs-layout { grid-template-columns: 1fr; }
-                              .xhs-sidenav { display: none; } }
+                              .xhs-layout > section { grid-column: auto; }
+                              .xhs-sidenav { display: none; }
+                              .style-xhs { --infinite-sec-left: var(--space-6, 1.5rem);
+                                           --infinite-sec-right: var(--space-6, 1.5rem); } }
 
 .xhs-card {
   display: flex;

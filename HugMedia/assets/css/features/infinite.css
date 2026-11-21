@@ -6,10 +6,34 @@
   [data-infinite-pagination] 分支自行实现，与 search/css.html 解耦模式一致。
 */
 
-/* 分页区域：基础占位不干扰风格层定位；sentinel 仅作观察锚点。 */
+/* 分页区域：固定钉在视口底部（任何滚动位置都可通过跳转控件输入页码）；
+   总高由 --infinite-bar-h 约束，风格层/内容区以该变量让位。
+   left/right 默认为 0（全宽钉底），风格层可按双栏布局覆写
+   --infinite-bar-left / --infinite-bar-right 实现「只覆盖右侧内容栏」。
+   z-index 低于 header（50），高于页面常规内容。 */
+:root {
+  /* 底部跳转条总高（功能层约定尺寸，风格层可覆盖） */
+  --infinite-bar-h: 3.75rem;
+  /* 固定条左右钉入位置：默认全宽；风格层按布局覆写为右栏边界 */
+  --infinite-bar-left: 0;
+  --infinite-bar-right: 0;
+  /* 固定条底部钉入偏移：默认贴视口底（0）；
+     风格层若存在底部常驻栏（如 fixed 版权页脚），覆写为其高度 → 分页条让位其上。 */
+  --infinite-bar-bot: 0;
+}
 [data-infinite-pagination] {
+  position: fixed;
+  left: var(--infinite-bar-left);
+  right: var(--infinite-bar-right);
+  bottom: var(--infinite-bar-bot);
+  z-index: 40;
   display: block;
-  margin-top: var(--space-6, 1.5rem);
+  margin: 0;
+  padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+  background: var(--color-canvas, #ffffff);
+  border-top: 1px solid var(--color-line, rgba(0, 0, 0, 0.12));
+  box-shadow: 0 -2px 12px rgb(0 0 0 / 0.06);
+  text-align: center;
 }
 
 /* ── 双向分页控件：上一页 | 页码跳转 | 下一页 ─────────── */
@@ -116,16 +140,35 @@
   animation: infinite-page-in 0.4s ease both;
 }
 
-/* 状态提示条：默认隐藏，出现 loading/end/error 时由 JS 展示 */
-[data-infinite-pagination] [data-infinite-status] {
+/* 状态提示槽：固定在分页条上方、与底部上拉颜文字同一垂直槽位居中；
+   加载中（转圈）/ 已全部加载 / 错误 提示都在此槽展示；
+   与上拉颜文字互斥：上拉进行中（body[data-infinite-pulling]）强制隐藏，
+   颜文字随空白区收起后（状态恢复可见）提示才浮现。 */
+[data-infinite-status] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--infinite-bar-bot, 0) + var(--infinite-bar-h, 3.75rem) + 0.25rem);
+  z-index: 39;
   display: none;
-  text-align: center;
   font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 90vw;
+  margin: 0 auto;
+  pointer-events: none; /* 提示纯展示，不拦截下方内容点击/手势 */
 }
 [data-infinite-pagination][data-state='loading'] [data-infinite-status],
 [data-infinite-pagination][data-state='end'] [data-infinite-status],
 [data-infinite-pagination][data-state='error'] [data-infinite-status] {
   display: block;
+  color: var(--color-muted, rgba(0, 0, 0, 0.45));
+  animation: infinite-page-in 0.3s ease both;
+}
+/* 上拉进行中：槽位让给空白区颜文字（JS 于空白区显形时挂载该属性）。 */
+body[data-infinite-pulling] [data-infinite-status] {
+  display: none !important;
 }
 
 /* loading 时展示轻量指示器（仅基础内置，风格层可自定义覆盖） */
@@ -144,4 +187,33 @@
 
 @keyframes infinite-spin {
   to { transform: rotate(360deg); }
+}
+
+/* ── 底部上拉空白区：贴尾部继续上滑时从视口下方拉出 ────────
+   文档流内元素（挂 body 末尾），高度由 JS 随手势写入；
+   背景默认继承页面背景色（JS 读取注入），提示文字随空白区
+   从视口底部露出，回弹归零后被页面内容遮回画面外。
+   仅功能层基础样式（定位/裁剪/文本布局），观感配色由风格层覆盖。 */
+[data-infinite-pull] {
+  height: 0;
+  overflow: hidden;
+  position: relative;
+}
+[data-infinite-pull] [data-infinite-pull-inner] {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  /* 抬到固定跳转条之上：距底部留出跳转条高度+小余量，文字从条上方露出 */
+  padding-bottom: calc(var(--infinite-bar-bot, 0) + var(--infinite-bar-h, 3.75rem) + 0.25rem);
+  pointer-events: none;
+}
+[data-infinite-pull] [data-infinite-pull-text] {
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 90vw;
+  opacity: 1; /* 实际透明度由 JS 随手势写入（半透明起步渐增） */
 }

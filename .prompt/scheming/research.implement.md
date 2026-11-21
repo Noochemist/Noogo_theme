@@ -111,11 +111,11 @@ assets/css/
 ├── main.css                 # base 层（无 @import，由 head/css.html 加载）
 ├── base/{reset,variables,typography}.css
 ├── components/{footer,header,nav}.css    # 新增：布局组件层
-├── features/{accessible,darkmode,lang-switch,print,responsive,search,shortcodes,syntax,toc}.css
+├── features/{accessible,darkmode,lang-switch,print,responsive,search,shortcodes,syntax,toc,infinite}.css
 └── styles/{_base-style,xhs,zhihu,wechat,medium,quora}.css
 ```
 
-> 差异：research 有 `base/layout.css`、`base/grid.css`（在较早版里散落）等、`features/code-copy.css`；落地把布局并入 `components/*` 与各风格 `styles/*.css`。
+> 差异：research 有 `base/layout.css`、`base/grid.css`（在较早版里散落）等、`features/code-copy.css`；落地把布局并入 `components/*` 与各风格 `styles/*.css`。**`features/infinite.css` 为实施新增**（无限滚动分页控件与贴纸样式，见 3.1 十一条）。
 > 加载顺序（`head/css.html`）：`main.css`（base 层）→ 当前 `styles/{style}.css` → 按 `[params.features]` 开关条件加载 `features/*.css`（含始终加载的 responsive/shortcodes）。
 
 ### 4.3 JS 架构落地
@@ -124,12 +124,12 @@ assets/css/
 assets/js/
 ├── main.js                 # 入口
 ├── core/{dom-utils,event-bus,init}.js
-├── features/{darkmode,index,lang-switch,search,toc,code-copy,smooth-scroll}.js
+├── features/{darkmode,index,lang-switch,search,toc,code-copy,smooth-scroll,infinite}.js
 ├── spa/swup-loader.js
 └── vendor/{katex-build,mermaid-build}.js    # 新增：KaTeX/Mermaid 本地打包入口
 ```
 
-> 差异：research 规划的 `style-behaviors/{xhs,zhihu,wechat,medium,quora}.js` 落地未建（对应 4 风格模板未接线的同步状态）；新增 `features/lang-switch.js`（语言切换交互）与 `vendor/*-build.js`（本地化第三方库打包）。
+> 差异：research 规划的 `style-behaviors/{xhs,zhihu,wechat,medium,quora}.js` 落地未建（对应 4 风格模板未接线的同步状态）；新增 `features/lang-switch.js`（语言切换交互）与 `vendor/*-build.js`（本地化第三方库打包）。**`features/infinite.js` 为实施新增**：列表页双向无限滚动 + 页码跳转（见 3.1 十一条）。
 
 ### 4.4 Hugo 模板结构落地
 
@@ -144,6 +144,11 @@ research 的 `layouts/` 规划与实施对照：
 | `_partials/shared/{author,post-card}` | 仅 `shared/figure.html`（author/post-card 未单拆） |
 | `layouts/home/`、`layouts/page/` 风格主体 | → `_partials/home/`、`_partials/page/`，仅 xhs |
 | `_markup/render-image,render-codeblock` | ✅ `render-codeblock.html`（render-image 未建，图片走 `image`/`figure` shortcode） |
+
+**追加（实施新增，research 未规划）**：
+- `_partials/pagination.html`（功能层分页：`data-infinite-pagination` 控件 + 上一页/下一页/页码跳转表单 + 状态条 + 顶部/底部哨兵 占位），由 home/section 根级传入 Paginator。
+- `_partials/section/section-xhs.html`（section 风格主体，结构与 home-xhs 同构，消费 pager）；`_partials/cards/card-xhs.html`（文章卡片，供 home/section 网格复用）。
+- home.html / section.html 均改为：根级算 `$pager := .Paginate ...` → `partial (printf "..." ) (dict "page" . "pager" $pager)`，风格 partial 只消费分页后的页集（见 3.1 十一条）。
 
 **home.html 落地路由（重点差异）**——用 partial 而非 define+template：
 ```go
@@ -170,7 +175,15 @@ style = "xhs"   # xhs | zhihu | wechat | medium | quora
 落地为**拉丁优先的多脚本统一字体栈**（见文件内长注释）：拉丁字体在前 → zh-Hans/Hant → ja → ko → 通用族，一套变量覆盖中英日韩混排；未按语言拆分 `title_ja/body_ja` 等（注释标注为进阶用法）。
 
 ### `[params.features]`（开关落地）
-darkMode / spa / search / toc / readingTime / syntaxHighlight / codeCopy / math / mermaid / comments / socialLinks / i18n / printFriendly / accessible（均 true）、analytics（false）。
+darkMode / spa / search / toc / readingTime / syntaxHighlight / codeCopy / math / mermaid / comments / socialLinks / i18n / printFriendly / accessible / **infiniteScroll（实施新增）**（均 true）、analytics（false）。
+
+### `[pagination]`（实施新增）
+```toml
+[pagination]
+  pagerSize = 3   # 每页卡片数（示例站演示用）
+  path = 'page'   # 分页 URL 段，生成 /page/2/ ...
+```
+由它驱动**双向往返 + 页码跳转**（见十一节「分页与双向无限滚动」），research 未规划该项。
 
 ### `[params.meta]`、`[params.author]`、`[params.social]`、`[params.comments]`
 均落地（meta author 字段；social 含国内外平台；comments provider="disqus"）。
@@ -233,6 +246,7 @@ draft: true
 | Phase 1 风格系统 + 小红书 | 1.1–1.4 五风格变量 + 路由 + xhs + 隔离验证 | ✅ 完成（xhs 全接线）| 五风格 CSS 变量文件就绪；路由 partial 分发；xhs 模板/导航/侧栏齐全 |
 | Phase 2 SPA (swup) | 2.1–2.4 依赖/loader/容器/测试 | ✅ 完成 | swup v4 + preload/scroll 插件，`#main-content` 容器，无障碍动画 |
 | Phase 3 功能模块（3.1–3.15）| 响应式/暗黑/配色/高亮+复制/SEO/阅读/字体/TOC/搜索/评论/KaTeX/短代码/无障碍/打印/RSS | ✅ 主体完成 | 落地 15 项；KaTeX/Mermaid 本地化打包为实施增强 |
+| Phase 3.16（实施新增）| **分页 + 双向无限滚动**（Pagination + Infinite Scroll） | ✅ 完成 | 根级 Paginator + `_partials/pagination.html` + `features/infinite.{js,css}`；上滑/回拉双向往返、页码跳转、手势防跳（见十一节）|
 | Phase 4 其余 4 风格 | 4.1–4.4 Medium/知乎/Quora/公众号 | ⚠️ 仅 CSS+配置预置 | `home-{style}`/`page-{style}`/`nav-{style}` 模板未接线，切换回退 xhs |
 | Phase 5 打磨验证 | 5.1–5.5 切换/断点/Lighthouse/无障碍/截图 | ⏳ 待做 | 尚未系统执行 |
 
@@ -266,7 +280,9 @@ HugMedia/
     ├── _partials/
     │   ├── head/{head,css,js,meta,link}.html
     │   ├── nav/nav-xhs.html
-    │   ├── home/home-xhs.html / page/page-xhs.html / sidebar-xhs.html
+    │   ├── home/home-xhs.html / section/section-xhs.html / page/page-xhs.html / sidebar-xhs.html
+    │   ├── cards/card-xhs.html              # 实施新增：文章卡片（home/section 网格复用）
+    │   ├── pagination.html                  # 实施新增：功能层分页 + 双向无限滚动控件
     │   ├── features/{katex,mermaid,toc,dark-toggle,comments,social,flag,lang-switch,reading}.html
     │   ├── pages/lang-target.html / shared/figure.html
     │   ├── header.html / footer.html / head.html / terms.html
@@ -284,7 +300,7 @@ HugMedia/
 > - research 规划的 `data/styles.yaml`（风格元数据表）落地**未建**——风格信息直接来自各 `styles/*.css` 变量与 `[params.styleOptions.*]` 配置，避免重复维护。
 > - `static/fonts` 未启用（字体走系统字体栈 / 自托管可后续加）；`static/` 无自定义 favicon（用 Hugo 默认）。
 > - `_markup/render-image.html` 未建（图片由 image/figure shortcode 处理）。
-> - 新增 `components/` CSS 层、`icons/` 体系、`vendor/` 打包入口、`pages/`（lang-target）等 research 未列目录。
+> - 新增 `components/` CSS 层、`icons/` 体系、`vendor/` 打包入口、`pages/`（lang-target）、`cards/`、`section/section-xhs.html`、`pagination.html` 与 `features/infinite.{js,css}`（分页 + 双向无限滚动）等 research 未列目录。
 
 ---
 
@@ -296,6 +312,7 @@ HugMedia/
 | Phase 1 风格 + 小红书 | 1.5 天 | ✅ |
 | Phase 2 SPA | 1 天 | ✅ |
 | Phase 3 功能模块 | 3 天 | ✅（主体完成）|
+| Phase 3.16 分页 + 无限滚动（实施新增） | — | ✅ |
 | Phase 4 其余 4 风格 | 2 天 | ⚠️ 未接线（CSS/配置已备）|
 | Phase 5 打磨 | 1 天 | ⏳ 待做 |
 | 合计 | ~9 天 | 主线约完成 6.5 天量；剩 Phase 4 + Phase 5 ≈ 3 天 |
@@ -313,3 +330,47 @@ HugMedia/
 | 评论 disqus/utterances/mastodon | ✅ provider="disqus" 占位 | 可切换 |
 | 数学 KaTeX「构建时渲染」可选 | ⚠️ 改为客户端渲染，但**本地打包**（`vendor/katex-build.js` + 本地字体） | 消除 unpkg CDN 跨境延迟，见 4.1 |
 | 字体自托管不依赖 Google Fonts | ✅ 系统字体栈（未引 Google Fonts）；自托管字体预留 static/fonts | GDPR 合规达成 |
+| 分页方案 research 未规划 | ✅「静态分页 + 双向无限滚动」渐进增强（`[pagination]` + `pagination.html` + `features/infinite.{js,css}`） | 见十一节 |
+| 列表加载方式（research 无） | ✅ 服务端分页渲染 + 客户端就近追加/前插，**非** 前端 fetch JSON | SEO 无 JS 可原生翻页 |
+
+---
+
+## 十一、分页 + 双向无限滚动（Pagination + Infinite Scroll，实施新增）
+
+> research 全程未规划列表分页；实施中新增此模块，与 SPA（swup）联动，为**列表类页面**（home / section / taxonomy / term）提供「上滑加载下一页、回拉加载上一页、页码直达」三种翻页方式。
+
+### 11.1 架构分层与数据流
+
+- **根级模板** `home.html` / `section.html` 统一计算 `$pager := .Paginate ...`，把 `(dict "page" . "pager" $pager)` 传给风格 partial（[home.html](file:///Users/schore/zscodes/drhugo_theme/HugMedia/layouts/home.html)、[section.html](file:///Users/schore/zscodes/drhugo_theme/HugMedia/layouts/section.html)）。
+- **功能层** `_partials/pagination.html` 只输出通用钩子：`.infinite-pagination` 类 + `data-infinite-pagination / data-current-page / data-total-pages / data-page-urls / data-prev-url / data-next-url / data-status-*` 等属性，不含任何风格选择器；**渐进增强**——无 JS / SEO 抓取时上一页/下一页链接原生可点，跳转表单由 JS 增强。
+- **风格层** `home-xhs.html` / `section-xhs.html` 渲染色卡网格 `data-infinite-grid`（卡片复用 `cards/card-xhs.html`），并放置 `pagination.html`；外观由 `styles/xhs.css` 用 `[data-infinite-pagination]` 自行实现。
+- **行为层** `assets/js/features/infinite.js` 由 `features/index.js` 按 `data-features` 含 `infinitescroll` 动态 import、`win.infiniteScroll` 持有实例（swup 换页后先 `destroy()` 再 `init()`）。
+
+### 11.2 双向往返加载
+
+- **向下（上滑手势）**：滚到列表尾部后继续上滑，JS 在文档流末尾注入「空白区」+ 提示文字（`↑↑(•̀ᴗ•́)و 上滑看更多`）；上滑超过**视口高度 2/5**（`PULL_THRESHOLD_FRACTION`）且到达阈值才 `commit`，松手触发 fetch 下一页追加到 `data-infinite-grid` 末尾；不足阈值松手回弹至当前分页。已是最后一页则提示「`(￣▽￣)~* 到底啦，我是有底线的`」，不再触发。
+- **向上（回拉）**：JS 在网格顶部插入顶部哨兵 `[data-infinite-sentinel-top]`，IntersectionObserver 监测其进入视口顶部约 260px 区间（`TOP_TRIGGER_ZONE`）即预取上一页；新卡片**插到哨兵之后**（哨兵保持最顶端），以「追加前的首张卡片」为锚点即时补偿滚动偏移，阅读位置不跳变。哨兵离开区间后重新上膛（`prevArmed`），防连发。
+- **并发锁**：`state.loading` 保证一次只允许一页在途；`nextFinished/prevFinished` 标记已到末/首屏。
+
+### 11.3 页码跳转与地址栏
+
+- 分页控件内 `data-infinite-jump` 表单，输入页码提交后按 `data-page-urls`（`{{ range $p.Pagers }}{{ .URL }} {{ end }}` 生成的空格分隔「页码→URL」映射）定位目标 URL；同源 `<a>` 点击交由 swup 拦截走 SPA。
+- 加载完成同步分页状态：推进**近叠加端**相邻链接、保留**远固定端**链接（供反向滚动继续取用），并用 `history.replaceState` 把地址栏同步到当前分页地址（不产生历史新条目）。
+
+### 11.4 上滑手势防跳机制（实施踩坑后的核心治理）
+
+列表末尾「继续上滑出现空白区」易在 **Mac 触控板**（高频小幅步进 + 惯性长尾）下反复跳动，最终治理组合（集中在 `infinite.js`）：
+
+1. **回弹动画期全量吸纳滚轮**（`pullSettle` 期间 wheel 输入直接计入动画目标，不打断动画）。
+2. **惯性尾段窗口**（`WHEEL_TAIL_MS = 400`）：空白区归零后的 momentum 残存期，正向滚轮按 `WHEEL_TAIL_GAIN = 0.5` 权重打折计入，防止「刚收起的空白区被惯性瞬间弹起」。
+3. **反向 delta 软回退**而非硬收：反向滚轮权重低，视觉顺滑。
+4. **单次滚轮位移上限**（`WHEEL_STEP_MAX = 150px`）：仅拦截极端惯性加速瞬间的拉满弹跳。
+5. **`overscroll-behavior-y: none`**：文档根消除原生橡皮筋，避免「原生惯性与自定义空白区」拉锯。
+6. **上滑阈值 2/5 + 松手（touchEnd）才回落**：不松手不回落（避免用户误以为系统在抢滚动）；回落动画时长随上滑像素自适应（基础 160ms + 0.35ms/px，上限 420ms），速度贴合人手回速。
+7. 左栏导航 `overscroll-behavior: contain`（各风格 CSS），保证只在自己区域滚动。
+
+### 11.5 布局调整（随分页功能落地）
+
+- **分页条钉底**：分页控件固定于底部视口、位于 Copyright footer 之上，只覆盖右栏宽度，不遮挡 footer；跳转/状态提示在分页条上方同一位置互斥出现。
+- **左侧导航固定**：不随右侧列表滚动，仅自身区域可滚；社交链接置于标签阵列上方，标签容器与 footer 对齐。
+- **taxonomy / term 复用 section 布局**：`taxonomy.html` / `term.html` 直接复用 section 模板结构（分页参数 `.Paginate .Pages` 同构），保持一致的分页体验。

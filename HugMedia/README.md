@@ -20,6 +20,8 @@
   - [短代码 / Shortcodes](#短代码--shortcodes)
   - [文章封面 / Cover Image](#文章封面--cover-image)
   - [作者与社交 / Author & Social](#作者与社交--author--social)
+  - [站内搜索 / Site Search](#站内搜索--site-search)
+  - [无限滚动分页 / Pagination & Infinite Scroll](#无限滚动分页--pagination--infinite-scroll)
 - [路线图 / Roadmap](#路线图--roadmap)
 - [许可证 / License](#许可证--license)
 
@@ -237,6 +239,35 @@ npx pagefind
 > 开关：`[params.features].search = true`（默认开启）。搜索 UI 由共享组件提供，仅使用通用类 `search-ui__*`，输入框视觉归各风格（如 `.xhs-search`），与风格完全解耦。主题自带的 `npm run build` 已串联 `hugo` 与 `pagefind`。
 
 > Toggle: `[params.features].search = true` (default on). The search UI comes from a shared component that uses only generic `search-ui__*` classes; the input's look belongs to each style (e.g. `.xhs-search`), keeping it fully style-agnostic. The theme's `npm run build` already chains `hugo` with `pagefind`.
+
+---
+
+### 无限滚动分页 / Pagination & Infinite Scroll
+
+> 列表页面（首页、归档、标签页、分类页）内置 **双向无限滚动 + 页码直达**：向下滑到列表尾部继续上滑即可加载下一页，回拉到顶自动加载上一页，也可通过底部固定的分页控件直接输入页码跳转。无 JavaScript / SEO 抓取时退回传统静态分页链接。
+
+> List pages — home, archives, tag and category pages — ship a **bidirectional infinite scroll with direct page-number navigation**: swipe up at the list bottom to load the next page, pull back to the top to load the previous one, or jump straight to any page via the bottom-pinned pagination bar. Without JavaScript (or for SEO crawlers) it degrades to plain static paging links.
+
+```toml
+[pagination]
+  pagerSize = 3     # 每页条目数 / items per page
+  path     = 'page' # 分页 URL 段 / paged URL segment
+
+[params.features]
+  infiniteScroll = true   # 开关 / toggle
+```
+
+> 交互细节：
+> - 上滑超过视口约 2/5 才触发加载下一页，不足则松手回弹当前页；最后一页提示“到底啦”。
+> - 回拉到顶自动预取上一页，并补偿滚动位置，阅读不跳变。
+> - 分页控件固定钉底、只占内容列，位于页脚上方；加载中 / 已全部加载 / 失败状态就地提示。
+> - 主题遵守渐进增强：无 JS 时「上一页/下一页」链接仍原生可点。
+
+> Interaction details:
+> - Swiping up past about 2/5 of the viewport loads the next page; releasing below that threshold springs back to the current page. The last page shows an “end of list” hint.
+> - Pulling back to the top prefetches the previous page and compensates scroll position so reading never jumps.
+> - The pagination bar is pinned to the bottom within the content column, above the footer; loading / all-loaded / error states are shown in place.
+> - Progressive enhancement: without JS, the prev/next links remain natively clickable.
 
 ---
 
