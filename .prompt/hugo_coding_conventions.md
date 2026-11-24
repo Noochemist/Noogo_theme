@@ -53,9 +53,14 @@ layouts/
   - 两级回退：触发按钮 `Params.shortLabel | default label`，下拉固定显示 label 全称。
   - 触发按钮 `white-space:nowrap; flex-shrink:0` 防折行；≤600px 仅隐藏触发钮 label，下拉项文字始终可见。
 
-### 3.1 导航图标（按风格分目录）
-- `assets/icons/{style}/`，文件名 = 菜单项 `identifier`；渲染 `resources.Get (printf "icons/%s/%s.svg" $style .Identifier)`，缺失静默跳过。
-- 统一 Tabler 描边图标（`stroke="currentColor"`）；`openicons/` 为候选库（tabler/lucide/bootstrap/heroicons/feather），选中后复制进风格目录。
+### 3.1 导航图标（通用 + 风格专属两层回退）
+- `assets/icons/nav/` 存**所有风格通用**图标，文件名 = 菜单项 `identifier`（home/posts/about/coding/…）。
+- 风格专属图标存 `assets/icons/nav/{style}/`（如 `nav/xhs/`）；**两级回退**：先取 `icons/nav/{style}/{identifier}.svg`，缺失回退 `icons/nav/{identifier}.svg`，均缺失静默跳过。
+  ```go
+  $icon := resources.Get (printf "icons/nav/%s/%s.svg" $style .Identifier)
+  {{- if not $icon }}{{ $icon = resources.Get (printf "icons/nav/%s.svg" .Identifier) }}{{ end }}
+  ```
+- 统一 Tabler 描边图标（`stroke="currentColor"`）；`openicons/` 为候选库（tabler/lucide/bootstrap/heroicons/feather），选中后复制进 `nav/`（通用）或 `nav/{style}/`（专属）。
 - 内联尺寸由 CSS `.menu-ico svg { width/height:1.15em }` 覆盖源 SVG。
 
 ### 3.2 功能级共享图标

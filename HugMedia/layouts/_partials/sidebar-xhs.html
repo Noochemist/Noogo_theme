@@ -1,6 +1,8 @@
 {{- /* 小红书左侧垂直导航（风格专属导航）：主导航 + 下方标签展示栏 + 社交账号图标。
-     导航图标：按当前风格从 assets/icons/{style}/{identifier}.svg 内联读取；
-     仅当图标文件存在时才渲染，缺失则静默跳过（不破坏导航）。 */}}
+     导航图标（两级回退）：优先从 assets/icons/nav/{style}/{identifier}.svg
+     （风格专属图标，目录为空时回退通用）读取；缺失则回退
+     assets/icons/nav/{identifier}.svg（通用图标）。仅当图标存在时才渲染，
+     均缺失则静默跳过（不破坏导航）。 */}}
 {{- $style := site.Params.style | default "xhs" }}
 <aside id="xhs-sidenav" class="xhs-sidenav">
   <nav aria-label="主导航">
@@ -10,7 +12,8 @@
           <li>
             <a href="{{ .URL }}"
               {{- if partial "is-menu-current.html" (dict "page" $.Page "menu" "main" "entry" .) }} class="active" aria-current="page"{{ end }}>
-              {{- $icon := resources.Get (printf "icons/%s/%s.svg" $style .Identifier) }}
+              {{- $icon := resources.Get (printf "icons/nav/%s/%s.svg" $style .Identifier) }}
+              {{- if not $icon }}{{ $icon = resources.Get (printf "icons/nav/%s.svg" .Identifier) }}{{ end }}
               {{- with $icon }}
                 <span class="menu-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>
               {{- end }}

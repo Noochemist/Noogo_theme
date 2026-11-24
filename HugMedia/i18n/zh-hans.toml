@@ -8,6 +8,8 @@
   other = "文章"
 [about]
   other = "关于"
+[coding]
+  other = "编程"
 [recommends]
   other = "推荐"
 [projects]

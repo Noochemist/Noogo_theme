@@ -137,7 +137,8 @@ logs/
 .Trashes
 .AppleDouble
 .LSOverride
-Icon?
+# 仅匹配 macOS 图标缓存（Icon + 非字母数字字符，如 Icon\r），避免误伤 icons/ 等目录
+Icon[!0-9A-Za-z]
 
 # Windows
 Thumbs.db

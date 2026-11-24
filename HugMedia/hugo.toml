@@ -52,6 +52,11 @@ theme = "."
 # 注意：原生 menu 是站点级（全局），所有风格共享同一组条目；
 #       风格差异仅体现在渲染位置/样式（顶栏水平 vs 侧栏垂直）。
 #       图标建议用 pre/post 或菜单项的 .Params 扩展。
+# 图标存放目录（assets/icons/）：
+#   icons/nav/{identifier}.svg            通用图标（所有风格共享），如 nav/home.svg
+#   icons/nav/{style}/{identifier}.svg    风格专属图标（如 nav/xhs/），
+#                                        缺失时自动回退 icons/nav/{identifier}.svg；
+#                                        两者均缺失时该导航项不显示图标。
 # ───────────────────────────────────────────────────────────
 [[menu.main]]
   identifier = "home"
@@ -88,6 +93,12 @@ theme = "."
   name       = "projects"
   pageRef    = "/projects"
   weight     = 50
+
+[[menu.main]]
+  identifier = "coding"
+  name       = "coding"
+  pageRef    = "/coding"
+  weight     = 35
 
 # ───────────────────────────────────────────────────────────
 # 输出格式

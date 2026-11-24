@@ -8,6 +8,8 @@
   other = "記事"
 [about]
   other = "このブログについて"
+[coding]
+  other = "コーディング"
 [recommends]
   other = "おすすめ"
 [projects]

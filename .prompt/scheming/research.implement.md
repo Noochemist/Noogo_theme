@@ -91,7 +91,7 @@ assets/js/
 | `_partials/nav/nav-{5风格}` | 仅 `nav-xhs.html` |
 | `_partials/features/*` | ✅ toc/dark-toggle/comments/social/flag/lang-switch/katex/mermaid/reading + **share** |
 | `_partials/shared/{author,post-card}` | 仅 `shared/figure.html` |
-| `layouts/home/`、`layouts/page/` | → `_partials/home/`、`_partials/page/`，仅 xhs |
+| `layouts/home/`、`layouts/page/` | → `_partials/home/`、`_partials/page/`，仅 xhs；**空目录已删除** |
 | `_markup/render-image,render-codeblock` | 仅 `render-codeblock.html`（图片走 image/figure shortcode） |
 
 实施新增：`_partials/pagination.html`（功能层分页控件 + 哨兵）、`section/section-xhs.html`、`cards/card-xhs.html`。
@@ -114,7 +114,7 @@ research 曾担心 `partial (printf …)` 与 `layouts/home/` 冲突；实施把
 - `[params.styleOptions.*]`：xhs（gridColumns/cardRatio/showCategoryBar）、zhihu（showHotList/answerCollaps）、medium（stickyToc/maxContentWidth）、quora（showRightRail）、wechat（maxContentWidth/showAuthorBar）——预置。
 - `[params.dark] defaultMode="auto"`；`[params.share].platforms`（见十三）。
 - 菜单：顶层 `[[menu.main]]`（identifier/name/pageRef/weight），`nav-xhs.html` 与 `sidebar-xhs.html` 遍历 `site.Menus.main`；新增合集/推荐/项目可选条目默认注释。
-- **图标动态加载**：`resources.Get (printf "icons/%s/%s.svg" $style .Identifier)`，缺失静默跳过。`assets/icons/{style}/` 按 identifier 命名（home/posts/about/recommends/projects）；`openicons/` 为候选库；当前 xhs 用 Tabler。
+- **图标动态加载**：两级回退——先取 `resources.Get (printf "icons/%s/%s.svg" $style .Identifier)`（风格专属），缺失回退 `resources.Get (printf "icons/nav/%s.svg" .Identifier)`（通用图标），均缺失静默跳过。`assets/icons/nav/` 按 identifier 命名通用图标（home/posts/about/collects/projects/recommends/coding），`nav/{style}/` 存风格专属（为空时自动回退通用）；`openicons/` 为候选库；当前 xhs 用 Tabler。
 - Front matter（archetypes/default.md）：`date / created / published / draft`；模板读发布用 `.PublishDate`，不自定义 `.Params.published`（会被内核消费）。
 
 ## 六、多语言

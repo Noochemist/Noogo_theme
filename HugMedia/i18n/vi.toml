@@ -8,6 +8,8 @@
   other = "Bài viết"
 [about]
   other = "Giới thiệu"
+[coding]
+  other = "Lập trình"
 [recommends]
   other = "Đề xuất"
 [projects]

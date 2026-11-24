@@ -8,6 +8,8 @@
   other = "글"
 [about]
   other = "소개"
+[coding]
+  other = "코딩"
 [recommends]
   other = "추천"
 [projects]
