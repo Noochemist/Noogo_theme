@@ -116,7 +116,8 @@ a.lang-switch__item:hover {
 }
 
 @media (max-width: 600px) {
-  .lang-switch__label,
+  /* 仅压缩触发按钮上的语言名（保留国旗+箭头，顶栏更紧凑）；
+     下拉菜单项的语言名始终显示——面板空间充足，窄屏不再隐藏文字 */
   .lang-switch__trigger .lang-switch__label {
     display: none;
   }

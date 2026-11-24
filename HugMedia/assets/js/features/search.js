@@ -217,7 +217,12 @@ function fragmentize(text, terms) {
 async function runSearch(ui, term) {
   const input = $(INPUT_SEL, ui);
   const text = (term || (input && input.value) || '').trim();
-  if (!text) { clearResults(ui); return; }
+  if (!text) {
+    // 输入为空不展示下拉；清空输入时即时收起面板
+    collapseUi(ui);
+    return;
+  }
+  openUi(ui);
 
   const pf = await loadPagefind();
   if (!pf) {
@@ -251,9 +256,13 @@ async function runSearch(ui, term) {
 
 /** 展开/收起结果面板。 */
 function openUi(ui) { ui.classList.add('is-active'); }
-function closeUi(ui) {
+/** 收起结果面板但保留输入框焦点（用于输入被清空的场景）。 */
+function collapseUi(ui) {
   ui.classList.remove('is-active');
   clearResults(ui);
+}
+function closeUi(ui) {
+  collapseUi(ui);
   const input = $(INPUT_SEL, ui);
   if (input) input.blur();
 }
@@ -276,9 +285,13 @@ export const init = () => {
     if (ui) {
       // 点击结果链接：允许默认导航（swup 接管）
       if (event.target.closest('.search-ui__result')) return;
-      openUi(ui);
       const input = $(INPUT_SEL, ui);
-      if (input && !input.value) input.focus();
+      // 仅在输入非空时展开下拉；空输入点击只负责聚焦输入框
+      if (input && !input.value.trim()) {
+        input.focus();
+      } else {
+        openUi(ui);
+      }
     } else {
       // 点击面板外部 → 关闭所有打开的搜索
       $$(`${UI_SEL}.is-active`).forEach(closeUi);

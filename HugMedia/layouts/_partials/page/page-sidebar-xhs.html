@@ -1,0 +1,14 @@
+{{- /* 文章页左侧栏共用内容（正文左侧栏与窄屏汉堡抽屉各调用一次）：
+       目录（features/toc 开启且文章允许时输出） + 该文章所属标签；
+       任一项为空时对应小节自动省略 */}}
+{{- partial "features/toc.html" . }}
+{{- with .GetTerms "tags" }}
+  <section class="xhs-page-tags" aria-label="{{ i18n "tags" | default "标签" }}">
+    <h3 class="xhs-page-heading">{{ i18n "tags" | default "标签" }}</h3>
+    <ul class="xhs-page-tags-list">
+      {{- range . }}
+        <li><a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+{{- end }}

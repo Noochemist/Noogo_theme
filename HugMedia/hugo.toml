@@ -122,6 +122,13 @@ theme = "."
   # 切换此参数即可更换整站社交风格
   style = "xhs"
 
+  # ── 站点头像 ────────────────────────────────────
+  # 顶部导航最左端圆形头像（CSS 圆形遮罩自动裁剪），头像右侧为站名。
+  # 图片约定放在 assets/images/ 目录；省略 avatar 时使用主题内置 images/avatar.jpg。
+  # 值不写目录：avatar = "logo.png"     → assets/images/logo.png
+  # 也可填写含目录的相对路径：avatar = "brand/logo.png" → assets/brand/logo.png
+  # avatar = "logo.png"
+
   # ── 字体配置 ───────────────────────────────────────────
   # 支持系统字体、web font、自托管字体
   # 推荐用 CSS 字体栈组合。
@@ -161,6 +168,7 @@ theme = "."
     socialLinks   = true     # 社交链接
     i18n          = true     # 多语言切换（遍历 languages，支持任意多种）
     viewToggle    = true     # 网格/列表视图切换（顶栏按钮，localStorage 持久化）
+    share         = true     # 文章页顶栏分享按钮（替代视图切换按钮）
     infiniteScroll = true    # 列表页滑动加载分页（服务端分页 + 前端追加卡片）
     printFriendly = true     # 打印友好样式
     accessible    = true     # 无障碍增强 (ARIA / focus)
@@ -171,7 +179,12 @@ theme = "."
     description = "一个基于 HugMedia 主题的博客，支持五种社交风格切换"
     keywords    = ["blog", "hugo", "redstyle"]
     author      = "Your Name"
-    ogImage     = "/images/og-default.png"
+    # ogImage：默认社交分享图。优先级：页面 bundle 的 og.* > 本项 > assets/images/favicon.png。
+    # 推荐 1200×630 的 PNG/JPG，置于站点 static/images/og-default.png 后取消注释即可生效。
+    # ogImage     = "/images/og-default.png"
+    # twitterSite / twitterCreator：Twitter 卡片账号（可选，形如 "@site"）。
+    # twitterSite    = "@site"
+    # twitterCreator = "@author"
 
   # ── 作者卡片 ────────────────────────────────────────────
   [params.author]
@@ -223,6 +236,21 @@ theme = "."
     # paypal      = ""                     # PayPal
     # sketch      = ""                     # Sketch
     # tumblr      = ""                     # Tumblr
+
+  # ── 分享（文章页顶栏）────────────────────────────────
+  # 与 [params.social] 解耦：social 展示站点所有者的社交账号入口；
+  # 本列表是“把当前文章转发到访客的社交账号”的分享端点，按此顺序渲染按钮，
+  # 应只包含有公开网页分享端点的平台（feature 全站点可访时保证每条都可跳转）。
+  # 英文官方 sharer URL 见 assets/js/features/share.js → SHARE_URLS；
+  # 平台无公开网页分享接口（如小红书/知乎/微信）不做分享按钮——它们的分享
+  # 必须在对应 App 内完成，网页无法调起，已从默认列表移除。
+  # 键名与 assets/icons/socials/{键名}.svg 对应；图标缺失回退纯文字。
+  # 分享 URL 由前端按当前文章链接 + 标题动态拼接（映射见 assets/js/features/share.js，
+  # 新增平台：确保图标 + i18n 键 + SHARE_URLS 各就位后在列表启用）。
+  # qq = “分享到 QQ 聊天”（connect.qq.com 组件，非 QQ 空间）；mastodon 落在实例 compose 页；
+  # 其余为各平台官方分享端点。缺图标时在 assets/icons/socials/{键}.svg 补齐。
+  [params.share]
+    platforms = ["weibo", "qq", "x", "reddit", "mastodon", "facebook", "telegram", "linkedin", "whatsapp"]
 
   # ── 评论系统 ────────────────────────────────────────────
   # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"

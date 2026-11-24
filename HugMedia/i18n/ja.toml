@@ -46,3 +46,43 @@
   other = "お使いのブラウザは動画を再生できません"
 [browserNoAudio]
   other = "お使いのブラウザは音声を再生できません"
+
+# ── 共有モジュール ──
+[share]
+  other = "シェア"
+[shareTo]
+  other = "シェア先"
+[shareNative]
+  other = "その他"
+[shareNativeUnsupported]
+  other = "システム共有を利用できません。リンクをコピーしました"
+[share_twitter]
+  other = "Twitter"
+[share_facebook]
+  other = "Facebook"
+[share_qq]
+  other = "QQ"
+[share_telegram]
+  other = "Telegram"
+[share_linkedin]
+  other = "LinkedIn"
+[share_whatsapp]
+  other = "WhatsApp"
+[share_reddit]
+  other = "Reddit"
+[share_email]
+  other = "メール"
+[share_xiaohongshu]
+  other = "Xiaohongshu"
+[share_zhihu]
+  other = "Zhihu"
+[share_weibo]
+  other = "Weibo"
+[share_wechat]
+  other = "WeChat"
+[share_x]
+  other = "X"
+[share_mastodon]
+  other = "Mastodon"
+[shareCopied]
+  other = "リンクをコピーしました"

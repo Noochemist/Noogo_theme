@@ -46,3 +46,43 @@
   other = "Your browser does not support the video element"
 [browserNoAudio]
   other = "Your browser does not support the audio element"
+
+# ── Share module ──
+[share]
+  other = "Share"
+[shareTo]
+  other = "Share to"
+[shareNative]
+  other = "More"
+[shareNativeUnsupported]
+  other = "System share unavailable — link copied"
+[share_twitter]
+  other = "Twitter"
+[share_facebook]
+  other = "Facebook"
+[share_qq]
+  other = "QQ"
+[share_telegram]
+  other = "Telegram"
+[share_linkedin]
+  other = "LinkedIn"
+[share_whatsapp]
+  other = "WhatsApp"
+[share_reddit]
+  other = "Reddit"
+[share_email]
+  other = "Email"
+[share_xiaohongshu]
+  other = "Xiaohongshu"
+[share_zhihu]
+  other = "Zhihu"
+[share_weibo]
+  other = "Weibo"
+[share_wechat]
+  other = "WeChat"
+[share_x]
+  other = "X"
+[share_mastodon]
+  other = "Mastodon"
+[shareCopied]
+  other = "Link copied"

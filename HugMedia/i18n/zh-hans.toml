@@ -46,3 +46,43 @@
   other = "您的浏览器不支持视频元素"
 [browserNoAudio]
   other = "您的浏览器不支持音频元素"
+
+# ── 分享模块 ──
+[share]
+  other = "分享"
+[shareTo]
+  other = "分享到"
+[shareNative]
+  other = "更多"
+[shareNativeUnsupported]
+  other = "当前环境不支持系统分享，链接已复制"
+[share_twitter]
+  other = "Twitter"
+[share_facebook]
+  other = "Facebook"
+[share_qq]
+  other = "QQ"
+[share_telegram]
+  other = "Telegram"
+[share_linkedin]
+  other = "领英"
+[share_whatsapp]
+  other = "WhatsApp"
+[share_reddit]
+  other = "Reddit"
+[share_email]
+  other = "邮箱"
+[share_xiaohongshu]
+  other = "小红书"
+[share_zhihu]
+  other = "知乎"
+[share_weibo]
+  other = "微博"
+[share_wechat]
+  other = "微信"
+[share_x]
+  other = "X"
+[share_mastodon]
+  other = "Mastodon"
+[shareCopied]
+  other = "链接已复制"

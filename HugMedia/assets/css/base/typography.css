@@ -49,6 +49,13 @@ a:hover {
 strong, b { font-weight: var(--weight-bold); }
 em, i { font-style: italic; }
 
+/* 锚点定位预留顶部固定导航高度：浏览器原生 hash 跳转 / scrollIntoView
+   均遵守目标的 scroll-margin，避免章节标题被固定顶栏遮挡；
+   数值与平滑滚动 JS 的偏移（navbar 高 + 1rem 呼吸）保持一致 */
+main [id] {
+  scroll-margin-top: calc(var(--navbar-height, 3.25rem) + 1rem);
+}
+
 blockquote {
   margin: var(--space-6) 0;
   padding: var(--space-2) var(--space-6);

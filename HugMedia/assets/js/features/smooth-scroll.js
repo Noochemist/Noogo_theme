@@ -7,8 +7,14 @@ let prefersReduced =
 
 /** 初始化锚点平滑滚动（委托，可安全重复调用）。 */
 export const init = () => {
-  const NAVBAR_H = (document.documentElement.style.getPropertyValue('--navbar-height')) || '3.25rem';
-  const offset = parseFloat(NAVBAR_H) || 52;
+  // 顶栏高度允许以 rem / px 声明；rem 需换算为像素后才是真实偏移
+  const NAVBAR_H = document.documentElement.style.getPropertyValue('--navbar-height') || '3.25rem';
+  const navRem = parseFloat(NAVBAR_H);
+  const pxPerRem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  const navHeight = (navRem || 0) * (NAVBAR_H.trim().endsWith('rem') ? pxPerRem : 1) || 52;
+  // 导航下端与章节标题之间预留 1rem 呼吸间隙，数值与 CSS 的 scroll-margin-top 保持一致
+  const ANCHOR_GAP = 16;
+  const offset = navHeight + ANCHOR_GAP;
 
   document.addEventListener('click', (event) => {
     const a = event.target.closest('a[href^="#"]');

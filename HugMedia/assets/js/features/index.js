@@ -18,8 +18,12 @@ async function loadModule(name) {
       return import('./search.js');
     case 'viewtoggle':
       return import('./view-toggle.js');
+    case 'share':
+      return import('./share.js');
     case 'infinitescroll':
       return import('./infinite.js');
+    case 'topbar':
+      return import('./topbar.js');
     default:
       return null;
   }
@@ -30,7 +34,7 @@ async function loadModule(name) {
     此时整串无法按逗号拆分，改为按已知模块键名做子串匹配还原。 */
 const MODULE_KEYS = [
   'darkmode', 'toc', 'codecopy', 'smoothscroll',
-  'i18n', 'search', 'viewtoggle', 'infinitescroll',
+  'i18n', 'search', 'viewtoggle', 'infinitescroll', 'share',
 ];
 const enabled = () => {
   const raw = (document.documentElement.dataset.features || '')
@@ -83,6 +87,17 @@ async function initOnce() {
     const mod = await loadModule('viewtoggle');
     mod.init();
     window.__HUGO_THEME__.viewToggle = mod;
+  }
+  if (list.includes('share')) {
+    const mod = await loadModule('share');
+    mod.init();
+    window.__HUGO_THEME__.share = mod;
+  }
+  // 顶栏交互（汉堡抽屉 / 搜索折叠）：导航固有行为，不随 features 开关控制
+  const topbar = await loadModule('topbar');
+  if (topbar) {
+    topbar.init();
+    window.__HUGO_THEME__.topbar = topbar;
   }
 }
 

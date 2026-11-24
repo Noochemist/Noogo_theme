@@ -23,13 +23,15 @@ const PAGINATION_SEL = '[data-infinite-pagination]';
 const GRID_SEL = '[data-infinite-grid]';
 const TOP_SENTINEL_ATTR = 'data-infinite-sentinel-top';
 const TOP_TRIGGER_ZONE = 260; // 顶部触发区间（px）：哨兵进入该区间即预取上一页
-const PULL_THRESHOLD_FRACTION = 2 / 5; // 上滑超过视口高度该比例才确认触发下一页
+const PULL_THRESHOLD_FRACTION = 3 / 10; // 上滑超过视口高度该比例才确认触发下一页
 const PULL_OVERRUN = 1.6; // 空白区可超过阈值继续拉扯的倍率上限（阻尼感）
 const PULL_SETTLE_BASE = 160;  // 回落动画基础时长(ms)
 const PULL_SETTLE_GAIN = 0.35; // 每上滑像素的回落时长增益(ms)：回弹速度贴合人手回速
 const PULL_SETTLE_MAX = 420;   // 回落时长上限(ms)：避免高空白区落下过慢拖沓
 const PULL_TEXT_NEXT = '↑↑(•̀ᴗ•́)و 上滑看更多';
 const PULL_TEXT_END = '(￣▽￣)~* 到底啦，我是有底线的';
+const DIRECTION_LOCK_MS = 600; // 方向互斥冷窗(ms)：确认加载下一页后的短暂窗口内忽略一切上一页请求
+const PREV_GESTURE_COOLDOWN = 300; // 下拉手势防抖(ms)：同一轮下拉的连续事件只生效一次
 const WHEEL_STEP_MAX = 150;   // px：单次滚轮的位移记入上限，仅防极快惯性加速瞬间拉满弹跳
 const WHEEL_TAIL_MS = 400;    // ms：空白区归零后的「惯性尾段」窗口（触控板 momentum 残存期）
 const WHEEL_TAIL_GAIN = 0.5;  // 尾段窗口内正向滚轮的计入权重：触控板惯性长尾打折，防贴尾冲顶误触发
@@ -43,6 +45,8 @@ const state = {
   nextFinished: false,   // 已加载到列表末尾
   prevFinished: false,   // 已加载到列表开头
   prevArmed: false,      // 顶部触发臂：哨兵离开触发区间后重新上膛，防止追加载连发
+  nextCommittedAt: 0,    // 最近一次确认加载下一页的时间戳（方向互斥基准）
+  prevRequestedAt: 0,    // 最近一次显式下拉触发上一页的时间戳（手势防抖）
   topObserver: null,     // 顶部观察器
   pullEl: null,          // 底部上拉空白区（JS 动态注入文档流末尾，高度随手势变化）
   pullInner: null,       // 空白区内提示文字容器
@@ -97,7 +101,12 @@ function prependPage(grid) {
 }
 
 /** 依据当前页码把地址栏同步到对应分页地址（replaceState，不产生新历史条目），
-    保证「地址栏分页地址 = 当前正处分页」。 */
+    保证「地址栏分页地址 = 当前正处分页」。
+    注意：replaceState 必须继承并保留既有 history.state（swup 在 enable 时写入的
+    source/index 标记），只替换其中的 url 字段——与 swup 自身的 updateHistoryRecord
+    语义一致。若直接写 null 会把 swup 标记清空，导致从文章页按浏览器返回回到该分页时，
+    swup 的 skipPopStateHandling 判定 event.state.source !== 'swup' 而忽略 popstate，
+    表现为「地址栏回切到分页地址，但页面内容停留原地」。 */
 function syncUrlFromCurrent() {
   const p = state.pagination;
   if (!p || !history.replaceState) return;
@@ -107,7 +116,12 @@ function syncUrlFromCurrent() {
   if (!url) return;
   const target = url.startsWith('/') ? url : `/${url}`;
   if (target !== location.pathname) {
-    history.replaceState(null, '', target);
+    const prev = history.state || {};
+    history.replaceState(
+      { ...prev, url: target, random: Math.random(), source: 'swup' },
+      '',
+      target
+    );
   }
 }
 
@@ -349,6 +363,10 @@ function armPullReset() {
 function onWheel(e) {
   if (!state.pagination) return;
   if (!atTail()) {
+    // 非尾部：顶部触发区内的反向滚动 = 显式「回上一页」手势。
+    // 覆盖「仅轻微可滚动」的分页页（scrollRange ≤ 顶部区间），
+    // 此类页面没有足以武装 prevArmed 的离顶滚动，自动触发全失效。
+    if (e.deltaY < 0 && window.scrollY <= TOP_TRIGGER_ZONE) requestPrev();
     finishPull();
     return;
   }
@@ -397,13 +415,24 @@ function onTouchMove(e) {
   if (!state.pagination || !e.touches) return;
   const y = e.touches[0].clientY;
   if (touchStartY == null) touchStartY = y;
+  const dy = touchStartY - y; // 手指上移为正（内容向上 = 意图查看更多）
+  touchStartY = y;
   if (!atTail()) {
-    touchStartY = y;
+    // 非尾部：顶部触发区内的下拉（手指下移） = 显式「回上一页」手势
+    if (dy < 0 && window.scrollY <= TOP_TRIGGER_ZONE) {
+      e.preventDefault();
+      requestPrev();
+    }
     finishPull(); // 离开尾部：收起空白区，恢复正常滚动
     return;
   }
-  const dy = touchStartY - y; // 手指上移为正（内容向上 = 意图查看更多）
-  touchStartY = y;
+  // 尾部：短页（列表不足一屏）上 atTail 恒真，手势方向成为唯一可用信号——
+  // 上移=加载下一页，下移=回上一页，二者按方向严格分流，避免互相误触发。
+  if (dy < 0 && window.scrollY <= TOP_TRIGGER_ZONE) {
+    e.preventDefault();
+    requestPrev();
+    return;
+  }
   if (dy > 0) e.preventDefault();
   if (state.pullCommitted) return; // 已确认加载：锁定，等待回弹/新内容
   cancelSettle();
@@ -424,12 +453,30 @@ function onTouchEnd() {
 function checkScroll() {
   if (window.scrollY <= TOP_TRIGGER_ZONE) {
     if (!state.loading && state.prevArmed && !state.prevFinished) {
+      // 方向互斥：刚确认加载下一页后的冷窗内，不因回滚到顶瞬间误触发上一页
+      if (performance.now() - state.nextCommittedAt < DIRECTION_LOCK_MS) return;
       state.prevArmed = false;
       loadPrev();
     }
   } else {
     state.prevArmed = true;
   }
+}
+
+/** 显式「下拉回上一页」请求：位于顶部触发区且下拉方向明确时触发。
+    不依赖 prevArmed（显式手势即意图，覆盖跳转分页后列表过短、
+    滚动事件/哨兵 IO 均无法武装的短页与欠一档页），但受三重守卫：
+    - loading/prevFinished：与自动触发共享并发锁；
+    - 方向互斥冷窗：确认加载下一页后的短暂窗口内忽略上一页请求，
+      杜绝「上滑加载下一页」期间连带触发上一页；
+    - 手势防抖：同一轮下拉的连续事件只生效一次。 */
+function requestPrev() {
+  if (state.loading || state.prevFinished) return;
+  if (performance.now() - state.nextCommittedAt < DIRECTION_LOCK_MS) return;
+  if (performance.now() - state.prevRequestedAt < PREV_GESTURE_COOLDOWN) return;
+  state.prevRequestedAt = performance.now();
+  state.prevArmed = false;
+  loadPrev();
 }
 
 let scrollListener = null; // 当前顶部滚动兜底监听（destroy 时移除）
@@ -445,6 +492,7 @@ async function loadNext() {
     return;
   }
 
+  state.nextCommittedAt = performance.now(); // 方向互斥基准：未来短暂窗口内忽略上一页触发
   state.loading = true;
   setStatus('loading');
   try {
@@ -534,6 +582,9 @@ function maybeAutoPrev() {
   const r = s.getBoundingClientRect();
   if (r.top > TOP_TRIGGER_ZONE) return;
   if (r.bottom < 0) return;
+  // 方向互斥：下一页加载完成的收尾瞬间，哨兵仍可能在顶部触发区内，
+  // 必须忽略该窗口内的上一页请求，防止「上滑加载下一页」连带加载上一页
+  if (performance.now() - state.nextCommittedAt < DIRECTION_LOCK_MS) return;
   state.prevArmed = false;
   loadPrev();
 }
@@ -546,6 +597,8 @@ function handleTop(entries) {
       (entry) => entry.isIntersecting && entry.boundingClientRect.top < TOP_TRIGGER_ZONE
     );
     if (inZone && !state.loading && state.prevArmed) {
+      // 方向互斥：紧跟下一页加载之后哨兵复位的瞬间不连带触发上一页
+      if (performance.now() - state.nextCommittedAt < DIRECTION_LOCK_MS) return;
       state.prevArmed = false;
       loadPrev();
     }
@@ -641,6 +694,8 @@ export const init = () => {
   // 需先经一次「下拉离开视口再回拉」手势才触发上一页，避免进场即跳页。
   state.prevArmed = false;
   state.pullCommitted = false;
+  state.nextCommittedAt = 0;
+  state.prevRequestedAt = 0;
   overscroll = 0;
 
   // 禁文档末尾浏览器原生 overscroll 橡皮筋回弹（Safari/Chrome 触控板贴底
@@ -710,6 +765,8 @@ export function destroy() {
   state.loading = false;
   state.prevArmed = false;
   state.pullCommitted = false;
+  state.nextCommittedAt = 0;
+  state.prevRequestedAt = 0;
   overscroll = 0;
   touchStartY = null;
   wheelTailUntil = 0;

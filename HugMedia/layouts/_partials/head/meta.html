@@ -3,10 +3,15 @@
 {{- $desc := .Description | default (.Summary | plainify | htmlUnescape | truncate 160) }}
 {{- $meta := site.Params.meta | default dict }}
 {{- $siteAuthor := (site.Params.author | default dict).name | default site.Title }}
+{{- $locale := site.Language.LanguageCode | default site.Language.Lang | replaceRE "-" "_" }}
 {{- $ogImage := "" }}
-{{- with .Resources.GetMatch "og.*" }}{{ $ogImage = .Permalink }}{{ else }}{{ with $meta.ogImage }}{{ $ogImage = . | absURL }}{{ end }}{{ end }}
+{{- with .Resources.GetMatch "og.*" }}{{ $ogImage = .Permalink }}
+{{- else }}{{ with $meta.ogImage }}{{ $ogImage = . | absURL }}
+{{- else }}{{ with resources.Get "images/favicon.png" }}{{ $ogImage = .Permalink }}{{ end }}{{ end }}{{ end }}
 {{- $url := .Permalink }}
 {{- $type := cond .IsPage "article" "website" }}
+{{- $card := cond (ne $ogImage "") "summary_large_image" "summary" }}
+{{- $iso := "2006-01-02T15:04:05Z07:00" }}
 
 <meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ $siteAuthor }}">
@@ -16,18 +21,31 @@
 
 {{- /* OpenGraph */}}
 <meta property="og:type" content="{{ $type }}">
+<meta property="og:locale" content="{{ $locale }}">
+{{- range site.Sites }}{{ if ne .Language.Lang $.Site.Language.Lang }}
+<meta property="og:locale:alternate" content="{{ .Language.LanguageCode | default .Language.Lang | replaceRE "-" "_" }}">
+{{- end }}{{ end }}
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $desc }}">
-<meta property="og:url" content="{{ $url }}">
 <meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:url" content="{{ $url }}">
 {{ if $ogImage }}<meta property="og:image" content="{{ $ogImage }}">{{ end }}
+{{ if $ogImage }}<meta property="og:image:alt" content="{{ $desc }}">{{ end }}
 {{ with .Params.tags }}<meta property="article:tag" content="{{ delimit . ", " }}">{{ end }}
+{{ if .IsPage }}
+{{ with .PublishDate }}<meta property="article:published_time" content="{{ .Format $iso }}">{{ end }}
+{{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format $iso }}"><meta property="og:updated_time" content="{{ .Format $iso }}">{{ end }}
+{{ with .Params.categories }}{{ with index . 0 }}<meta property="article:section" content="{{ . }}">{{ end }}{{ end }}
+{{ end }}
 
 {{- /* Twitter Card */}}
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{{ $card }}">
+{{ with $meta.twitterSite }}<meta name="twitter:site" content="{{ . }}">{{ end }}
+{{ with $meta.twitterCreator }}<meta name="twitter:creator" content="{{ . }}">{{ end }}
 <meta name="twitter:title" content="{{ $title }}">
 <meta name="twitter:description" content="{{ $desc }}">
 {{ if $ogImage }}<meta name="twitter:image" content="{{ $ogImage }}">{{ end }}
+{{ if $ogImage }}<meta name="twitter:image:alt" content="{{ $desc }}">{{ end }}
 
 {{- /* Schema.org (JSON-LD) */}}
 <script type="application/ld+json">
@@ -37,8 +55,16 @@
   "headline": {{ $title | jsonify }},
   "description": {{ $desc | jsonify }},
   "url": {{ $url | jsonify }},
+  {{ if $ogImage }}"image": {{ $ogImage | jsonify }},{{ end }}
   "author": {{ $siteAuthor | jsonify }},
-  {{ if .IsPage }}"datePublished": {{ (.PublishDate | default .Date).Format "2006-01-02" | jsonify }},{{ end }}
-  "publisher": {{ site.Title | jsonify }}
+{{ if .IsPage }}  "datePublished": {{ (.PublishDate | default .Date).Format $iso | jsonify }},
+  "dateModified": {{ (.Lastmod | default (.PublishDate | default .Date)).Format $iso | jsonify }},
+  "mainEntityOfPage": {{ $url | jsonify }},
+{{ with .Params.categories }}{{ with index . 0 }}  "articleSection": {{ . | jsonify }},{{ end }}{{ end }}{{ end }}
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.Title | jsonify }}{{ if $ogImage }},
+    "logo": {{ $ogImage | jsonify }}{{ end }}
+  }
 }
 </script>

@@ -1,18 +1,46 @@
-{{- /* 小红书顶部栏（风格专属导航）：Logo + 搜索 + 右侧功能按钮；悬浮已由 baseof 的 <header> 承担 */}}
+{{- /* 小红书顶部栏（风格专属导航）：头像+Logo + 搜索 + 右侧功能按钮；悬浮已由 baseof 的 <header> 承担 */}}
 {{- /* 搜索功能：若 features.search 开启，包装为 data-search 容器由共享 search.js 接管；
-        输入框视觉样式 xhs-search 仍归本风格，交互/结果面板走通用 search-ui__*。 */}}
+        输入框视觉样式 xhs-search 仍归本风格，交互/结果面板走通用 search-ui__*。
+        窄屏（≤600px）搜索折叠为放大镜，点击展开（交互见 features/topbar.js）。
+        左侧导航在窄屏（≤768px）收进汉堡抽屉（data-nav-drawer-toggle → topbar.js）。 */}}
 <div class="xhs-topbar">
-  <a class="xhs-logo" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+  {{- /* 汉堡按钮：桌面隐藏，仅窄屏显示（收纳左侧导航的抽屉开关） */}}
+  <button type="button" class="xhs-menu-btn" data-nav-drawer-toggle aria-controls="xhs-sidenav" aria-expanded="false" aria-label="{{ i18n "menu" | default "菜单" }}">
+    {{- with resources.Get "icons/features/menu.svg" }}<span class="menu-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+  </button>
+  <a class="xhs-logo" href="{{ site.Home.RelPermalink }}">
+    {{- /* 站点头像：site.Params.avatar 不写目录时默认取 assets/images/ 下；
+        缺省使用主题内置 images/avatar.jpg；指定图缺失时回退缺省 */}}
+    {{- $avatarPath := "images/avatar.jpg" }}
+    {{- with site.Params.avatar | default "" }}
+      {{- if strings.Contains . "/" }}{{ $avatarPath = . }}
+      {{- else }}{{ $avatarPath = printf "images/%s" . }}{{ end }}
+    {{- end }}
+    {{- with $img := resources.Get $avatarPath }}
+    <img class="xhs-logo-avatar" src="{{ $img.RelPermalink }}" alt="" loading="eager" decoding="async">
+    {{- else }}
+      {{- with resources.Get "images/avatar.jpg" }}
+      <img class="xhs-logo-avatar" src="{{ .RelPermalink }}" alt="" loading="eager" decoding="async">
+      {{- end }}
+    {{- end }}
+    <span class="xhs-logo-name">{{ site.Title }}</span>
+  </a>
   {{- if site.Params.features.search | default true }}
   <div class="xhs-search search-ui" data-search>
+    <button type="button" class="xhs-search-btn" data-search-toggle aria-label="{{ i18n "search" | default "搜索" }}">
+      {{- with resources.Get "icons/features/search.svg" }}<span class="search-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+    </button>
     <input class="xhs-search-input" type="search" placeholder="{{ i18n "searchPlaceholder" | default "搜索" }}" aria-label="{{ i18n "searchLabel" | default "搜索" }}" data-search-input>
     <div class="search-ui__results" data-search-results role="listbox"></div>
   </div>
   {{- else }}
   <input class="xhs-search" type="search" placeholder="搜索笔记" aria-label="搜索">
   {{- end }}
-  {{- /* 右侧功能区：视图切换 + Dark Mode + 语言切换（社交账号图标已移至左栏标签下方） */}}
+  {{- /* 右侧功能区：分享（仅文章页显示）+ 视图切换（列表页显示）+ Dark Mode + 语言切换
+        分享/视图切换两个按钮都渲染在 header（SPA 不重挂 header），
+        由 features/share.js 依据 body.has-article 切换显隐，二者互斥出现 */}}
   <div class="xhs-topbar-actions">
+    {{ partial "features/share.html" . }}
     {{ partial "features/view-toggle.html" . }}
     {{ partial "features/dark-toggle.html" . }}
     {{ partial "features/lang-switch.html" . }}

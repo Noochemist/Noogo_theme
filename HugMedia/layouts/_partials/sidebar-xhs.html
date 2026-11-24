@@ -2,7 +2,7 @@
      导航图标：按当前风格从 assets/icons/{style}/{identifier}.svg 内联读取；
      仅当图标文件存在时才渲染，缺失则静默跳过（不破坏导航）。 */}}
 {{- $style := site.Params.style | default "xhs" }}
-<aside class="xhs-sidenav">
+<aside id="xhs-sidenav" class="xhs-sidenav">
   <nav aria-label="主导航">
     <ul style="padding:0;list-style:none;">
       {{- with site.Menus.main }}

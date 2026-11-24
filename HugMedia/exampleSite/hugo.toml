@@ -5,6 +5,16 @@ defaultContentLanguage = 'zh-hans'
   pagerSize = 3
   path = 'page'
 
+# ── 站点头像（可选）───────────────────────────────
+# 顶部导航最左端的圆形头像（CSS 圆形遮罩自动裁剪），头像右侧为站名。
+# 图片默认放在站点 assets/images/ 目录；省略 avatar 时使用主题内置
+# HugMedia/assets/images/avatar.jpg。
+# 值不写目录：avatar = "logo.png"     → assets/images/logo.png
+# 也可填写含目录的相对路径：avatar = "brand/logo.png" → assets/brand/logo.png
+[params]
+  # avatar = "logo.png"
+
+# 功能开关：仅列出与主题默认不同的值
 [params.features]
   infiniteScroll = true
 

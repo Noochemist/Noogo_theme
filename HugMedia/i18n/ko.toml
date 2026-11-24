@@ -46,3 +46,43 @@
   other = "브라우저에서 동영상을 재생할 수 없습니다"
 [browserNoAudio]
   other = "브라우저에서 오디오를 재생할 수 없습니다"
+
+# ── 공유 모듈 ──
+[share]
+  other = "공유"
+[shareTo]
+  other = "공유하기"
+[shareNative]
+  other = "더보기"
+[shareNativeUnsupported]
+  other = "시스템 공유를 사용할 수 없습니다. 링크가 복사되었습니다"
+[share_twitter]
+  other = "Twitter"
+[share_facebook]
+  other = "Facebook"
+[share_qq]
+  other = "QQ"
+[share_telegram]
+  other = "Telegram"
+[share_linkedin]
+  other = "LinkedIn"
+[share_whatsapp]
+  other = "WhatsApp"
+[share_reddit]
+  other = "Reddit"
+[share_email]
+  other = "이메일"
+[share_xiaohongshu]
+  other = "샤오홍슈"
+[share_zhihu]
+  other = "즈후"
+[share_weibo]
+  other = "웨이보"
+[share_wechat]
+  other = "위챗"
+[share_x]
+  other = "X"
+[share_mastodon]
+  other = "Mastodon"
+[shareCopied]
+  other = "링크가 복사되었습니다"

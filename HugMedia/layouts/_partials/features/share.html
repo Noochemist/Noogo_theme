@@ -1,0 +1,37 @@
+{{- /* features/share.html 文章页分享模块（顶栏按钮 + 分享卡片）
+     仅在现代浏览器/SPA 下由 JS 切换可见性：body.has-article 时显示（替代视图切换按钮），
+     首页/列表页自动隐藏。平台按钮由 [params.share].platforms 配置驱动，按序渲染，
+     键名与 assets/icons/socials/{键名}.svg 对应，缺失时回退纯文字。
+     分享链接 URL 由 features/share.js 用当前 location.href + document.title 动态拼接
+     （SPA 换页后 header 不重挂，链接必须运行时生成，不能写死在模板）。
+     用途解耦：本站社交链接（site.Params.social）展示所有者账号入口；
+     本模块列表是“把当前文章分享到访客账号”的端点，只应含公开分享端点平台。 */}}
+{{- if site.Params.features.share }}
+  <div class="share-wrap" data-share>
+    {{- /* 触发按钮：share.svg 图标与视图切换按钮同款视觉（见 features/share.css） */}}
+    <button type="button" class="share-toggle" data-share-toggle aria-haspopup="true" aria-expanded="false" aria-label="{{ i18n "share" | default "分享" }}">
+      {{- with resources.Get "icons/features/share.svg" }}<span class="share-toggle__ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+    </button>
+    {{- /* 分享卡片：title + 平台网格 + “更多”（系统分享） */}}
+    <div class="share-card" data-share-card role="dialog" aria-label="{{ i18n "share" | default "分享" }}">
+      <p class="share-card__title">{{ i18n "shareTo" | default "分享到" }}</p>
+      <ul class="share-card__list">
+        {{- range site.Params.share.platforms | default slice }}
+          {{- $key := strings.TrimSpace . }}
+          {{- $label := i18n (printf "share_%s" $key) | default ($key | humanize) }}
+          <li class="share-card__item">
+            <a class="share-card__link" href="#" data-share-link="{{ $key }}" target="_blank" rel="noopener nofollow" aria-label="{{ $label }}" title="{{ $label }}">
+              {{- with resources.Get (printf "icons/socials/%s.svg" $key) }}<span class="share-card__ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ else }}{{ $label }}{{ end }}
+            </a>
+          </li>
+        {{- end }}
+      </ul>
+      <button type="button" class="share-card__more" data-share-native hidden>
+        {{- with resources.Get "icons/features/more.svg" }}<span class="share-card__more-ico" aria-hidden="true">{{ .Content | safeHTML }}</span>{{ end }}
+        <span>{{ i18n "shareNative" | default "更多" }}</span>
+      </button>
+      <span class="share-card__copy-tip" data-share-copy-label hidden>{{ i18n "shareCopied" | default "Link copied" }}</span>
+      <span class="share-card__native-tip" data-share-native-label hidden>{{ i18n "shareNativeUnsupported" | default "System share unavailable — link copied" }}</span>
+    </div>
+  </div>
+{{- end }}
