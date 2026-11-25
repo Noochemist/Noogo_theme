@@ -144,3 +144,12 @@ layouts/
 - **OG 图三级兜底**：页面 bundle `og.*`（`.Permalink`）> `params.meta.ogImage`（`absURL`）> `assets/images/favicon.png`；配置中的字符串 URL 须保证文件真实存在，否则分享图 404。
 - **og:locale** 用 `LanguageCode | replaceRE "-" "_"`（BCP47 转 OG 下划线格式），`og:locale:alternate` 遍历 `site.Sites` 逐语言输出；`twitter:card` 有图 `summary_large_image`、无图降级 `summary`。
 - **JSON-LD 日期一律 ISO 8601**（`2006-01-02T15:04:05Z07:00`），勿用 `2006-01-02`；Article 补 `dateModified / mainEntityOfPage / articleSection / image / publisher.logo`。
+
+### 7.11 短页分页「回拉上一页」失效（infinite.js）
+- **根因**：短页——列表不足一屏（如首页每页 3 条 `site.RegularPages`、桌面宽屏排不满），页面无滚动范围，`atTail()` 恒真。此时顶部哨兵 IO、`prevArmed` 自动触发、非尾部分支（`!atTail()` 内）全部失效，回拉上一页**只能靠显式手势兜底**。
+- **修复必须 touch 与 wheel「双分支对齐」**，缺一即表现为「移动端正常 / 桌面端（触控板滚轮）失效」：
+  - touch 尾部：`dy < 0 && scrollY <= TOP_TRIGGER_ZONE` → `requestPrev()`
+  - wheel 尾部：`delta < 0 && scrollY <= TOP_TRIGGER_ZONE && overscroll <= 0` → `requestPrev()`（多判 `overscroll <= 0`：有空白区时仍走下方软回退收起，互不干扰）
+- **短页场景下手势方向是唯一可用信号**：反向（回内容上方）= 上一页，正向 = 下一页，严格按方向分流，避免误触发。
+- **requestPrev 受三重守卫，放心复用**：`loading/prevFinished` 并发锁（一次一页在途）；方向互斥冷窗 `DIRECTION_LOCK_MS`（确认加载下一页后的短暂窗口内忽略上一页请求，杜绝「上滑加载下一页期间连带触发上一页」）；手势防抖冷却（同一轮方向事件只生效一次）。
+- wheel 分支的 `requestPrev` 前不加 `preventDefault()`，因为短页无原生滚动可拦，直接放行即可。

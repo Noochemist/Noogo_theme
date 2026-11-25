@@ -223,3 +223,11 @@ exampleSite/                     # 独立演示站（theme=HugMedia，5 语内�
 - **favicon**：`assets/images/favicon.png` 经 Hugo Pipes `resources.Get` 渲染 `rel=icon` + `apple-touch-icon`（`_partials/head.html` 顶部）。
 - **OG 完善**（`head/meta.html`）：新增 `og:locale`（含逐语言 `og:locale:alternate`，BCP47 转 OG 下划线格式）、`article:published_time/modified_time`、`og:updated_time`、`article:section`、`og:image:alt`；`twitter:card` 有图 `summary_large_image`、无图 `summary`，可配 `twitter:site/creator`；分享图三级兜底：bundle `og.*` > `params.meta.ogImage` > `assets/images/favicon.png`（原配置默认值指向不存在的 `/images/og-default.png`，已改为注释示例）；JSON-LD 补 `dateModified/mainEntityOfPage/articleSection/image/publisher.logo`，日期改 ISO 8601。
 - **验证**：`hugo --gc --minify` 通过（五语 447 页）；首页与文章页均实测输出 `og:locale(+alternate)`、`article:*`、完整 JSON-LD。
+
+## 十五、2026-11-25 迭代：首页分页「短页回拉上一页」修复
+- **现象**：页码直达 / 上滑等操作下，section 页回拉上一页正常，但**桌面端首页**回拉失效（上滑加载下一页正常，且上滑期间之前分页会连带加载）；移动端首页正常。怀疑与触控板滚轮有关。
+- **根因**：首页模板与 section 页结构完全一致，差异仅在分页数据源（首页 `site.RegularPages` vs section `.Pages`）与每页条数——首页每页仅 3 张卡，桌面宽屏**列表不足一屏**（短页）。短页下 `scrollRange = 0`、`atTail()` 恒真，顶部哨兵 / `prevArmed` 自动触发 / 非尾部分支全部失效，回拉上一页只能靠显式手势兜底。
+- **为何此前修复未覆盖首页**：section 页修复（2026-11-23 §7.1）在 wheel 尾部分支只处理「正向拉下一页 / 反向软回退空白区」，缺失「反向 + 顶部触发区 + 无空白区」的 `requestPrev` 兜底，与 touch 尾部分支（已有该逻辑）不对齐。移动端触屏走 touch 分支所以正常，桌面触控板走 wheel 分支所以失效。
+- **修复**（`features/infinite.js` `onWheel` 尾部分支）：补 `delta < 0 && window.scrollY <= TOP_TRIGGER_ZONE && overscroll <= 0` → `requestPrev()` 并 return，与 touch 尾部逻辑完全对齐。`overscroll <= 0` 保证有空白区时仍走软回退收起互不干扰；`requestPrev` 的方向互斥冷窗保证「上滑加载下一页」期间不连带触发上一页。
+- **覆盖场景**：直达分页页 / SPA 导航进入 / 页码跳转三种进入方式（`onWheel` 与挂载来源无关，一律生效）；section 页无回归。
+- 本轮经验已沉淀进编码规范 §7.11。
