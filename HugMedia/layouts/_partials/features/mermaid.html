@@ -1,5 +1,6 @@
-{{- /* features/mermaid.html — Mermaid 图表，客户端渲染。features.mermaid 开启时注入。
+{{- /* features/mermaid.html — Mermaid 图表，客户端渲染。features.mermaid 开启时全站注入（置于 <head>）。
   Mermaid 由 esbuild (js.Build) 本地打包（替代 unpkg CDN），扫描页面上的 mermaid 代码块并渲染为 SVG。
+  置于 <head> 而非 swup 容器内：SPA 换页注入的 HTML 中 <script> 不会执行，须首载常驻 +
   监听 theme:content-replaced，供 SPA (swup) 导航后对新内容再次渲染。 */}}
 {{- $on := site.Params.features.mermaid | default false }}
 {{- if $on }}

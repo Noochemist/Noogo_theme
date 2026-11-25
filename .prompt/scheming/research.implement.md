@@ -48,6 +48,7 @@ hugo.toml ──site.Params──▶ layouts/*.html ──Hugo Pipes──▶ as
 - 依赖：swup@^4.10.0 + preload/scroll 插件；入口 `assets/js/spa/swup-loader.js`；`containers: ['#main-content']`。
 - `baseof.html`：`<main id="main-content" class="swup-transition-fade">`，header/footer 在容器外（SPA 不重挂）。
 - 增强：`animationSelector` 尊重 `prefers-reduced-motion`；`ignore: ['[data-no-swup]', '.lang-switch__item']`（语言切换走整页导航）；替换后广播 `theme:content-replaced` 供 features 重挂载。
+- **2026-11-25 修复「图表/公式首次打开不显示、刷新才出」**：原 mermaid/katex 脚本位于 `page-xhs.html` 顶部，恰在 swup 容器 `#main-content` 内——swup 换页以 innerHTML 替换容器，内嵌 `<script>/<link>` 不执行，从首页 SPA 点击进入文章页时 vendor 库与初始化监听从未运行。修复：两 partial 迁移至 `head.html` 全站注入（`features.math/mermaid` 全局开关，katex 不再按页面 `math` 前件），首载 + `theme:content-replaced` 双路径渲染；详见编码规范 §4/§7.9。
 - 备选（Turbo / 自实现 fetch）未实落，仅记录降级链。
 
 ## 四、技术架构落地

@@ -1,8 +1,7 @@
-{{- /* 小红书详情页主体：目录固定正文左侧、评论置于正文底部（partial 分发风格体） */}}
+{{- /* 小红书详情页主体：目录固定正文左侧、评论置于正文底部（partial 分发风格体）。
+     KaTeX/Mermaid 脚本已迁移至 head.html 全站注入（SPA 容器内脚本不会执行），此处不再引入。 */}}
 {{- $author := site.Params.author | default dict }}
 {{- $authorName := $author.name | default site.Title }}
-{{- partial "features/katex.html" . }}
-{{- partial "features/mermaid.html" . }}
 <article class="xhs-article">
   {{- /* 左侧悬浮栏（目录+文章标签）：仅当二者任一存在才输出，空则整体塌陷避免留白；
        内容复用 page/page-sidebar-xhs.html；窄屏（≤768px）时本 <aside> 隐藏，

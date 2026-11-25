@@ -24,3 +24,8 @@
 </style>
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}
+{{- /* 客户端渲染特性（KaTeX/Mermaid）：脚本必须置于 swup 容器 #main-content 之外。
+      swup 换页只替换容器内 HTML，内嵌 <script> 不会被执行——若放容器内（原在 page-xhs.html 顶部），
+      从首页 SPA 进入文章页时 vendor 库与初始化监听从未执行，表现为「首次打开不显示、刷新才出现」。 */}}
+{{ partial "features/katex.html" . }}
+{{ partial "features/mermaid.html" . }}

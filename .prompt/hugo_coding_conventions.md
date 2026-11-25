@@ -72,7 +72,7 @@ layouts/
 - 无障碍：`baseof.html` 顶部 `skip-link` 跳主内容。
 - 暗黑：功能启用/配置由 `partialCached features-enabled.html` / `features-config.html` 输出到 `<html data-features/data-config>`。
 - SPA（swup v4）：`#main-content` 容器 + 过渡动画；换页后广播 `theme:content-replaced`，动态模块据此重挂。
-- 公式/图表：KaTeX（`math:true` 触发）、Mermaid（shortcode/partial）。
+- 公式/图表：KaTeX/Mermaid 客户端渲染库与初始化监听置于 `<head>` 全站注入（仅受 `features.math/mermaid` 全局开关，**不再按页面 `math` 前件条件**），且必须在 swup 容器 `#main-content` 之外。原因：swup 换页以 innerHTML 替换容器，内嵌 `<script>/<link>` 不会执行；放容器内必然「首次打开不显示、刷新才出」（2026-11-25 修复）。首次渲染靠 `DOMContentLoaded`，SPA 换页靠 `theme:content-replaced`。
 - 搜索（Pagefind 1.6.0）：`exampleSite/pagefind.yml` 限定 `**/{posts,projects}/*/index.html`，只索引文章目录、结果按文章去重；`search` 开关或 `npm run build` 串联。
 - 高亮（双轨）：① Pagefind `excerpt` 自带 `<mark>` 不可抹除；② 自定义 TreeWalker 对完整匹配词加 `search-ui__m-exact`。正文高亮用软底描边防干扰。
 - 跨页关键词：搜索结果链接带 `?kw=` → 文章页 `highlightFromUrl` 对 `data-pagefind-body` 高亮；挂载于首载 + `theme:content-replaced`，重跑前 `clearPageHighlights` 清残留。
@@ -134,7 +134,12 @@ layouts/
 - **窄屏卡片完全显示靠 JS 测量 clamp**：卡片 `absolute` 定位的 containing block 是分享按钮（`.share-wrap`），写死 `left` 相对按钮而非屏幕——纯 CSS 无法同时约束左右不超屏；`open`/`resize` 时测量按钮与视口，把期望视口左坐标 clamp 进 `[8, vw-cardW-8]` 再折算成相对按钮的 left（宽屏清除内联定位，`right:0` 默认）。
 - **两套社交配置**：`[params.social]`=站点所有者账号入口；`[params.share]`=把当前页转发给访客的公开端点。二者图标可复用 `socials/` 目录，但分享列表不得混入 blog/rss/email 等无公开分享端点的项。
 
-### 7.9 favicon 与 OG 分享图（head/meta）
+### 7.9 客户端渲染脚本必须放在 swup 容器外
+- KaTeX/Mermaid 等客户端渲染特性：vendor `<script defer>`、初始化/监听 `<script>`、所需 `<link rel=stylesheet>` 一律放 `<head>`（`#main-content` 之外），首载常驻 + 监听 `theme:content-replaced` 对换页内容重渲染。
+- 放 `#main-content` 内会被 swup 视为「要替换的内容」：新 HTML 里的脚本不被执行（innerHTML 语义），且换页后连 `<link>` 也一起被丢弃，表现为首次打开不显示、等多久都没用、刷新整页加载才显示。
+- 推论：只要站点开了 SPA，这类「按页面前件条件注入脚本」的懒加载策略不可用（首载页可能是首页，SPA 换页后脚本缺失），必须全站常驻，用全局 feature 开关而非页面参数做门控。
+
+### 7.10 favicon 与 OG 分享图（head/meta）
 - **favicon 走 Hugo Pipes**：`assets/images/favicon.png` 经 `resources.Get` 输出 `rel=icon` / `apple-touch-icon`，不硬编码静态路径。
 - **OG 图三级兜底**：页面 bundle `og.*`（`.Permalink`）> `params.meta.ogImage`（`absURL`）> `assets/images/favicon.png`；配置中的字符串 URL 须保证文件真实存在，否则分享图 404。
 - **og:locale** 用 `LanguageCode | replaceRE "-" "_"`（BCP47 转 OG 下划线格式），`og:locale:alternate` 遍历 `site.Sites` 逐语言输出；`twitter:card` 有图 `summary_large_image`、无图降级 `summary`。

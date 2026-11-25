@@ -1,7 +1,9 @@
-{{- /* features/katex.html 数学公式 KaTeX，客户端渲染。features.math 且页面 math true 时注入。
+{{- /* features/katex.html 数学公式 KaTeX，客户端渲染。features.math 开启时全站注入（置于 <head>）。
+     SPA (swup) 换页只替换 #main-content 内的 HTML，容器内 <script>/<link> 不会生效，
+     因此不能按页面 math 前件条件注入——必须首载即常驻，配合 theme:content-replaced 对换页内容重渲染。
      KaTeX 由 esbuild (js.Build) 本地打包，替代 unpkg CDN，摆脱跨境网络依赖。 */}}
 {{- $mathOn := site.Params.features.math | default false }}
-{{- if and $mathOn (eq (.Params.math | default false) true) }}
+{{- if $mathOn }}
   {{- /* 本地 KaTeX 样式与字体（static/katex/），替代 unpkg CDN */}}
   <link rel="stylesheet" href="{{ "katex/katex.min.css" | relURL }}">
   {{- $jsOpts := dict
