@@ -264,13 +264,26 @@ theme = "."
     platforms = ["weibo", "qq", "x", "reddit", "mastodon", "facebook", "telegram", "linkedin", "whatsapp"]
 
   # ── 评论系统 ────────────────────────────────────────────
-  # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"
+  # provider: "giscus" | "utterances" | "twikoo" | "waline" | "disqus" | "custom"
+  # 除 custom 外都只输出挂载点 #comments + data-comments-*，由 features/comments.js
+  # 注入客户端并处理 SPA 换页重挂；custom 改为读文章 front matter 的 commentsHtml 直接注入。
+  # 各 provider 需要的关键项：
+  #   giscus     → giscusRepo / giscusRepoId / giscusCategory / giscusCategoryId
+  #                （须为公开仓库且启用 Discussions）
+  #   utterances → utterancesRepo（须为公开仓库，GitHub Issues 存评论）
+  #   twikoo     → twikooEnvId（自托管后端地址，如 Cloudflare Workers / Vercel）
+  #   waline     → walineServerUrl（自托管后端地址，如 "https://comments.example.com"）
+  #   disqus     → disqusShortname
   [params.comments]
-    provider  = "disqus"
-    disqusShortname = "your-disqus-shortname"
+    provider  = "giscus"
+    giscusRepo      = "Noochemist/blog-comments"
+    giscusRepoId    = "R_kgDOV8Xpsw"
+    giscusCategory  = "Announcements"
+    giscusCategoryId = "DIC_kwDOV8Xps84DL_0j"
     utterancesRepo  = ""
-    giscusRepo      = ""
-    mastodonUser    = ""
+    twikooEnvId     = ""
+    walineServerUrl = ""
+    disqusShortname = "your-disqus-shortname"
 
   # ── 风格专属参数 ────────────────────────────────────────
   # 小红书：瀑布流列数、卡片封面比例

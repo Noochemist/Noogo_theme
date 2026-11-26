@@ -73,6 +73,8 @@ function parseDocument(html) {
 /** 追加本页卡片到网格末尾（下一页方向）。返回是否有卡片可追加。 */
 function appendPage(grid) {
   if (!grid) return false;
+  // 目标网格必须仍在文档内（防 SPA 换页后把内容拼进已离树容器）
+  if (!state.grid || !state.grid.isConnected) return false;
   const cards = Array.from(grid.children);
   if (!cards.length) return false;
 
@@ -88,6 +90,8 @@ function appendPage(grid) {
 /** 插入上一页卡片到顶部哨兵之后（哨兵保持在列表最顶端）。返回是否有卡片可插入。 */
 function prependPage(grid) {
   if (!grid) return false;
+  // 顶部哨兵必须仍在文档内（防 SPA 换页后把内容插进已离树容器）
+  if (!state.sentinelTop?.isConnected) return false;
   const cards = Array.from(grid.children);
   if (!cards.length) return false;
 
@@ -107,9 +111,24 @@ function prependPage(grid) {
     语义一致。若直接写 null 会把 swup 标记清空，导致从文章页按浏览器返回回到该分页时，
     swup 的 skipPopStateHandling 判定 event.state.source !== 'swup' 而忽略 popstate，
     表现为「地址栏回切到分页地址，但页面内容停留原地」。 */
+/** 当前文档是否仍有生效的无限滚动上下文。
+    SPA 换页后旧列表的分页控件/网格已脱离文档（residual 引用），
+    任何基于残留引用的手势/地址栏改写都必须静默停下并就地销毁实例，
+    防止非列表页（文章/单页）被误挂无限滚动行为。 */
+function isLive() {
+  const p = state.pagination;
+  if (!p) return false;
+  if (!p.isConnected || !state.grid || !state.grid.isConnected) {
+    destroy();
+    return false;
+  }
+  return true;
+}
+
 function syncUrlFromCurrent() {
   const p = state.pagination;
-  if (!p || !history.replaceState) return;
+  // 地址栏改写的最後防线：分页控件必须仍在文档内，残留/离树引用一律不得改写 URL
+  if (!p || !p.isConnected || !history.replaceState) return;
   const current = Number(p.getAttribute('data-current-page')) || 1;
   const urls = (p.getAttribute('data-page-urls') || '').trim().split(/\s+/);
   const url = urls[current - 1];
@@ -133,7 +152,7 @@ function syncUrlFromCurrent() {
     side='prev'（向上插入）：推进上一页链接，下一页链接保持。 */
 function syncAfterLoad(response, { side = 'prev' } = {}) {
   const { pagination } = response;
-  if (!pagination || !state.pagination) return;
+  if (!pagination || !state.pagination?.isConnected) return;
 
   const setAttr = (name) => {
     if (pagination.hasAttribute(name)) {
@@ -361,7 +380,7 @@ function armPullReset() {
 
     页面已离开尾部（向上恢复正常滚动）时收起空白区。 */
 function onWheel(e) {
-  if (!state.pagination) return;
+  if (!isLive()) return;
   if (!atTail()) {
     // 非尾部：顶部触发区内的反向滚动 = 显式「回上一页」手势。
     // 覆盖「仅轻微可滚动」的分页页（scrollRange ≤ 顶部区间），
@@ -420,7 +439,7 @@ function onWheel(e) {
 /** 触摸手势：贴尾部时空白区随手指上移，超过阈值即确认加载下一页。
     未松手期间绝不回落（位移持续累加，仅当 touchend 才做回落判定）。 */
 function onTouchMove(e) {
-  if (!state.pagination || !e.touches) return;
+  if (!isLive() || !e.touches) return;
   const y = e.touches[0].clientY;
   if (touchStartY == null) touchStartY = y;
   const dy = touchStartY - y; // 手指上移为正（内容向上 = 意图查看更多）
@@ -459,6 +478,7 @@ function onTouchEnd() {
 
 /** 顶部滚动兜底：与顶部 IO 互为保险，离开触发区上膛、回拉触发上一页。 */
 function checkScroll() {
+  if (!isLive()) return;
   if (window.scrollY <= TOP_TRIGGER_ZONE) {
     if (!state.loading && state.prevArmed && !state.prevFinished) {
       // 方向互斥：刚确认加载下一页后的冷窗内，不因回滚到顶瞬间误触发上一页
@@ -479,6 +499,7 @@ function checkScroll() {
       杜绝「上滑加载下一页」期间连带触发上一页；
     - 手势防抖：同一轮下拉的连续事件只生效一次。 */
 function requestPrev() {
+  if (!isLive()) return;
   if (state.loading || state.prevFinished) return;
   if (performance.now() - state.nextCommittedAt < DIRECTION_LOCK_MS) return;
   if (performance.now() - state.prevRequestedAt < PREV_GESTURE_COOLDOWN) return;
@@ -492,6 +513,7 @@ let scrollListener = null; // 当前顶部滚动兜底监听（destroy 时移除
 /** 加载下一页并追加到网格末尾。 */
 async function loadNext() {
   if (state.loading || state.nextFinished) return;
+  if (!isLive()) return;
   const p = state.pagination;
   const url = p && p.getAttribute('data-next-url');
   if (!url) {
@@ -505,6 +527,8 @@ async function loadNext() {
   setStatus('loading');
   try {
     const response = await fetchPage(url);
+    // 异步返回后上下文必须仍在（防 fetch 在途时 SPA 换页，拼进已离树容器）
+    if (!isLive()) return;
     if (!appendPage(response.grid)) {
       state.nextFinished = true;
       setStatus('end');
@@ -518,6 +542,7 @@ async function loadNext() {
     setStatus('error');
   } finally {
     state.loading = false;
+    if (!isLive()) return; // 已换页/已销毁：丢弃本次加载的收尾动作
     state.pullCommitted = false;
     // 收拢空白区：若回落动画仍在进行（加载较快时常见）就交给它自然走完，
     // 不让「新增内容就位」瞬间把空白区硬拉回 0 造成跳变；否则直接归零。
@@ -530,6 +555,7 @@ async function loadNext() {
 /** 加载上一页并插入到列表顶端，同步补偿滚动偏移以保持阅读位置。 */
 async function loadPrev() {
   if (state.loading || state.prevFinished) return;
+  if (!isLive()) return;
   const p = state.pagination;
   const url = p && p.getAttribute('data-prev-url');
   if (!url) {
@@ -545,6 +571,8 @@ async function loadPrev() {
   setStatus('loading');
   try {
     const response = await fetchPage(url);
+    // 异步返回后上下文必须仍在（防 fetch 在途时 SPA 换页，插入已离树容器）
+    if (!isLive()) return;
     if (!prependPage(response.grid)) {
       state.prevFinished = true;
       setStatus('idle');
@@ -572,7 +600,8 @@ async function loadPrev() {
 
 /** 更新 aria-live 状态提示与 data-state。 */
 function setStatus(next) {
-  if (!state.pagination) return;
+  // 状态提示只作用于仍在文档内的分页控件；残留/离树引用一律静默
+  if (!state.pagination?.isConnected) return;
   state.pagination.setAttribute('data-state', next);
   const statusEl = state.pagination.querySelector('[data-infinite-status]');
   if (!statusEl) return;
@@ -681,8 +710,9 @@ export const init = () => {
 
   // 无分页或首页未启用（如文章页）→ 直接结束，避免空转
   if (!state.pagination || !state.grid) {
-    state.pagination = null;
-    state.grid = null;
+    // 非列表页（文章/单页等）：统一走清理路径，确保上一页残留的任何监听
+    // 与引用被彻底移除，杜绝「文章页被误挂无限滚动行为」的空窗。
+    destroy();
     return { destroy };
   }
 
@@ -723,6 +753,7 @@ export const init = () => {
   // 顶部滚动兜底：与顶部 IO 互为保险（底部改由上滑手势驱动，不做自动预取）
   if (!scrollListener) {
     scrollListener = () => {
+      if (!isLive()) return;
       checkScroll();
       // 离开尾部时，把"到底"状态复位：提示只在贴尾部时显示
       if (!atTail() && state.pagination?.getAttribute('data-state') === 'end') {

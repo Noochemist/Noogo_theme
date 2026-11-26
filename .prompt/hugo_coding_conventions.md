@@ -153,3 +153,36 @@ layouts/
 - **短页场景下手势方向是唯一可用信号**：反向（回内容上方）= 上一页，正向 = 下一页，严格按方向分流，避免误触发。
 - **requestPrev 受三重守卫，放心复用**：`loading/prevFinished` 并发锁（一次一页在途）；方向互斥冷窗 `DIRECTION_LOCK_MS`（确认加载下一页后的短暂窗口内忽略上一页请求，杜绝「上滑加载下一页期间连带触发上一页」）；手势防抖冷却（同一轮方向事件只生效一次）。
 - wheel 分支的 `requestPrev` 前不加 `preventDefault()`，因为短页无原生滚动可拦，直接放行即可。
+
+### 7.12 第三方评论系统接入：挂载点 + 常驻注入（comments 模块范式）
+- 与 §7.9、§7.8 同规律：**`<script>` 不得直写 swup 容器内**（`#main-content`，文章页评论区即在此换页替换范围内）；换页 innerHTML 注入的脚本不执行。
+- 正确结构：
+  - `_partials/features/comments.html`（容器内）：只输出 `<div id="comments">` + `data-comments-*` 配置（provider 及各方案参数）；`custom` provider 例外（无第三方脚本时可直接渲染页面前件 `commentsHtml`）。
+  - `assets/js/features/comments.js`（主 bundle 常驻）：运行时 `appendChild` 注入第三方客户端——**runtime append 的 `<script>` 会正常执行**（区别于服务端渲染进 innerHTML）；首载与 `theme:content-replaced` 后重挂（注册进 `features/index.js` 的 `loadModule`/`MODULE_KEYS`/`rewire`，与 share 一致）。
+- **换页重挂须处理各方案生命周期**：swup 每次换页容器是全新 DOM，旧实例的全局监听/回调仍在——
+  - disqus：脚本只注入一次，此后 `window.DISQUS.reset({reload:true, config})`（config 为函数，内 `this.page.url/identifier` 取当前 URL，勿缓存旧页）；
+  - utterances / giscus：client.js 幂等，直接在**新容器内**重 append 即可（giscus 需完整 `data-*` 属性组，`mapping` 用 `pathname`）；
+  - twikoo：先 `twikoo.destroy(elId)` 再 `twikoo.init({envId, el})`，CDN 脚本全局去重加载（Set 缓存）；
+  - waline：先销毁旧实例（`instance.destroy()`）并清空容器，再 `Waline.init({el, serverURL, lang})`。
+- **配置集中** `[params.comments]`，provider 值与注释文法同步维护；功能开关走 `[params.features].comments`（`features-enabled.html` 自动带出到 `data-features`）。
+- **giscus 语言必须归一化**：Hugo 语言键（`zh-hans/zh-hant`）不是 giscus 白名单标签（仅 `zh-CN/zh-TW` 等 BCP47 大驼峰），直接透传会生成 `giscus.app/zh-hans/widget` 无效 src → iframe 空白。注入前映射 `zh-hans→zh-CN`、`zh-hant→zh-TW`，其余语言照传；**不要**为此改动站点全局 `languageCode`/`<html lang>`。
+- **giscus 默认 `data-loading="lazy"` 依赖交叉观察器**，超长文章评论区在页面底部时观察不触发会长期空白；显式 `data-loading="eager"` 立即建 iframe。`data-input-position="top"` 让输入框置顶（仿 utterances 习惯）。
+
+### 7.13 无限滚动实例存活断言（isLive / isConnected 守卫，infinite.js）
+- **bug 现象**：文章页（无分页控件）滑到底部继续上滑，出现「上滑看更多」提示、地址栏被替换成首页分页地址并随上滑递增（`/page/2/ ...`）——残留的列表页实例在没有分页上下文的页面里继续工作。
+- **根因**：列表页实例的全局 `wheel/touchmove/scroll` 监听与 `history.replaceState` 改写只依据**模块状态字段非空**判断，未校验所引用元素**是否仍在当前文档**；SPA 换页后旧引用已离树（residual），任何校验不充分的入口都会继续消费它。
+- **正确范式：单一存活断言兜底一切入口**。`isLive()` 检查 `state.pagination` 与 `state.grid` 均存在**且 `.isConnected`**；不活则就地 `destroy()` 并返回 false。
+  - 手势/滚动/异步入口统一先过断言：`onWheel / onTouchMove / scrollListener / checkScroll / requestPrev / loadNext / loadPrev`；
+  - `syncUrlFromCurrent()`（改写地址栏的唯一出口）必须额外断言 `p.isConnected`——**离树引用的分支一律不得 `replaceState`**；
+  - `loadNext/loadPrev` 在 `await fetchPage` **返回后再次断言**（防 fetch 在途时 SPA 换页，把内容拼进已离树容器）；`finally` 收尾同样断言，丢弃已换页场景的收尾动作；
+  - `appendPage/prependPage` 检查目标容器/哨兵 `.isConnected`；
+  - `init()` 的「非列表页」提前返回分支调用 `destroy()` 统一清理（杜绝任何残留监听的空窗）。
+- **原则**：SPA 下「元素在不在文档里」比「模块状态字段是否为空」更接近真相；地址栏改写这类有全局副作用的动作必须锚定到仍在文档中的 DOM 引用。
+
+### 7.14 数字开头锚点 id 的选择器陷阱 + 功能链中断（toc.js）
+- **bug 现象**：文章只要存在「数字开头」标题（`## 1. xxx`、`## +1 xxx`、`## =1 xxx` 等），评论区整段不显示；非数字开头标题（`## 日常 xxx`、`## +a1 xxx`、`##1`（非标题））则正常。触发与文章长短/文件夹无关，中英文同现。
+- **根因双层**：
+  1. Hugo goldmark 为 `## 1. Why...` 生成 `<h2 id="1-why-use-feature-branches">`——**id 以数字开头**；
+  2. toc.js 校验目录链接对应标题时用 `$(\`#${id}\`, content)`（`querySelector`）——**`#1-...` 不是合法 CSS 选择器**，首个此类 id 即抛 `DOMException`；而 `rewire()`（features/index.js）**无 try/catch 串行 await**，toc 排在 comments/search/infinite 之前，一崩整链中断 → 「评论不显示」。
+- **修复**：存在性过滤改用 `document.getElementById(id)`（对数字开头 id 合法、无选择器解析），`onScroll` 本就该 API，不受影响。
+- **范式**：凡 id 来自第三方/用户内容，**禁止拼接进 `querySelector`/`$`**；要么 `getElementById`，要么 `CSS.escape(id)` 后再拼选择器。features 链上「耗一次渲染的模块（toc）可直接影响后续评论/搜索」——关键链路节点需保证不抛。

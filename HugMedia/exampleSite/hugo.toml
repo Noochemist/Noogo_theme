@@ -2,7 +2,7 @@ baseURL = 'https://example.org/'
 theme = 'HugMedia'
 defaultContentLanguage = 'zh-hans'
 [pagination]
-  pagerSize = 3
+  pagerSize = 9
   path = 'page'
 
 # ── 站点头像（可选）───────────────────────────────

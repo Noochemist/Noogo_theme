@@ -1,42 +1,22 @@
-{{- /* features/comments.html 评论系统，provider: disqus utterances giscus mastodon custom */}}
+{{- /* features/comments.html — 评论系统挂载点（provider: giscus utterances twikoo waline disqus custom）。
+      第三方脚本不在本文件中注入：swup 换页时 innerHTML 替换注入的 <script> 不会执行（编码规范 §7.9）。
+      因此本 partial 仅输出带 data-comments-* 配置的挂载点，由 features/comments.js 常驻注入客户端，
+      并在每次 theme:content-replaced 后把评论重挂到全新容器；custom 直接渲染页面提供的 HTML。 */}}
 {{- if site.Params.features.comments }}
   {{- $c := site.Params.comments | default dict }}
-  {{- $provider := $c.provider | default "disqus" }}
-  {{- if eq $provider "disqus" }}
-    {{- with $c.disqusShortname }}
-      <div id="disqus_thread"></div>
-      <script>
-      (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://{{ . }}.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    {{- end }}
-  {{- else if eq $provider "utterances" }}
-    {{- with $c.utterancesRepo }}
-      <script src="https://utteranc.es/client.js"
-        repo="{{ . }}"
-        issue-term="pathname"
-        theme="preferred-color-scheme"
-        crossorigin="anonymous"
-        async></script>
-    {{- end }}
-  {{- else if eq $provider "giscus" }}
-    {{- with $c.giscusRepo }}
-      <script src="https://giscus.app/client.js"
-        data-repo="{{ . }}"
-        data-repo-id="{{ $c.giscusRepoId | default "" }}"
-        data-category="{{ $c.giscusCategory | default "General" }}"
-        data-mapping="pathname"
-        data-reactions-enabled="1"
-        data-theme="preferred_color_scheme"
-        crossorigin="anonymous"
-        async></script>
-    {{- end }}
-  {{- else if eq $provider "custom" }}
+  {{- $provider := $c.provider | default "giscus" }}
+  {{- if eq $provider "custom" }}
     {{- with .Params.commentsHtml }}{{ . | safeHTML }}{{ end }}
+  {{- else }}
+    <div id="comments"
+      data-comments-provider="{{ $provider }}"
+      data-comments-shortname="{{ $c.disqusShortname | default "" }}"
+      data-comments-utterance-repo="{{ $c.utterancesRepo | default "" }}"
+      data-comments-giscus-repo="{{ $c.giscusRepo | default "" }}"
+      data-comments-giscus-repoid="{{ $c.giscusRepoId | default "" }}"
+      data-comments-giscus-category="{{ $c.giscusCategory | default "General" }}"
+      data-comments-giscus-categoryid="{{ $c.giscusCategoryId | default "" }}"
+      data-comments-twikoo-envid="{{ $c.twikooEnvId | default "" }}"
+      data-comments-waline-serverurl="{{ $c.walineServerUrl | default "" }}"></div>
   {{- end }}
 {{- end }}

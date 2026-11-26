@@ -14,7 +14,7 @@ export const init = (scope = document) => {
 
   const ids = links
     .map((a) => a.getAttribute('href').slice(1))
-    .filter((id) => id && $(`#${id}`, content));
+    .filter((id) => id && document.getElementById(id));
 
   const listeners = [];
   const setActive = (id) => {

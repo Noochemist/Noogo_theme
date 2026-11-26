@@ -184,7 +184,7 @@ exampleSite/                     # 独立演示站（theme=HugMedia，5 语内�
 | JS ESM | ✅ `type:"module"` + js.Build |
 | swup 优先、Turbo 备选 | ✅ swup v4 唯一实现 |
 | Pagefind | ✅ yml + shell，双轨高亮 |
-| 评论 disqus/utterances/mastodon | ✅ provider="disqus" |
+| 评论 giscus/utterances/twikoo/waline/disqus | ✅ 挂载点 + comments.js 常驻注入（2026-11-25 §7.12） |
 | KaTeX「构建时渲染」可选 | ⚠️ 客户端渲染但本地打包 |
 | 字体不依赖 Google Fonts | ✅ 系统字体栈；自托管预留 |
 | 分页（research 未规划）| ✅ 静态分页 + 双向无限滚动渐进增强 |
@@ -231,3 +231,32 @@ exampleSite/                     # 独立演示站（theme=HugMedia，5 语内�
 - **修复**（`features/infinite.js` `onWheel` 尾部分支）：补 `delta < 0 && window.scrollY <= TOP_TRIGGER_ZONE && overscroll <= 0` → `requestPrev()` 并 return，与 touch 尾部逻辑完全对齐。`overscroll <= 0` 保证有空白区时仍走软回退收起互不干扰；`requestPrev` 的方向互斥冷窗保证「上滑加载下一页」期间不连带触发上一页。
 - **覆盖场景**：直达分页页 / SPA 导航进入 / 页码跳转三种进入方式（`onWheel` 与挂载来源无关，一律生效）；section 页无回归。
 - 本轮经验已沉淀进编码规范 §7.11。
+
+## 十六、2026-11-25 迭代：评论系统接入（giscus / utterances / twikoo / waline）
+- **背景**：coding.02.md「评论系统」章节提出接入需求（含本地测试/Cloudflare 部署疑问）；本主题实现现状核对与调研结论均直接记录在本节，不以 coding.02.md 为调研载体。
+- **缺陷修复**：
+  1. 注释宣称支持 `mastodon` 但无对应分支 → 移除该配置项（不实现 Mastodon 原生评论）；
+  2. `custom` 注入误落在 giscus 分支内 → 拆为独立 provider，改读文章 front matter `commentsHtml` 直接注入；
+  3. 第三方 `<script>` 直写在 swup 容器内，换页 innerHTML 替换后浏览器不会执行 → 重构为「挂载点 + 常驻注入」。
+- **架构**（与 mermaid/katex 同一规律，见编码规范 §7.12）：
+  - `_partials/features/comments.html`：仅输出 `<div id="comments">` + `data-comments-*`（provider 及各方案参数）；`custom` 分支内联渲染。
+  - `assets/js/features/comments.js`：运行时 appendChild 注入客户端并处理换页重挂——giscus/utterances 直接重注入 client.js、twikoo `destroy`+`init`、waline 销毁旧实例后 `init`、disqus 复用 `window.DISQUS.reset`。
+  - `features/index.js`：`loadModule`/`MODULE_KEYS`/`rewire` 注册 comments 模块（与 share 等一致，SPA 安全）。
+  - 配置集中在 `[params.comments]`：`giscusRepo(+RepoId/Category/CategoryId) / utterancesRepo / twikooEnvId / walineServerUrl / disqusShortname`。
+- **接入方结论摘要**：
+
+  | 方案 | 存评载体 | 后端 | Cloudflare 部署 | 本地功能测试 |
+  |------|---------|------|----------------|------------|
+  | utterances | GitHub Issues | 无需 | 前端 Pages 直挂 | 前端渲染本地可测；回调/登录需上线 |
+  | giscus | GitHub Discussions | 无需 | 前端 Pages 直挂 | 同上 |
+  | twikoo | 云函数 + 存储 | 需 | Workers + KV/D1 ✅ | 需先部署后端；前端挂载本地可测 |
+  | waline | @waline/database | 需 | 官方推荐 Pages+Workers+D1/Upstash ✅ | 需先部署后端；前端挂载本地可测 |
+
+  - 通用结论：四类的前端渲染逻辑本地均可验证；依赖「域名白名单/回调/OAuth/搜索索引」的部分必须上线后完整验证。
+  - 选型建议：纯静态站轻量接评论选 utterances/giscus（无后端、GitHub 登录即评）；需独立数据与后台管理选 twikoo/waline（可整体部署 Cloudflare）。
+- **验证**：js.Build 无诊断；待 `hugo --gc` 构建确认产物含 `data-comments-provider` 与 comments 模块。
+
+### 2026-11-26 修订：giscus 语言归一化 + 加载参数修正（详见编码规范 §7.12）
+- `zh-hans` 是 Hugo 多语言**语言键**（`defaultContentLanguage="zh-hans"`），直接输出为 `<html lang>`；giscus 官方白名单仅认 BCP47 大驼峰标签（`zh-CN/zh-TW`），`/zh-hans/widget` 属无效路径 → iframe 空白。**保持站点全局语言不变，仅在 mountGiscus 内做映射**：`zh-hans→zh-CN`、`zh-hant→zh-TW`，其余语言照传（en/ja/ko/vi 白名单内，正常）。
+- 追加 `data-input-position="top"`、`data-theme="preferred_color_scheme"`；`data-loading` 显式设 `eager`。
+- 「coding 文件夹页面无评论框」根因（2026-11-26 二次定位修正）：**非模板缺失、也非懒加载**——该文件夹系列文全部使用 `## 1.`「数字开头」标题，Hugo 锚点 id 为 `1-xxx`，toc.js 用 `querySelector('#1-...')` 校验抛 `DOMException`，`rewire()` 无 try/catch 串行链在 toc 节点中断，后续 comments/search/infinite 全部跳过 → 评论消失。修复为 `document.getElementById(id)`（详见编码规范 §7.14）。eager + 语言映射与本次根因解耦，均为独立正确修正。

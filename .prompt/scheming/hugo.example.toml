@@ -192,13 +192,18 @@ theme = "."
     rss         = "/index.xml"
 
   # ── 评论系统 ────────────────────────────────────────────
-  # 选择一种: "disqus" | "utterances" | "giscus" | "mastodon" | "custom"
+  # provider: "giscus" | "utterances" | "twikoo" | "waline" | "disqus" | "custom"
+  # 除 custom 外只输出挂载点 #comments + data-comments-*，由 features/comments.js 注入并处理 SPA 重挂
   [params.comments]
-    provider  = "disqus"
-    disqusShortname = "your-disqus-shortname"
-    utterancesRepo  = ""
+    provider  = "giscus"
     giscusRepo      = ""
-    mastodonUser    = ""
+    giscusRepoId    = ""
+    giscusCategory  = "General"
+    giscusCategoryId = ""
+    utterancesRepo  = ""
+    twikooEnvId     = ""
+    walineServerUrl = ""
+    disqusShortname = "your-disqus-shortname"
 
   # ── 风格专属参数 ────────────────────────────────────────
   # 小红书：瀑布流列数、卡片封面比例

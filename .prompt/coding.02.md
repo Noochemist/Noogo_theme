@@ -135,3 +135,91 @@ Layouts下面的Home和Page两个空文件夹是以前的弃用的设计方案�
 
 ## Mermaid和数学公式刷新问题。
 Mermaid图表和数学公式在打开网页后，第一次总是不显示，和等待时间长短无关，需要刷新一次再显示，电脑和移动端都是如此，这是浏览器的显示问题，还是代码的问题？检查一下。
+
+## 评论系统
+目前评论功能有没有实现？调研一下可接入的评论系统，各自的特点和优缺点。评论系统可否在本地进行功能测试？是否需要上线后才可测试？哪些可以部署Cloudflare？
+
+```
+注释宣称支持 mastodon，但代码里没有 mastodon 分支（hugo.toml 配了 mastodonUser，渲染层无对应逻辑）；
+giscus 分支里误夹了 custom 的 HTML 注入（{{- with .Params.commentsHtml }} 落在 giscus 的 else 分支内）；3. 没有处理 SPA 兼容：评论 partial 在 swup 替换容器内，第三方 <script> 经 innerHTML 换页后浏览器不会执行——从文章 A 切到文章 B 时评论不会重挂（Disqus 需 DISQUS.reset()，giscus 需重新注入脚本）。这与你之前修的 §7.9「客户端渲染脚本必须放在 swup 容器外」 是同一类问题。
+```
+好的，先修复已有的问题，把 giscus, utterances, twikoo, waline 写入调研实施文件。
+### 
+移除演示评论，写入调研实施文件当中的 调研结果在coding点02点MD。M事实上并没有在这个文件写入。移除相关表述。
+
+### 
+更改评论提供方的顺序：
+provider: "disqus" | "utterances" | "giscus" | "twikoo" | "waline" | "custom" 
+改为
+provider:  "giscus" |"utterances" |  "twikoo" | "waline"  |"disqus"| "custom"
+默认设置为 giscus，从配置文件到源码都进行修改。
+
+###
+评论框无法加载，这是Giscus的生成的配置，检查一下代码是否需要修改：
+<script src=""
+        data-repo="Noochemist/blog-comments"
+        data-repo-id="R_kgDOV8Xpsw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOV8Xps84DL_0j"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+###
+开发者工具显示src是
+https://giscus.app/zh-hans/widget?origin=http%3A%2F%2F
+
+尝试修改成
+https://giscus.app/zh-CN/widget?origin=http%3A%2F%2F
+评论正常加载。
+
+1. 查阅一下调研实施文件当中，当时汉语成设置成zh-hans的原因是什么？
+2. 如果zh-hans确实有必要的话，就仅仅在Giscus的 src里改一下zh-CN就行。其他语言英日韩越都可以正常加载。
+
+3. 加入这两项配置：
+data-input-position="top"
+data-theme="preferred_color_scheme"
+
+4. 另外解释一下官方的多出来的其他配置行都是什么作用。懒加载的这一行data-loading="lazy"用不用设置？
+
+5. 另外有一个奇怪的bug，就是其他文章都有评论框，只有Coding编程这一个内容文件夹下的页面没有评论框，中英文都是如此。反复刷新都没有。这是为什么？？是因为文章太长了吗？
+#### 奇怪bug描述
+这个奇怪的bug是这样的：
+如果Markdown文章里面的标题出现了数字开头，评论就不显示，如：
+```
+## 1. 日常命令速查
+
+其他尝试，如下情况显示：
+## +a1 日常命令速查
+## 日常。1 日常命令速查
+## 日常命令速查 2.3
+## =+-a1 日常命令速查
+##1 日常命令速查 
+
+如下情况不显示：
+## +1 日常命令速查
+## 。1 日常命令速查
+## 1 日常命令速查
+## . 1 日常命令速查
+## .1 日常命令速查
+## +1 日常命令速查 
+## =1 日常命令速查
+## =+-1 日常命令速查
+
+```
+和文章长短无关。尝试分析原因并修正。
+
+
+## bug fix
+当文章设置Slug时，如
+slug: "git-branch-workflow"
+滑到文章底部，继续上滑时。会出现上滑看更多表情提示。同时，地址栏的URL变成网站首页的分页地址，分页数字随上滑而增大：host:1313/page/2/，而页面扔在文章底部，没有变化。
+这是一个异常行为，文章并非分页加载，地址栏也不应改变。分析原因并修复。

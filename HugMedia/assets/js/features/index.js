@@ -20,6 +20,8 @@ async function loadModule(name) {
       return import('./view-toggle.js');
     case 'share':
       return import('./share.js');
+    case 'comments':
+      return import('./comments.js');
     case 'infinitescroll':
       return import('./infinite.js');
     case 'topbar':
@@ -34,7 +36,7 @@ async function loadModule(name) {
     此时整串无法按逗号拆分，改为按已知模块键名做子串匹配还原。 */
 const MODULE_KEYS = [
   'darkmode', 'toc', 'codecopy', 'smoothscroll',
-  'i18n', 'search', 'viewtoggle', 'infinitescroll', 'share',
+  'i18n', 'search', 'viewtoggle', 'infinitescroll', 'share', 'comments',
 ];
 const enabled = () => {
   const raw = (document.documentElement.dataset.features || '')
@@ -131,6 +133,10 @@ async function rewire() {
     const mod = await loadModule('infinitescroll');
     win.infiniteScroll?.destroy?.();
     win.infiniteScroll = mod.init();
+  }
+  if (list.includes('comments')) {
+    const mod = await loadModule('comments');
+    mod.init();
   }
 }
 
